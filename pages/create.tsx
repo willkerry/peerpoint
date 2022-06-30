@@ -14,12 +14,14 @@ import {
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [brief, setBrief] = useState("");
+  const [skeleton, setSkeleton] = useState("");
+  const [expectedOutput, setExpectedOutput] = useState("");
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { title, content };
+      const body = { title, brief, skeleton, expectedOutput };
       await fetch(`/api/post`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,18 +52,19 @@ const Draft: React.FC = () => {
               required
               autosize
               cols={50}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={(e) => setBrief(e.target.value)}
               label="Brief"
               rows={8}
-              value={content}
+              value={brief}
             />
 
             <Textarea
               required
               autosize
-              disabled
               cols={50}
               label="Expected output"
+              value={expectedOutput}
+              onChange={(e) => setExpectedOutput(e.target.value)}
               rows={8}
               styles={(theme) => ({
                 input: {
@@ -73,9 +76,11 @@ const Draft: React.FC = () => {
             />
 
             <Textarea
-              autosize disabled
+              autosize
               cols={50}
               label="Skeleton"
+              value={skeleton}
+              onChange={(e) => setSkeleton(e.target.value)}
               description="A starting point for the implementation"
               rows={8}
               styles={(theme) => ({
@@ -87,7 +92,7 @@ const Draft: React.FC = () => {
               })}
             />
             <Group>
-              <Button disabled={!content || !title} type="submit">
+              <Button disabled={!expectedOutput || !title} type="submit">
                 Create
               </Button>
               <Button variant="subtle" onClick={() => Router.push("/")}>

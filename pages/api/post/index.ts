@@ -7,14 +7,16 @@ import { getSession } from 'next-auth/react'
 // Required fields in body: title
 // Optional fields in body: content
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { title, content } = req.body;
+  const { title, brief, expectedOutput, skeleton } = req.body;
 
   const session = await getSession({ req });
   if (session) {
     const result = await prisma.post.create({
       data: {
         title: title,
-        content: content,
+        brief: brief,
+        expectedOutput: expectedOutput,
+        skeleton: skeleton,
         author: { connect: { email: session?.user?.email } },
       },
     });

@@ -8,7 +8,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       withGlobalStyles
       withNormalizeCSS
       theme={{
-        colorScheme: "dark",
+        colorScheme: "light",
       }}
     >
       <SessionProvider session={pageProps.session}>

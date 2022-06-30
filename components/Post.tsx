@@ -17,7 +17,9 @@ export type PostProps = {
     name: string;
     email: string;
   } | null;
-  content: string;
+  brief: string;
+  expectedOutput: string;
+  skeleton: string;
   published: boolean;
 };
 
@@ -44,7 +46,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
       </Group>
 
       <Text size="sm" style={{ color: theme.colors.dark[4], lineHeight: 1.5 }}>
-        <ReactMarkdown children={post.content} />
+        <ReactMarkdown children={post.brief} />
       </Text>
 
       <Button

@@ -43,7 +43,6 @@ const Layout: React.FC<Props> = (props) => {
           <Navbar.Section grow mt="md">
             2
           </Navbar.Section>
-          <Navbar.Section>3</Navbar.Section>
         </Navbar>
       }
       header={
