@@ -20,14 +20,6 @@ const Layout: React.FC<Props> = (props) => {
 
   return (
     <AppShell
-      styles={{
-        main: {
-          background:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors.gray[0],
-        },
-      }}
       navbarOffsetBreakpoint="sm"
       fixed
       navbar={
@@ -59,7 +51,7 @@ const Layout: React.FC<Props> = (props) => {
                 mr="xl"
               />
             </MediaQuery>
-            <Text>Application</Text>
+            <Text>Pierrepoint</Text>
             <OldHeader />
           </div>
         </Header>

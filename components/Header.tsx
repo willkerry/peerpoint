@@ -57,7 +57,7 @@ const OldHeader: React.FC = () => {
           </a>
         </Link>
         <Link href="/drafts">
-          <a data-active={isActive("/drafts")}>My drafts</a>
+          <a data-active={isActive("/drafts")}>Drafts</a>
         </Link>
       </Group>
     );
@@ -74,10 +74,10 @@ const OldHeader: React.FC = () => {
   }
 
   return (
-    <nav>
+    <Group>
       {left}
       {right}
-    </nav>
+    </Group>
   );
 };
 
