@@ -3,7 +3,7 @@ export type Language = {
     name: string,
 }
 
-const languages: Language[] = [
+export const languages: Language[] = [
     {
         "id": 45,
         "name": "Assembly (NASM 2.14.02)"
