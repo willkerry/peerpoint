@@ -29,6 +29,8 @@ const getOutput: any = async (token: string): Promise<SubmissionResponse> => {
         ...output,
         stdout: output.stdout && decodeBase64(output.stdout),
         stderr: output.stderr && decodeBase64(output.stderr),
+        message: output.message && decodeBase64(output.message),
+        compile_output: output.compile_output && decodeBase64(output.compile_output),
     }
 };
 
