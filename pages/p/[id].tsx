@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import Layout from "../../components/Layout";
 import Router from "next/router";
 import { PostProps } from "../../components/Post";
+import { languages } from "../../@types/Language";
 import prisma from "../../lib/prisma";
 import { useSession } from "next-auth/react";
 import { SubmissionResponse } from "../../@types/Submission";
@@ -13,7 +14,13 @@ import {
   TypographyStylesProvider,
   Group,
   Textarea,
+  Tabs,
   Stack,
+  Text,
+  NativeSelect,
+  ActionIcon,
+  Alert,
+  Code,
 } from "@mantine/core";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -69,7 +76,6 @@ const Post: React.FC<PostProps> = (props) => {
   const [userCode, setUserCode] = useState(props.skeleton);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [language, setLanguage] = useState(63);
-  // const [stdout, setStdout] = useState("");
   const [output, setOutput] = useState<SubmissionResponse>();
 
   const { data: session, status } = useSession();
@@ -83,11 +89,18 @@ const Post: React.FC<PostProps> = (props) => {
     title = `${title} (Draft)`;
   }
 
+  const [activeTab, setActiveTab] = useState(1);
+  const onChange = (active: number, tabKey: string) => {
+    setActiveTab(active);
+    console.log("tabKey", tabKey);
+  };
+
   async function handleRun(): Promise<void> {
     setIsSubmitting(true);
     const data = await runUserCode(props.id, language, userCode);
     console.log(data);
     setOutput(data);
+    setActiveTab(2);
     setIsSubmitting(false);
   }
   async function handleDelete(): Promise<void> {
@@ -100,65 +113,116 @@ const Post: React.FC<PostProps> = (props) => {
   return (
     <Layout>
       <Stack>
-        <Title order={2}>{title}</Title>
-        <TypographyStylesProvider>
-          <ReactMarkdown children={props.brief} skipHtml={true} />
-        </TypographyStylesProvider>
-        <Textarea
-          autosize
-          disabled
-          label="Expected output"
-          value={props.expectedOutput}
-          styles={(theme) => ({
-            input: {
-              "&:disabled": {
-                backgroundColor: theme.colors.gray[9],
-                color: theme.colors.gray[1],
-                fontFamily: theme.fontFamilyMonospace,
-              },
-            },
-          })}
-        />
-
-        <Textarea
-          autosize
-          label="Code editor"
-          value={userCode}
-          onChange={(e) => setUserCode(e.target.value)}
-          styles={(theme) => ({
-            input: {
-              backgroundColor: theme.colors.gray[9],
-              color: theme.colors.gray[1],
-              fontFamily: theme.fontFamilyMonospace,
-            },
-          })}
-        />
-        <Group>
-          <Button loading={isSubmitting} onClick={() => handleRun()}>
-            Run
-          </Button>
-          {!props.published && userHasValidSession && postBelongsToUser && (
-            <Button onClick={() => publishPost(props.id)}>Publish</Button>
-          )}
-          {userHasValidSession && postBelongsToUser && (
-            <Button color="red" onClick={() => handleDelete()}>
-              Delete
-            </Button>
-          )}
+        <Group position="apart">
+          <Title order={3}>{title}</Title>
         </Group>
-        <Textarea
-          autosize
-          label="Output"
-          value={output?.stdout || output?.stderr}
-          error={output?.status?.id > 3}
-          styles={(theme) => ({
-            input: {
-              backgroundColor: theme.colors.gray[9],
-              color: theme.colors.gray[1],
-              fontFamily: theme.fontFamilyMonospace,
-            },
-          })}
-        />
+        <Tabs active={activeTab} onTabChange={onChange} grow>
+          <Tabs.Tab label="Brief" tabKey="brief">
+            <Stack>
+              <TypographyStylesProvider>
+                <ReactMarkdown children={props.brief} skipHtml={true} />
+              </TypographyStylesProvider>
+              <Textarea
+                autosize
+                disabled
+                label="Expected output"
+                value={props.expectedOutput}
+                styles={(theme) => ({
+                  input: {
+                    "&:disabled": {
+                      backgroundColor: theme.colors.gray[9],
+                      color: theme.colors.gray[1],
+                      fontFamily: theme.fontFamilyMonospace,
+                    },
+                  },
+                })}
+              />
+            </Stack>
+          </Tabs.Tab>
+          <Tabs.Tab label="Editor" tabKey="editor">
+            <Stack>
+              <Group position="right">
+                <NativeSelect
+                  value={language}
+                  onChange={(e) => setLanguage(Number(e.target.value))}
+                  disabled={isSubmitting}
+                  data={languages.map((l) => ({
+                    label: l.name.split(" ")[0],
+                    value: String(l.id),
+                  }))}
+                />
+                <Button loading={isSubmitting} onClick={() => handleRun()}>
+                  Run
+                </Button>
+              </Group>
+              <Textarea
+                autosize
+                label="Code editor"
+                value={userCode}
+                onChange={(e) => setUserCode(e.target.value)}
+                disabled={isSubmitting}
+                styles={(theme) => ({
+                  input: {
+                    backgroundColor: theme.colors.gray[9],
+                    color: theme.colors.gray[1],
+                    fontFamily: theme.fontFamilyMonospace,
+                  },
+                })}
+              />
+              <Group>
+                {!props.published && userHasValidSession && postBelongsToUser && (
+                  <Button
+                    onClick={() => publishPost(props.id)}
+                    disabled={isSubmitting}
+                  >
+                    Publish
+                  </Button>
+                )}
+                {userHasValidSession && postBelongsToUser && (
+                  <Button
+                    color="red"
+                    onClick={() => handleDelete()}
+                    disabled={isSubmitting}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </Group>
+            </Stack>
+          </Tabs.Tab>
+          <Tabs.Tab label="Output" tabKey="output">
+            <Stack>
+              {/* <Text >Status:</Text>
+              <Text>{output?.status?.description}</Text> */}
+              {output?.status?.id > 3 && (
+                <Alert title={output?.status?.description} color="red">
+                  {output?.message || <Code>{output?.compile_output}</Code> ||
+                    "No message"}
+                </Alert>
+              )}
+              {output?.status?.id <= 3 && (
+                <Alert title={output?.status?.description} color="green">
+                  {output?.message || "That’s the correct output."}
+                </Alert>
+              )}
+              <Textarea
+                autosize
+                readOnly
+                label="Output"
+                value={output?.stdout || output?.stderr}
+                error={output?.status?.id > 3}
+                disabled={isSubmitting}
+                styles={(theme) => ({
+                  input: {
+                    backgroundColor: theme.colors.gray[9],
+                    color: theme.colors.gray[1],
+                    fontFamily: theme.fontFamilyMonospace,
+                  },
+                })}
+              />
+            </Stack>
+          </Tabs.Tab>
+        </Tabs>
       </Stack>
     </Layout>
   );
