@@ -16,6 +16,13 @@ export default async function handle(
     return;
   }
 
+  const { expectedOutput } = await prisma.post.findUnique({
+    where: {
+      id: Number(req.query.id),
+    },
+  });
+
+
   const session = await getSession({ req })
 
   if (session) {
@@ -24,7 +31,7 @@ export default async function handle(
     console.log("User is not logged in")
   }
 
-  const { language, expectedOutput, userCode } = req.body;
+  const { language, userCode } = req.body;
   const output = await executeCode(language, userCode, expectedOutput);
   await res.json(output);
 }
