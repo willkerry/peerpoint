@@ -1,9 +1,9 @@
-MSc Project, working title: Code Clicker
+MSc Project, working title: Pierrepoint (which is joke in poor taste)
 
 - [x] Establish DB design
-- [ ] Implement all APIs/middlewares
+- [x] Implement ~all~ some APIs/middlewares
 - [ ] Implement session cookies
-- [ ] Migrate client-side Judge0 request-response code from trial project
+- [x] Migrate client-side Judge0 request-response code from trial project
 - [ ] Tests
 - [ ] Implement client requests
 - [ ] Build frontend views/forms
