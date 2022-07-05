@@ -50,7 +50,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
       </Text>
 
       <Button
-        onClick={() => Router.push("/p/[id]", `/p/${post.id}`)}
+        onClick={() => Router.push("/c/[id]", `/c/${post.id}`)}
         variant="light"
         fullWidth
         mt="lg"
