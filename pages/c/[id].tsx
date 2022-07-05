@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
-import Layout from "../../components/Layout";
+import Layout from "../../components/layout";
 import Router from "next/router";
-import { PostProps } from "../../components/Post";
+import { PostProps } from "../../components/post";
 import { languages } from "../../@types/Language";
 import prisma from "../../lib/prisma";
 import { useSession } from "next-auth/react";
