@@ -1,7 +1,7 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Layout from "../components/Layout";
-import Post, { PostProps } from "../components/Post";
+import Layout from "../components/layout";
+import Post, { PostProps } from "../components/post";
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../lib/prisma";
 import { SimpleGrid, Title } from "@mantine/core";
