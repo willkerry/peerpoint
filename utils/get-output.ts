@@ -10,32 +10,32 @@ import HTTPError from "./http-error";
  * 'Accepted' status.
  */
 const getOutput: any = async (token: string): Promise<SubmissionResponse> => {
-	let output: SubmissionResponse;
-	await sleep(2000);
+  let output: SubmissionResponse;
+  await sleep(2000);
 
-	try {
-		const res = await fetch(
-			`${
-				process.env.NEXT_PUBLIC_JUDGE0_HOSTNAME
-			}/submissions/${token}?${new URLSearchParams({ base64_encoded: "true" })}`
-		);
-		if (!res.ok)
-			throw new HTTPError(`Submission ${res.statusText}`, res.status);
-		output = await res.json();
-	} catch (e) {
-		throw new HTTPError(e, 500);
-	}
+  try {
+    const res = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_JUDGE0_HOSTNAME
+      }/submissions/${token}?${new URLSearchParams({ base64_encoded: "true" })}`
+    );
+    if (!res.ok)
+      throw new HTTPError(`Submission ${res.statusText}`, res.status);
+    output = await res.json();
+  } catch (e) {
+    throw new HTTPError(e, 500);
+  }
 
-	if (output.status.id <= 2) return getOutput(token);
+  if (output.status.id <= 2) return getOutput(token);
 
-	return {
-		...output,
-		stdout: output.stdout && decodeBase64(output.stdout),
-		stderr: output.stderr && decodeBase64(output.stderr),
-		message: output.message && decodeBase64(output.message),
-		compile_output:
-			output.compile_output && decodeBase64(output.compile_output),
-	};
+  return {
+    ...output,
+    stdout: output.stdout && decodeBase64(output.stdout),
+    stderr: output.stderr && decodeBase64(output.stderr),
+    message: output.message && decodeBase64(output.message),
+    compile_output:
+      output.compile_output && decodeBase64(output.compile_output),
+  };
 };
 
 export default getOutput;

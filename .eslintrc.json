@@ -1,19 +1,19 @@
 {
-	"plugins": ["@typescript-eslint"],
-	"extends": [
-		"next/core-web-vitals",
-		"plugin:@typescript-eslint/recommended",
-		"prettier"
-	],
-	"rules": {
-		"sort-imports": "off",
-		"camelcase": ["error", { "allow": ["^unstable_"] }],
-		"no-unused-vars": [2, { "args": "all", "argsIgnorePattern": "^_" }],
-		"max-lines": [
-			"warn",
-			{ "max": 200, "skipBlankLines": true, "skipComments": true }
-		],
-		"multiline-comment-style": ["error", "starred-block"],
-		"prefer-template": "error"
-	}
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "sort-imports": "off",
+    "camelcase": ["error", { "allow": ["^unstable_"] }],
+    "no-unused-vars": [2, { "args": "all", "argsIgnorePattern": "^_" }],
+    "max-lines": [
+      "warn",
+      { "max": 200, "skipBlankLines": true, "skipComments": true }
+    ],
+    "multiline-comment-style": ["error", "starred-block"],
+    "prefer-template": "error"
+  }
 }

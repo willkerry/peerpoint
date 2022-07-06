@@ -9,13 +9,13 @@ import { SubmissionRequest } from "../@types/Submission";
  * @return {*}  {Promise<any>}
  */
 const fetcher: Fetcher = (url: string, body: SubmissionRequest) => {
-	return fetch(url, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(body),
-	}).then((res) => res.json());
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  }).then((res) => res.json());
 };
 
 export default fetcher;
