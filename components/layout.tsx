@@ -69,7 +69,7 @@ const Layout: React.FC<Props> = (props) => {
               />
             </MediaQuery>
             <Group position="apart" grow style={{ width: "100%" }}>
-              <Text>Pierrepoint</Text>
+              <Text weight={700}>Peerpoint</Text>
               <OldHeader />
             </Group>
           </div>
