@@ -6,13 +6,12 @@ import {
   Drawer,
   Group,
   InputWrapper,
-  Loader,
   LoadingOverlay,
   NativeSelect,
   Paper,
+  ScrollArea,
   Skeleton,
   Stack,
-  Textarea,
   Title,
 } from "@mantine/core";
 import type { BasicSetupOptions } from "@uiw/react-codemirror";
@@ -26,6 +25,7 @@ import { SubmissionResponse } from "../../@types/Submission";
 import Layout from "../../components/layout";
 import { PostProps } from "../../components/post";
 import prisma from "../../lib/prisma";
+import { deletePost, publishPost } from "../../utils";
 
 const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -51,20 +51,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     props: post,
   };
 };
-
-async function publishPost(id: number): Promise<void> {
-  await fetch(`/api/publish/${id}`, {
-    method: "PUT",
-  });
-  await Router.push("/");
-}
-
-async function deletePost(id: number): Promise<void> {
-  await fetch(`/api/post/${id}`, {
-    method: "DELETE",
-  });
-  await Router.push("/");
-}
 
 async function runUserCode(
   id: number,
@@ -94,7 +80,7 @@ const Post: React.FC<PostProps> = (props) => {
 
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <Loader />;
+  if (status === "loading") return <LoadingOverlay visible />;
 
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === props.author?.email;
@@ -174,33 +160,30 @@ const Post: React.FC<PostProps> = (props) => {
         position="bottom"
         opened={showOutput}
         onClose={() => setShowOutput(false)}
+        title="Output"
+        padding="md"
+        size="xl"
       >
-        {output?.status?.id > 3 && (
-          <Alert title={output?.status?.description} color="red">
-            {output?.message || <Code>{output?.compile_output}</Code> ||
-              "No message"}
-          </Alert>
-        )}
-        {output?.status?.id <= 3 && (
-          <Alert title={output?.status?.description} color="green">
-            {output?.message || "That’s the correct output."}
-          </Alert>
-        )}
-        <Textarea
-          autosize
-          readOnly
-          label="Output"
-          value={output?.stdout || output?.stderr}
-          error={output?.status?.id > 3}
-          disabled={isSubmitting}
-          styles={(theme) => ({
-            input: {
-              backgroundColor: theme.colors.gray[9],
-              color: theme.colors.gray[1],
-              fontFamily: theme.fontFamilyMonospace,
-            },
-          })}
-        />
+        <Stack>
+          {output?.status?.id > 3 && (
+            <Alert title={output?.status?.description} color="red">
+              {(output?.message && output.message) || (
+                  <Code>{output?.compile_output}</Code>
+                ) ||
+                "Successfully compiled though."}
+            </Alert>
+          )}
+          {output?.status?.id <= 3 && (
+            <Alert title={output?.status?.description} color="green">
+              <ScrollArea>
+                {output?.message || "That’s the correct output."}
+              </ScrollArea>
+            </Alert>
+          )}
+          <Code block>
+            <ScrollArea>{output?.stdout || output?.stderr}</ScrollArea>
+          </Code>
+        </Stack>
       </Drawer>
     </Layout>
   );
