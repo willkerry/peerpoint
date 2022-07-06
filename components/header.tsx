@@ -4,49 +4,49 @@ import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { Button, Loader, Group } from "@mantine/core";
 
-const OldHeader: React.FC = () => {
-  const router = useRouter();
-  const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
+const Header: React.FC = () => {
+	const router = useRouter();
 
-  const { data: session, status } = useSession();
+	const isActive = (pathname: string) => {
+		return router.pathname === pathname;
+	};
 
-  let headerLinks = (
-    <Link href="/">
-      <a className="bold" data-active={isActive("/")}>
-        Feed
-      </a>
-    </Link>
-  );
+	const { data: session, status } = useSession();
 
-  if (status === "loading") {
-    headerLinks = <Loader />;
-  }
+	if (status === "loading") return <Loader />;
 
-  if (!session) {
-    headerLinks = (
-      <Link href="/api/auth/signin" passHref>
-        <Button variant="subtle" data-active={isActive("/signup")}>
-          Log in
-        </Button>
-      </Link>
-    );
-  }
+	let headerLinks = (
+		<Link href="/">
+			<a className="bold" data-active={isActive("/")}>
+				Feed
+			</a>
+		</Link>
+	);
 
-  if (session) {
-    headerLinks = (
-      <Group>
-        <Link href="/create" passHref>
-          <Button component="a">Create</Button>
-        </Link>
-        <Button variant="subtle" onClick={() => signOut()}>
-          Log out
-        </Button>
-      </Group>
-    );
-  }
+	if (!session) {
+		headerLinks = (
+			<Link href="/api/auth/signin" passHref>
+				<Button variant="subtle" data-active={isActive("/signup")}>
+					Log in
+				</Button>
+			</Link>
+		);
+	}
 
-  return headerLinks;
+	if (session) {
+		headerLinks = (
+			<Group>
+				<Link href="/create" passHref>
+					<Button component="a">Create</Button>
+				</Link>
+				<Button variant="subtle" onClick={() => signOut()}>
+					Log out
+				</Button>
+			</Group>
+		);
+	}
+
+	return headerLinks;
 };
 
-export default OldHeader;
+export default Header;
