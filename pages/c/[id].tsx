@@ -77,6 +77,7 @@ const Post: React.FC<PostProps> = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [language, setLanguage] = useState(63);
   const [output, setOutput] = useState<SubmissionResponse>();
+  const [activeTab, setActiveTab] = useState(1);
 
   const { data: session, status } = useSession();
   if (status === "loading") {
@@ -89,7 +90,6 @@ const Post: React.FC<PostProps> = (props) => {
     title = `${title} (Draft)`;
   }
 
-  const [activeTab, setActiveTab] = useState(1);
   const onChange = (active: number, tabKey: string) => {
     setActiveTab(active);
     console.log("tabKey", tabKey);
@@ -120,7 +120,7 @@ const Post: React.FC<PostProps> = (props) => {
           <Tabs.Tab label="Brief" tabKey="brief">
             <Stack>
               <TypographyStylesProvider>
-                <ReactMarkdown children={props.brief} skipHtml={true} />
+                <ReactMarkdown skipHtml={true}>{props.brief}</ReactMarkdown>
               </TypographyStylesProvider>
               <Textarea
                 autosize

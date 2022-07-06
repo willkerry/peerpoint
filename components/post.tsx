@@ -24,7 +24,7 @@ export type PostProps = {
 };
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
-  const authorName = post.author ? post.author.name : "Unknown author";
+  // const authorName = post.author ? post.author.name : "Unknown author";
   const theme = useMantineTheme();
   return (
     <Card shadow="sm" p="lg">
@@ -46,7 +46,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
       </Group>
 
       <Text size="sm" style={{ color: theme.colors.dark[4], lineHeight: 1.5 }}>
-        <ReactMarkdown children={post.brief} />
+        <ReactMarkdown>{post.brief}</ReactMarkdown>
       </Text>
 
       <Button
@@ -57,8 +57,6 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
       >
         Edit
       </Button>
-
-      {/* <small>By {authorName}</small> */}
     </Card>
   );
 };
