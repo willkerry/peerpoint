@@ -46,22 +46,23 @@ const Draft: React.FC = () => {
               value={title}
             />
             <Textarea
-              description="This field accepts Markdown"
+              description="One sentence describing the task. This field accepts Markdown."
               required
               autosize
               cols={50}
               onChange={(e) => setBrief(e.target.value)}
-              label="Brief"
+              label="Brief descripition"
               rows={8}
               value={brief}
             />
             <Textarea
+              description="This appears in the students’ code editors. Put your instructions instructions in comments and define anything you need to."
               required
               autosize
               cols={50}
-              label="Expected output"
-              value={expectedOutput}
-              onChange={(e) => setExpectedOutput(e.target.value)}
+              label="Skeleton"
+              value={skeleton}
+              onChange={(e) => setSkeleton(e.target.value)}
               rows={8}
               styles={(theme) => ({
                 input: {
@@ -72,12 +73,13 @@ const Draft: React.FC = () => {
               })}
             />
             <Textarea
+              description="The stdout of student submissions is (fuzzily) checked against this value, and matches are considered successful."
+              required
               autosize
               cols={50}
-              label="Skeleton"
-              value={skeleton}
-              onChange={(e) => setSkeleton(e.target.value)}
-              description="A starting point for the implementation"
+              label="Expected output"
+              value={expectedOutput}
+              onChange={(e) => setExpectedOutput(e.target.value)}
               rows={8}
               styles={(theme) => ({
                 input: {
