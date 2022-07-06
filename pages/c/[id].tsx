@@ -33,7 +33,7 @@ const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
 });
 
 const basicSetup: BasicSetupOptions = {
-  lineNumbers: true,
+  lineNumbers: false,
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
