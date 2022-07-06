@@ -1,7 +1,15 @@
 import React from "react";
 import Router from "next/router";
 import ReactMarkdown from "react-markdown";
-import { Card, Group, Text, Button, useMantineTheme } from "@mantine/core";
+import {
+  Card,
+  Group,
+  Text,
+  Button,
+  useMantineTheme,
+  Code,
+  Badge,
+} from "@mantine/core";
 
 export type PostProps = {
   id: number;
@@ -23,15 +31,29 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
     <Card shadow="sm" p="lg">
       <Card.Section
         style={{
-          backgroundColor: theme.colors.gray[8],
+          backgroundColor: theme.colors.dark[8],
           height: "100px",
+          overflow: "hidden",
         }}
-      ></Card.Section>
+      >
+        <Code
+          block
+          color="dark"
+          sx={(theme) => ({
+            backgroundColor: theme.colors.dark[8],
+            color: theme.colors.dark[0],
+            userSelect: "none",
+          })}
+        >
+          {post.skeleton}
+        </Code>
+      </Card.Section>
       <Group
         position="apart"
         style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
       >
         <Text weight={500}>{post.title}</Text>
+        {!post.published && <Badge color="pink"></Badge>}
       </Group>
 
       <Text size="sm" style={{ color: theme.colors.dark[4], lineHeight: 1.5 }}>

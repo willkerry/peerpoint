@@ -32,7 +32,9 @@ const Blog: React.FC<Props> = (props) => {
     <Layout>
       <Grid>
         {props.feed.map((post) => (
-          <Post key={post.id} post={post} />
+          <Grid.Col md={3} xs={6} key={post.id}>
+            <Post post={post} />
+          </Grid.Col>
         ))}
       </Grid>
     </Layout>

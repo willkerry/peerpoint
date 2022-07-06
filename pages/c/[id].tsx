@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
 import Layout from "../../components/layout";
@@ -16,12 +16,30 @@ import {
   Textarea,
   Tabs,
   Stack,
-  Text,
   NativeSelect,
-  ActionIcon,
   Alert,
   Code,
+  InputWrapper,
+  LoadingOverlay,
 } from "@mantine/core";
+import dynamic from "next/dynamic";
+import ReactCodeMirror, { BasicSetupOptions } from "@uiw/react-codemirror";
+
+// const ReactCodeMirror = dynamic(
+//   () => import("@uiw/react-codemirror").then((mod) => mod.default),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <>
+//         <Skeleton height={30} radius="md" />
+//       </>
+//     ),
+//   }
+// );
+
+const basicSetup: BasicSetupOptions = {
+  lineNumbers: false,
+};
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -80,9 +98,9 @@ const Post: React.FC<PostProps> = (props) => {
   const [activeTab, setActiveTab] = useState(1);
 
   const { data: session, status } = useSession();
-  if (status === "loading") {
-    return <div>Authenticating ...</div>;
-  }
+
+  if (status === "loading") return <LoadingOverlay visible />;
+
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === props.author?.email;
   let title = props.title;
@@ -155,7 +173,7 @@ const Post: React.FC<PostProps> = (props) => {
                   Run
                 </Button>
               </Group>
-              <Textarea
+              {/* <Textarea
                 autosize
                 label="Code editor"
                 value={userCode}
@@ -168,7 +186,20 @@ const Post: React.FC<PostProps> = (props) => {
                     fontFamily: theme.fontFamilyMonospace,
                   },
                 })}
-              />
+              /> */}
+              <InputWrapper label="Code editor">
+                <ReactCodeMirror
+                  value={props.brief}
+                  // basicSetup={basicSetup}
+                  readOnly
+                  editable={false}
+                />
+                <ReactCodeMirror
+                  value={userCode}
+                  onChange={(value) => setUserCode(value)}
+                  editable={!isSubmitting}
+                />
+              </InputWrapper>
               <Group>
                 {!props.published && userHasValidSession && postBelongsToUser && (
                   <Button
@@ -192,8 +223,6 @@ const Post: React.FC<PostProps> = (props) => {
           </Tabs.Tab>
           <Tabs.Tab label="Output" tabKey="output">
             <Stack>
-              {/* <Text >Status:</Text>
-              <Text>{output?.status?.description}</Text> */}
               {output?.status?.id > 3 && (
                 <Alert title={output?.status?.description} color="red">
                   {output?.message || <Code>{output?.compile_output}</Code> ||

@@ -12,7 +12,6 @@ import {
   Anchor,
   Stack,
 } from "@mantine/core";
-import router from "next/router";
 import { useSession } from "next-auth/react";
 import { Group } from "@mantine/core";
 

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { Button, Loader, UnstyledButton, Group } from "@mantine/core";
+import { Button, Loader, Group } from "@mantine/core";
 
 const OldHeader: React.FC = () => {
   const router = useRouter();
@@ -25,8 +25,10 @@ const OldHeader: React.FC = () => {
 
   if (!session) {
     headerLinks = (
-      <Link href="/api/auth/signin">
-        <a data-active={isActive("/signup")}>Log in</a>
+      <Link href="/api/auth/signin" passHref>
+        <Button variant="subtle" data-active={isActive("/signup")}>
+          Log in
+        </Button>
       </Link>
     );
   }
@@ -37,7 +39,9 @@ const OldHeader: React.FC = () => {
         <Link href="/create" passHref>
           <Button component="a">Create</Button>
         </Link>
-        <UnstyledButton onClick={() => signOut()}>Log out</UnstyledButton>
+        <Button variant="subtle" onClick={() => signOut()}>
+          Log out
+        </Button>
       </Group>
     );
   }
