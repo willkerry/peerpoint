@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../components/layout";
 import Router from "next/router";
+import Meta from "../components/meta";
 import {
   Button,
   Group,
@@ -33,6 +34,7 @@ const Draft: React.FC = () => {
 
   return (
     <Layout>
+      <Meta title="Create new challenge" />
       <div>
         <form onSubmit={submitData}>
           <Stack>

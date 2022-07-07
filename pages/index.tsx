@@ -3,6 +3,7 @@ import { Grid } from "@mantine/core";
 import Layout from "../components/layout";
 import Post, { PostProps } from "../components/post";
 import prisma from "../lib/prisma";
+import Meta from "../components/meta";
 
 import type { GetServerSideProps } from "next";
 
@@ -31,6 +32,7 @@ type Props = {
 const Blog: React.FC<Props> = (props) => {
   return (
     <Layout>
+      <Meta title="Peerpoint" />
       <Grid>
         {props.feed.map((post) => (
           <Grid.Col md={3} xs={6} key={post.id}>

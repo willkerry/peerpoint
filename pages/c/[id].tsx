@@ -23,6 +23,7 @@ import React, { useState } from "react";
 import { languages } from "../../@types/Language";
 import { SubmissionResponse } from "../../@types/Submission";
 import Layout from "../../components/layout";
+import Meta from "../../components/meta";
 import { PostProps } from "../../components/post";
 import prisma from "../../lib/prisma";
 import { deletePost, publishPost } from "../../utils";
@@ -107,6 +108,7 @@ const Post: React.FC<PostProps> = (props) => {
   return (
     <Layout>
       <LoadingOverlay visible={isSubmitting} />
+      <Meta title={title} />
       <Group position="apart">
         <Title order={3}>{title}</Title>
       </Group>
