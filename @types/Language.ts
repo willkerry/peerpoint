@@ -42,7 +42,7 @@ export const usefulLanguages: ({
   shortName: string;
   compiler: string;
 } & Language)[] = [
-  { id: 45, name: "Assembly", shortName: "x86", compiler: "NASM 2.14.02" },
+  { id: 45, name: "x86 Assembly", shortName: "x86", compiler: "NASM 2.14.02" },
   { id: 46, name: "Bash", shortName: "Bash", compiler: "5.0.0" },
   { id: 47, name: "Basic", shortName: "Basic", compiler: "FBC 1.07.1" },
   { id: 50, name: "C", shortName: "C", compiler: "GCC 9.2.0" },

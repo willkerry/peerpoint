@@ -1,7 +1,3 @@
-import React, { useState } from "react";
-import Layout from "../components/layout";
-import Router from "next/router";
-import Meta from "../components/meta";
 import {
   Button,
   Group,
@@ -10,6 +6,12 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import Router from "next/router";
+import React, { useState } from "react";
+import Layout from "../components/layout";
+import Meta from "../components/meta";
+import CodeEditor from "../components/code-editor";
+import LanguageSelect from "../components/language-select";
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -48,48 +50,37 @@ const Draft: React.FC = () => {
               value={title}
             />
             <Textarea
-              description="One sentence describing the task. This field accepts Markdown."
+              description="One sentence describing the task."
               required
               autosize
               cols={50}
               onChange={(e) => setBrief(e.target.value)}
-              label="Brief descripition"
+              label="Brief description"
               rows={8}
               value={brief}
             />
-            <Textarea
-              description="This appears in the students’ code editors. Put your instructions instructions in comments and define anything you need to."
-              required
-              autosize
-              cols={50}
+
+            {/* Not controlled! Just for show. */}
+            <LanguageSelect label="Language" />
+
+            <CodeEditor
               label="Skeleton"
+              description="
+                This is what appears in students’ code editors. Include 
+                instructions (commented out), and any necessary boilerplate or 
+                variables."
               value={skeleton}
-              onChange={(e) => setSkeleton(e.target.value)}
-              rows={8}
-              styles={(theme) => ({
-                input: {
-                  backgroundColor: theme.colors.gray[9],
-                  color: theme.colors.gray[1],
-                  fontFamily: theme.fontFamilyMonospace,
-                },
-              })}
-            />
-            <Textarea
-              description="The stdout of student submissions is (fuzzily) checked against this value, and matches are considered successful."
+              onChange={(value) => setSkeleton(value)}
               required
-              autosize
-              cols={50}
+            />
+            <CodeEditor
               label="Expected output"
+              description="
+                The stdout of student submissions is (fuzzily) checked against 
+                this value, and matches are considered successful."
               value={expectedOutput}
-              onChange={(e) => setExpectedOutput(e.target.value)}
-              rows={8}
-              styles={(theme) => ({
-                input: {
-                  backgroundColor: theme.colors.gray[9],
-                  color: theme.colors.gray[1],
-                  fontFamily: theme.fontFamilyMonospace,
-                },
-              })}
+              onChange={(value) => setExpectedOutput(value)}
+              required
             />
             <Group>
               <Button disabled={!expectedOutput || !title} type="submit">

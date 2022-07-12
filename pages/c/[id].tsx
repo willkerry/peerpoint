@@ -5,33 +5,26 @@ import {
   Code,
   Drawer,
   Group,
-  InputWrapper,
   LoadingOverlay,
   NativeSelect,
   Paper,
   ScrollArea,
-  Skeleton,
   Stack,
   Title,
 } from "@mantine/core";
 import type { BasicSetupOptions } from "@uiw/react-codemirror";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
 import Router from "next/router";
 import React, { useState } from "react";
 import { languages } from "../../@types/Language";
 import { SubmissionResponse } from "../../@types/Submission";
+import CodeEditor from "../../components/code-editor";
 import Layout from "../../components/layout";
 import Meta from "../../components/meta";
 import { PostProps } from "../../components/post";
 import prisma from "../../lib/prisma";
 import { deletePost, publishPost } from "../../utils";
-
-const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
-  ssr: false,
-  loading: () => <Skeleton height={30} radius="md" />,
-});
 
 const basicSetup: BasicSetupOptions = {
   lineNumbers: false,
@@ -109,19 +102,16 @@ const Post: React.FC<PostProps> = (props) => {
     <Layout>
       <LoadingOverlay visible={isSubmitting} />
       <Meta title={title} />
-      <Group position="apart">
-        <Title order={3}>{title}</Title>
-      </Group>
-      <Stack>
-        <InputWrapper label="Code editor">
-          <ReactCodeMirror
-            value={String(userCode)}
-            onChange={(value) => setUserCode(value)}
-            editable={!isSubmitting}
-            basicSetup={basicSetup}
-          />
-        </InputWrapper>
-      </Stack>
+      <Title order={3} mb={12}>
+        {title}
+      </Title>
+      <CodeEditor
+        label="Code editor"
+        value={String(userCode)}
+        onChange={(value) => setUserCode(value)}
+        editable={!isSubmitting}
+        basicSetup={basicSetup}
+      />
       <Affix>
         <Paper>
           <Group p="md">
