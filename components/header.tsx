@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   if (!session) {
     headerLinks = (
       <Link href="/api/auth/signin" passHref>
-        <Button variant="subtle" data-active={isActive("/signup")}>
+        <Button variant="outline" data-active={isActive("/signup")}>
           Log in
         </Button>
       </Link>
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
         <Link href="/create" passHref>
           <Button component="a">Create</Button>
         </Link>
-        <Button variant="subtle" onClick={() => signOut()}>
+        <Button variant="outline" onClick={() => signOut()}>
           Log out
         </Button>
       </Group>
