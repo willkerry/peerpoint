@@ -7,14 +7,13 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { title, brief, expectedOutput, skeleton, language = 1 } = req.body;
+  const { title, expectedOutput, skeleton, language = 1 } = req.body;
 
   const session = await getSession({ req });
   if (session) {
     const result = await prisma.challenge.create({
       data: {
         title: title,
-        brief: brief,
         expectedOutput: expectedOutput,
         skeleton: skeleton,
         language: language,
