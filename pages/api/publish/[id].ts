@@ -11,7 +11,7 @@ export default async function handle(
   const session = await getSession({ req });
 
   if (session) {
-    const post = await prisma.post.update({
+    const post = await prisma.challenge.update({
       where: { id: Number(postId) },
       data: { published: true },
     });

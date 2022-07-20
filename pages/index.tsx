@@ -8,7 +8,7 @@ import Meta from "../components/meta";
 import type { GetServerSideProps } from "next";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const feed = await prisma.post.findMany({
+  const feed = await prisma.challenge.findMany({
     where: {
       published: true,
     },
@@ -34,7 +34,7 @@ const Blog: React.FC<Props> = (props) => {
     <Layout>
       <Meta title="Peerpoint" />
       <Alert
-        title="For evaluation purposes, recent user-generated challenges aree previewed
+        title="For evaluation purposes, recent user-generated challenges are previewed
         below"
         mb={12}
       >

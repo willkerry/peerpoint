@@ -1,9 +1,4 @@
-import {
-  Group,
-  NativeSelect,
-  Table,
-  type NativeSelectProps,
-} from "@mantine/core";
+import { NativeSelect, Table, type NativeSelectProps } from "@mantine/core";
 import { QuestionIcon } from "@primer/octicons-react";
 import { useState } from "react";
 import { usefulLanguages } from "../@types/Language";
@@ -19,18 +14,19 @@ const defaultProps = {
 const LanguageSelect = (props: NativeSelectProps) => {
   const [open, setOpen] = useState(false);
   const label = (
-    <Group spacing={0}>
-      {props.label}
+    <>
+      <span>{props.label}</span>
       <InfoModal
         title="Supported languages"
         isOpen={open}
         setClosed={() => setOpen(false)}
         setOpen={() => setOpen(true)}
         icon={<QuestionIcon />}
+        inline
       >
         <LanguageInfo />
       </InfoModal>
-    </Group>
+    </>
   );
   return <NativeSelect {...props} label={label} />;
 };

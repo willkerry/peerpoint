@@ -16,7 +16,7 @@ const limiter = rateLimit({
 });
 
 const fetchAndExecute = async (id: number, code: string, language: number) => {
-  const challenge = await prisma.post.findUnique({ where: { id: id } });
+  const challenge = await prisma.challenge.findUnique({ where: { id: id } });
   if (!challenge) throw new Error("Invalid challenge ID.");
   const output = await executeCode(language, code, challenge.expectedOutput);
   return output;

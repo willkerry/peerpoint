@@ -1,11 +1,4 @@
-import {
-  Button,
-  Group,
-  Stack,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Group, Stack, TextInput, Title } from "@mantine/core";
 import Router from "next/router";
 import React, { useState } from "react";
 import Layout from "../components/layout";
@@ -15,15 +8,14 @@ import LanguageSelect from "../components/language-select";
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState("");
-  const [brief, setBrief] = useState("");
   const [skeleton, setSkeleton] = useState("");
   const [expectedOutput, setExpectedOutput] = useState("");
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { title, brief, skeleton, expectedOutput };
-      await fetch(`/api/post`, {
+      const body = { title, skeleton, expectedOutput };
+      await fetch(`/api/c`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -49,19 +41,8 @@ const Draft: React.FC = () => {
               type="text"
               value={title}
             />
-            <Textarea
-              description="One sentence describing the task."
-              required
-              autosize
-              cols={50}
-              onChange={(e) => setBrief(e.target.value)}
-              label="Brief description"
-              rows={8}
-              value={brief}
-            />
-
             {/* Not controlled! Just for show. */}
-            <LanguageSelect label="Language" />
+            <LanguageSelect required label="Language" />
 
             <CodeEditor
               label="Skeleton"
