@@ -1,11 +1,11 @@
-MSc Project, working title: Pierrepoint (which is joke in poor taste)
+MSc Project, working title: Peerpoint
 
 - [x] Establish DB design
 - [x] Implement ~all~ some APIs/middlewares
 - [ ] Implement session cookies
 - [x] Migrate client-side Judge0 request-response code from trial project
 - [ ] Tests
-- [ ] Implement client requests
+- [x] Implement client requests
 - [ ] Build frontend views/forms
 
 Maybe also:
@@ -20,14 +20,14 @@ Maybe also:
 - [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client)
 - [Mantine](https://mantine.dev)
 - [NextAuth.js](https://next-auth.js.org/)
+- [`node-lru-cache`](https://github.com/isaacs/node-lru-cache), [like this](https://github.com/vercel/next.js/tree/canary/examples/api-routes-rate-limit).
 - Coming soon: [SWR](https://swr.now.sh/)
-- Coming soon: [`node-lru-cache`](https://github.com/isaacs/node-lru-cache), [like this](https://github.com/vercel/next.js/tree/canary/examples/api-routes-rate-limit).
 - Coming soon: [Cypress](https://www.cypress.io/)
 
 ## External services
 
-- **SMTP:** I’m using mail delivery service subscription from another project of mine (accessed with [Nodemailer](https://nodemailer.com), so any SMTP server can be swapped in).
-- The official distribution image of **Judge0** is running on a cloud machine separately.
+- **SMTP:** I’m using a commercial mail delivery service for transactional email. This project accesses it with [Nodemailer](https://nodemailer.com), so any SMTP server could be swapped in.
+- A dedicated instance of **Judge0** is running in the cloud separately.
 
 ## On DBs
 
