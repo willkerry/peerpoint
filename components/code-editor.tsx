@@ -1,7 +1,8 @@
 import { InputWrapper, Skeleton, type InputWrapperProps } from "@mantine/core";
 import { type ReactCodeMirrorProps } from "@uiw/react-codemirror";
-import { LanguageName, loadLanguage } from "@uiw/codemirror-extensions-langs";
+import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import dynamic from "next/dynamic";
+import { type Language, usefulLanguages } from "../@types/Language";
 
 const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -11,7 +12,7 @@ const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
 type Props = ReactCodeMirrorProps &
   InputWrapperProps & {
     children?: React.ReactNode;
-    language?: LanguageName;
+    language?: Language["id"];
   };
 
 const defaultProps = {
@@ -26,7 +27,11 @@ const CodeEditor = (props: Props) => (
   >
     <ReactCodeMirror
       {...props}
-      extensions={[loadLanguage(props.language || "c")]}
+      extensions={[
+        loadLanguage(
+          usefulLanguages.find((l) => l.id === props.language)?.cm || "c"
+        ),
+      ]}
     />
   </InputWrapper>
 );

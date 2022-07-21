@@ -40,6 +40,7 @@ export const languages: Language[] = [
   { id: 74, name: "TypeScript (3.7.4)" },
 ];
 
+// Languages unsupported by CodeMirror are commented out for now.
 export const usefulLanguages: ({
   compiler: string;
   cm?: LanguageName;

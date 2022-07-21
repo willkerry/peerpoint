@@ -6,7 +6,6 @@ import {
   Drawer,
   Group,
   LoadingOverlay,
-  NativeSelect,
   Paper,
   ScrollArea,
   Stack,
@@ -17,7 +16,7 @@ import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 import Router from "next/router";
 import React, { useState } from "react";
-import { languages } from "../../@types/Language";
+// import { languages } from "../../@types/Language";
 import { SubmissionResponse } from "../../@types/Submission";
 import CodeEditor from "../../components/code-editor";
 import Layout from "../../components/layout";
@@ -26,24 +25,14 @@ import { PostProps } from "../../components/post";
 import prisma from "../../lib/prisma";
 import { deletePost, publishPost } from "../../utils";
 
-const basicSetup: BasicSetupOptions = {
-  lineNumbers: false,
-};
+const basicSetup: BasicSetupOptions = { lineNumbers: false };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const post = await prisma.challenge.findUnique({
-    where: {
-      id: Number(params?.id) || -1,
-    },
-    include: {
-      author: {
-        select: { name: true, email: true },
-      },
-    },
+  const challenge = await prisma.challenge.findUnique({
+    where: { id: Number(params?.id) || -1 },
+    include: { author: { select: { name: true, email: true } } },
   });
-  return {
-    props: post,
-  };
+  return { props: challenge };
 };
 
 async function runUserCode(
@@ -61,14 +50,12 @@ async function runUserCode(
       userCode,
     }),
   });
-
   return res.json();
 }
 
 const Post: React.FC<PostProps> = (props) => {
   const [userCode, setUserCode] = useState(props.skeleton);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [language, setLanguage] = useState(63);
   const [output, setOutput] = useState<SubmissionResponse>();
   const [showOutput, setShowOutput] = useState(false);
 
@@ -85,7 +72,8 @@ const Post: React.FC<PostProps> = (props) => {
 
   async function handleRun(): Promise<void> {
     setIsSubmitting(true);
-    const data = await runUserCode(props.id, language, userCode);
+    const data = await runUserCode(props.id, props.language, userCode);
+    console.log(props.language);
     console.log(data);
     setOutput(data);
     setIsSubmitting(false);
@@ -108,6 +96,7 @@ const Post: React.FC<PostProps> = (props) => {
       <CodeEditor
         label="Code editor"
         value={String(userCode)}
+        language={props.language}
         onChange={(value) => setUserCode(value)}
         editable={!isSubmitting}
         basicSetup={basicSetup}
@@ -124,23 +113,24 @@ const Post: React.FC<PostProps> = (props) => {
               </Button>
             )}
             {userHasValidSession && postBelongsToUser && (
-              <Button
-                color="red"
-                onClick={() => handleDelete()}
-                disabled={isSubmitting}
-              >
-                Delete
-              </Button>
+              <>
+                <Button
+                  color="red"
+                  variant="outline"
+                  onClick={() => handleDelete()}
+                  disabled={isSubmitting}
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={() => handleDelete()}
+                  variant="outline"
+                  disabled={isSubmitting}
+                >
+                  Edit
+                </Button>
+              </>
             )}
-            <NativeSelect
-              value={language}
-              onChange={(e) => setLanguage(Number(e.target.value))}
-              disabled={isSubmitting}
-              data={languages.map((l) => ({
-                label: l.name.split(" ")[0],
-                value: String(l.id),
-              }))}
-            />
             <Button loading={isSubmitting} onClick={() => handleRun()}>
               Run
             </Button>

@@ -5,7 +5,7 @@ import Layout from "../components/layout";
 import Meta from "../components/meta";
 import CodeEditor from "../components/code-editor";
 import LanguageSelect from "../components/language-select";
-import { type Language, usefulLanguages } from "../@types/Language";
+import { type Language } from "../@types/Language";
 
 const Create: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -16,7 +16,7 @@ const Create: React.FC = () => {
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { title, skeleton, expectedOutput };
+      const body = { title, skeleton, language, expectedOutput };
       await fetch(`/api/c`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,7 +51,7 @@ const Create: React.FC = () => {
             />
             <CodeEditor
               label="Skeleton"
-              language={usefulLanguages.find((l) => l.id === language)?.cm}
+              language={language}
               description="
                 This is what appears in students’ code editors. Include 
                 instructions (commented out), and any necessary boilerplate or 
