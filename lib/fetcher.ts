@@ -3,10 +3,6 @@ import { SubmissionRequest } from "../@types/Submission";
 
 /**
  * Pass a URL and a SubmissionRequest object to this function, and it will perform a POST request to the URL.
- *
- * @param {string} url
- * @param {SubmissionRequest} body
- * @return {*}  {Promise<any>}
  */
 const fetcher: Fetcher = (url: string, body: SubmissionRequest) => {
   return fetch(url, {
