@@ -17,6 +17,7 @@ export default async function handle(
         expectedOutput: expectedOutput,
         skeleton: skeleton,
         language: language,
+        published: true,
         author: { connect: { email: session?.user?.email } },
       },
     });
