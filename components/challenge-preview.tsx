@@ -13,7 +13,7 @@ import Router from "next/router";
 import { usefulLanguages } from "../@types/Language";
 import type { Challenge } from "@prisma/client";
 
-const Challenge: React.FC<{ post: Challenge }> = ({ post }) => {
+const ChallengePreview: React.FC<{ post: Challenge }> = ({ post }) => {
   const theme = useMantineTheme();
   const color = MANTINE_COLORS[post.language % 14];
   return (
@@ -58,4 +58,4 @@ const Challenge: React.FC<{ post: Challenge }> = ({ post }) => {
   );
 };
 
-export default Challenge;
+export default ChallengePreview;

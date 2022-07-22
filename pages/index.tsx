@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Grid } from "@mantine/core";
 import Layout from "../components/layout/layout";
-import Challenge from "../components/challenge";
+import ChallengePreview from "../components/challenge-preview";
 import prisma from "../lib/prisma";
 import Meta from "../components/meta";
 
@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 type Props = {
-  feed: Challenge[];
+  feed: ChallengePreview[];
 };
 
 const Blog: React.FC<Props> = (props) => {
