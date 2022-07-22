@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Grid } from "@mantine/core";
-import Layout from "../components/layout";
-import Post from "../components/post";
+import Layout from "../components/layout/layout";
+import Challenge from "../components/challenge";
 import prisma from "../lib/prisma";
 import Meta from "../components/meta";
 
@@ -44,7 +44,7 @@ const Blog: React.FC<Props> = (props) => {
       <Grid>
         {props.feed.map((post) => (
           <Grid.Col md={3} xs={6} key={post.id}>
-            <Post post={post} />
+            <Challenge post={post} />
           </Grid.Col>
         ))}
       </Grid>

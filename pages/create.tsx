@@ -1,10 +1,10 @@
 import { Button, Group, Stack, TextInput, Title } from "@mantine/core";
 import Router from "next/router";
 import React, { useState } from "react";
-import Layout from "../components/layout";
+import Layout from "../components/layout/layout";
 import Meta from "../components/meta";
-import CodeEditor from "../components/code-editor";
-import LanguageSelect from "../components/language-select";
+import CodeEditor from "../components/inputs/code-editor";
+import LanguageSelect from "../components/inputs/language-select";
 import { type Language } from "../@types/Language";
 
 const Create: React.FC = () => {
@@ -58,8 +58,8 @@ const Create: React.FC = () => {
               label="Skeleton"
               language={language}
               description="
-                This is what appears in students’ code editors. Include 
-                instructions (commented out), and any necessary boilerplate or 
+                This is what appears in students’ code editors. Include
+                instructions (commented out), and any necessary boilerplate or
                 variables."
               value={skeleton}
               onChange={(value) => setSkeleton(value)}
@@ -68,7 +68,7 @@ const Create: React.FC = () => {
             <CodeEditor
               label="Expected output"
               description="
-                The stdout of student submissions is (fuzzily) checked against 
+                The stdout of student submissions is (fuzzily) checked against
                 this value, and matches are considered successful."
               value={expectedOutput}
               onChange={(value) => setExpectedOutput(value)}

@@ -1,7 +1,7 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import Layout from "../components/layout";
-import Post from "../components/post";
+import Layout from "../components/layout/layout";
+import Challenge from "../components/challenge";
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../lib/prisma";
 import { SimpleGrid, Title } from "@mantine/core";
@@ -64,7 +64,7 @@ const Drafts: React.FC<Props> = (props) => {
             ]}
           >
             {props.drafts.map((post) => (
-              <Post post={post} key={post.id} />
+              <Challenge post={post} key={post.id} />
             ))}
           </SimpleGrid>
         </main>

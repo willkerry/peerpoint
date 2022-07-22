@@ -1,8 +1,8 @@
-import { InputWrapper, Skeleton, type InputWrapperProps } from "@mantine/core";
-import { type ReactCodeMirrorProps } from "@uiw/react-codemirror";
+import { InputWrapper, Skeleton, InputWrapperProps } from "@mantine/core";
+import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import dynamic from "next/dynamic";
-import { type Language, usefulLanguages } from "../@types/Language";
+import { Language, usefulLanguages } from "../../@types/Language";
 
 const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
