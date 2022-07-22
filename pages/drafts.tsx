@@ -1,10 +1,11 @@
 import React from "react";
 import { GetServerSideProps } from "next";
 import Layout from "../components/layout";
-import Post, { PostProps } from "../components/post";
+import Post from "../components/post";
 import { useSession, getSession } from "next-auth/react";
 import prisma from "../lib/prisma";
 import { SimpleGrid, Title } from "@mantine/core";
+import { Challenge } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
@@ -32,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 };
 
 type Props = {
-  drafts: PostProps[];
+  drafts: Challenge[];
 };
 
 const Drafts: React.FC<Props> = (props) => {

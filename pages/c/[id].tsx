@@ -11,17 +11,16 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
+import { Challenge } from "@prisma/client";
 import type { BasicSetupOptions } from "@uiw/react-codemirror";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 import Router from "next/router";
 import React, { useState } from "react";
-// import { languages } from "../../@types/Language";
 import { SubmissionResponse } from "../../@types/Submission";
 import CodeEditor from "../../components/code-editor";
 import Layout from "../../components/layout";
 import Meta from "../../components/meta";
-import { PostProps } from "../../components/post";
 import prisma from "../../lib/prisma";
 import { deletePost, publishPost } from "../../utils";
 
@@ -32,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     where: { id: Number(params?.id) || -1 },
     include: { author: { select: { name: true, email: true } } },
   });
-  return { props: challenge };
+  return { props: JSON.parse(JSON.stringify(challenge)) };
 };
 
 async function runUserCode(
@@ -53,7 +52,9 @@ async function runUserCode(
   return res.json();
 }
 
-const Post: React.FC<PostProps> = (props) => {
+const Post: React.FC<
+  Challenge & { author: { name: string; email: string } }
+> = (props) => {
   const [userCode, setUserCode] = useState(props.skeleton);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [output, setOutput] = useState<SubmissionResponse>();

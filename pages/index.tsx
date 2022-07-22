@@ -1,11 +1,12 @@
 import React from "react";
 import { Alert, Grid } from "@mantine/core";
 import Layout from "../components/layout";
-import Post, { PostProps } from "../components/post";
+import Post from "../components/post";
 import prisma from "../lib/prisma";
 import Meta from "../components/meta";
 
 import type { GetServerSideProps } from "next";
+import type { Challenge } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.challenge.findMany({
@@ -21,12 +22,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   });
   return {
-    props: { feed },
+    props: { feed: JSON.parse(JSON.stringify(feed)) },
   };
 };
 
 type Props = {
-  feed: PostProps[];
+  feed: Challenge[];
 };
 
 const Blog: React.FC<Props> = (props) => {
