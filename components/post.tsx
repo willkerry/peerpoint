@@ -4,29 +4,18 @@ import {
   Card,
   Code,
   Group,
+  MANTINE_COLORS,
   Text,
   useMantineTheme,
 } from "@mantine/core";
 import React from "react";
 import Router from "next/router";
-import { Language } from "../@types/Language";
+import { usefulLanguages } from "../@types/Language";
+import type { Challenge } from "@prisma/client";
 
-export type PostProps = {
-  id: number;
-  title: string;
-  author: {
-    name: string;
-    email: string;
-  } | null;
-  language: Language["id"];
-  expectedOutput: string;
-  skeleton: string;
-  published: boolean;
-};
-
-const Post: React.FC<{ post: PostProps }> = ({ post }) => {
-  // const authorName = post.author ? post.author.name : "Unknown author";
+const Post: React.FC<{ post: Challenge }> = ({ post }) => {
   const theme = useMantineTheme();
+  const color = MANTINE_COLORS[post.language % 14];
   return (
     <Card shadow="sm" p="lg">
       <Card.Section
@@ -53,9 +42,10 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
         style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
       >
         <Text weight={500}>{post.title}</Text>
-        {!post.published && <Badge color="pink"></Badge>}
+        <Badge color={color}>
+          {usefulLanguages.find((l) => l.id === post.language)?.name}
+        </Badge>
       </Group>
-
       <Button
         onClick={() => Router.push("/c/[id]", `/c/${post.id}`)}
         variant="light"
