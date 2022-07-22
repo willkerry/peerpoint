@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import Header from "./header";
+// import Logo from "./icons/logo";
 
 type Props = {
   children: React.ReactNode;
@@ -72,6 +73,7 @@ const Layout: React.FC<Props> = (props) => {
             <Group position="apart" grow style={{ width: "100%" }}>
               <Link href="/" passHref>
                 <Text component="a" weight={700}>
+                  {/* <Logo /> */}
                   Peerpoint
                 </Text>
               </Link>

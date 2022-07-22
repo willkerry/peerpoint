@@ -1,4 +1,4 @@
-import { NativeSelect, Table, type NativeSelectProps } from "@mantine/core";
+import { NativeSelect, Table, NativeSelectProps } from "@mantine/core";
 import { QuestionIcon } from "@primer/octicons-react";
 import { useState } from "react";
 import { usefulLanguages } from "../@types/Language";
