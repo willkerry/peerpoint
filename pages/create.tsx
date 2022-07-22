@@ -12,9 +12,12 @@ const Create: React.FC = () => {
   const [language, setLanguage] = useState<Language["id"] | null>(null);
   const [skeleton, setSkeleton] = useState<string>("");
   const [expectedOutput, setExpectedOutput] = useState<string>("");
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       const body = { title, skeleton, language, expectedOutput };
       await fetch(`/api/c`, {
@@ -22,7 +25,9 @@ const Create: React.FC = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      await Router.push("/drafts");
+      setSubmitting(false);
+      setIsComplete(true);
+      await Router.push("/");
     } catch (error) {
       console.error(error);
     }
@@ -70,10 +75,18 @@ const Create: React.FC = () => {
               required
             />
             <Group>
-              <Button disabled={!expectedOutput || !title} type="submit">
+              <Button
+                disabled={!expectedOutput || !title || isComplete}
+                loading={isSubmitting}
+                type="submit"
+              >
                 Create
               </Button>
-              <Button variant="subtle" onClick={() => Router.push("/")}>
+              <Button
+                variant="subtle"
+                onClick={() => Router.push("/")}
+                disabled={isSubmitting || isComplete}
+              >
                 Cancel
               </Button>
             </Group>
