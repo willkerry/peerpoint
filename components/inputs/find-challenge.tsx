@@ -1,9 +1,10 @@
-import { NumberInput, ActionIcon } from "@mantine/core";
+import { NumberInput, ActionIcon, LoadingOverlay } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import useChallenge from "../../utils/useChallenge";
 import { useDebouncedValue } from "@mantine/hooks";
 import { ArrowRightIcon } from "@primer/octicons-react";
+import { useState } from "react";
 
 const FindChallenge = () => {
   const form = useForm({
@@ -19,6 +20,7 @@ const FindChallenge = () => {
   });
   const [debounced] = useDebouncedValue(Number(form.values.challenge), 200);
   const { exists, isLoading } = useChallenge(debounced);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
 
   const submitButton = (
@@ -34,6 +36,7 @@ const FindChallenge = () => {
   return (
     <form
       onSubmit={form.onSubmit((values) => {
+        setIsRedirecting(true);
         router.push(`/c/${values.challenge}`);
       })}
     >
@@ -47,6 +50,7 @@ const FindChallenge = () => {
         mb={12}
         {...form.getInputProps("challenge")}
       />
+      <LoadingOverlay visible={isRedirecting} />
     </form>
   );
 };
