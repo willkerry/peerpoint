@@ -29,3 +29,8 @@ const rateLimit = (options) => {
 };
 
 export default rateLimit;
+
+export const standardLimiter = rateLimit({
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 500,
+});

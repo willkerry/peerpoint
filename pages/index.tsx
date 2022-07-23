@@ -1,13 +1,12 @@
-import React from "react";
-import { Alert, Grid } from "@mantine/core";
-import Layout from "../components/layout/layout";
-import ChallengePreview from "../components/challenge-preview";
-import prisma from "../lib/prisma";
-import Meta from "../components/meta";
-
-import type { GetServerSideProps } from "next";
+import { Alert, Grid, Stack } from "@mantine/core";
 import type { Challenge } from "@prisma/client";
+import type { GetServerSideProps } from "next";
+import React from "react";
+import ChallengePreview from "../components/challenge-preview";
 import FindChallenge from "../components/inputs/find-challenge";
+import Layout from "../components/layout/layout";
+import Meta from "../components/meta";
+import prisma from "../lib/prisma";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.challenge.findMany({
@@ -35,22 +34,23 @@ const Blog: React.FC<Props> = (props) => {
   return (
     <Layout>
       <Meta title="Peerpoint" />
-      <FindChallenge />
-      <Alert
-        title="For evaluation purposes, recent user-generated challenges are previewed
+      <Stack spacing="lg">
+        <FindChallenge />
+        <Alert
+          title="For evaluation purposes, recent user-generated challenges are previewed
         below"
-        mb={12}
-      >
-        This isn’t representative of Peerpoint’s intended use.
-      </Alert>
+        >
+          This isn’t representative of Peerpoint’s intended use.
+        </Alert>
 
-      <Grid>
-        {props.feed.map((post) => (
-          <Grid.Col md={3} xs={6} key={post.id}>
-            <ChallengePreview post={post} />
-          </Grid.Col>
-        ))}
-      </Grid>
+        <Grid>
+          {props.feed.map((post) => (
+            <Grid.Col md={3} xs={6} key={post.id}>
+              <ChallengePreview post={post} />
+            </Grid.Col>
+          ))}
+        </Grid>
+      </Stack>
     </Layout>
   );
 };

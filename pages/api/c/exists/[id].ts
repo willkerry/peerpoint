@@ -1,5 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import checkChallenge from "../../../../utils/check-challenge";
+import rateLimit from "../../../../utils/rate-limit";
+
+const limiter = rateLimit({
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 500,
+});
 
 // GET /api/c/exists/:id
 export default async function handle(
@@ -7,6 +13,14 @@ export default async function handle(
   res: NextApiResponse
 ) {
   const id = req.query.id;
+
+  try {
+    await limiter.check(res, 20, "CACHE_TOKEN");
+  } catch (e) {
+    console.warn(e);
+    res.status(429).send("Rate limited");
+    return;
+  }
 
   if (req.method === "GET") {
     res.json(await checkChallenge(Number(id)));
