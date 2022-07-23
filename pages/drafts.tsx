@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 };
 
 type Props = {
-  drafts: ChallengePreview[];
+  drafts: Challenge[];
 };
 
 const Drafts: React.FC<Props> = (props) => {
@@ -64,7 +64,7 @@ const Drafts: React.FC<Props> = (props) => {
             ]}
           >
             {props.drafts.map((post) => (
-              <Challenge post={post} key={post.id} />
+              <ChallengePreview post={post} key={post.id} />
             ))}
           </SimpleGrid>
         </main>

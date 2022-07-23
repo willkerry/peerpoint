@@ -7,6 +7,7 @@ import Meta from "../components/meta";
 
 import type { GetServerSideProps } from "next";
 import type { Challenge } from "@prisma/client";
+import FindChallenge from "../components/inputs/find-challenge";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.challenge.findMany({
@@ -27,13 +28,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 type Props = {
-  feed: ChallengePreview[];
+  feed: Challenge[];
 };
 
 const Blog: React.FC<Props> = (props) => {
   return (
     <Layout>
       <Meta title="Peerpoint" />
+      <FindChallenge />
       <Alert
         title="For evaluation purposes, recent user-generated challenges are previewed
         below"
@@ -41,10 +43,11 @@ const Blog: React.FC<Props> = (props) => {
       >
         This isn’t representative of Peerpoint’s intended use.
       </Alert>
+
       <Grid>
         {props.feed.map((post) => (
           <Grid.Col md={3} xs={6} key={post.id}>
-            <Challenge post={post} />
+            <ChallengePreview post={post} />
           </Grid.Col>
         ))}
       </Grid>
