@@ -1,13 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-// import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
 import { executeCode } from "../../../utils/execute-code";
 import rateLimit from "../../../utils/rate-limit";
 import HTTPError from "../../../utils/http-error";
-
+import postAttempt from "../../../utils/post-attempt";
 /*
  * TODO assign non-auth users a session cookie
- * TODO record Attempt objects to DB
  */
 
 const limiter = rateLimit({
@@ -19,6 +17,13 @@ const fetchAndExecute = async (id: number, code: string, language: number) => {
   const challenge = await prisma.challenge.findUnique({ where: { id: id } });
   if (!challenge) throw new Error("Invalid challenge ID.");
   const output = await executeCode(language, code, challenge.expectedOutput);
+  postAttempt({
+    challengeId: id,
+    userId: 1, // TODO Get user ID from session
+    success: output?.status?.id === 3,
+    code: code,
+    output: output?.stdout,
+  });
   return output;
 };
 
