@@ -1,10 +1,15 @@
-import { NumberInput, ActionIcon, LoadingOverlay } from "@mantine/core";
-import { useRouter } from "next/router";
+import {
+  Button,
+  Group,
+  LoadingOverlay,
+  NumberInput,
+  Text,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
-import useChallenge from "../../utils/useChallenge";
-import { useDebouncedValue } from "@mantine/hooks";
-import { ArrowRightIcon } from "@primer/octicons-react";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import useChallenge from "../../utils/useChallenge";
+import { Skeleton } from "@mantine/core";
 
 const FindChallenge = () => {
   const form = useForm({
@@ -18,20 +23,23 @@ const FindChallenge = () => {
           : "Challenge not found",
     },
   });
-  const [debounced] = useDebouncedValue(Number(form.values.challenge), 200);
-  const { exists, isLoading } = useChallenge(debounced);
+  const { exists, title, isLoading } = useChallenge(
+    Number(form.values.challenge)
+  );
   const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
 
-  const submitButton = (
-    <ActionIcon
-      type="submit"
-      size="lg"
-      loading={form.values.challenge && isLoading}
-    >
-      <ArrowRightIcon />
-    </ActionIcon>
-  );
+  const RightSection = () => {
+    return (
+      <Skeleton visible={isLoading} mr={10}>
+        <Group position="right">
+          <Text color="dimmed" align="right" weight={500} size="sm">
+            {title}
+          </Text>
+        </Group>
+      </Skeleton>
+    );
+  };
 
   return (
     <form
@@ -39,18 +47,22 @@ const FindChallenge = () => {
         setIsRedirecting(true);
         router.push(`/c/${values.challenge}`);
       })}
-      action="#"
     >
       <NumberInput
         label="Find a challenge"
-        size="md"
         description="Enter a numerical challenge ID"
         hideControls
-        rightSection={submitButton}
-        rightSectionWidth={42}
-        mb={12}
+        size="md"
+        rightSection={<RightSection />}
+        rightSectionWidth={200}
+        onKeyUp={form.validate}
         {...form.getInputProps("challenge")}
       />
+      <Group position="right" mt="md">
+        <Button type="submit" size="md">
+          Go
+        </Button>
+      </Group>
       <LoadingOverlay visible={isRedirecting} />
     </form>
   );

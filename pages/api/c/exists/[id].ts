@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import checkChallengeExists from "../../../../utils/check-challenge-exists";
+import checkChallenge from "../../../../utils/check-challenge";
 
 // GET /api/c/exists/:id
 export default async function handle(
@@ -9,7 +9,7 @@ export default async function handle(
   const id = req.query.id;
 
   if (req.method === "GET") {
-    res.json({ exists: await checkChallengeExists(Number(id)) });
+    res.json(await checkChallenge(Number(id)));
     return;
   } else {
     throw new Error(
