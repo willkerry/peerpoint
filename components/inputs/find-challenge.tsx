@@ -4,12 +4,13 @@ import {
   LoadingOverlay,
   NumberInput,
   Text,
+  Skeleton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { CheckIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useChallenge from "../../utils/useChallenge";
-import { Skeleton } from "@mantine/core";
 
 const FindChallenge = () => {
   const form = useForm({
@@ -29,14 +30,25 @@ const FindChallenge = () => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
 
+  console.log(exists, title, isLoading);
+
   const RightSection = () => {
     return (
       <Skeleton visible={isLoading} mr={10}>
-        <Group position="right">
-          <Text color="dimmed" align="right" weight={500} size="sm">
-            {title}
+        {exists && (
+          <Text
+            color="dimmed"
+            align="right"
+            weight={500}
+            size="sm"
+            lineClamp={1}
+          >
+            <Text component="span" color="green">
+              <CheckIcon />
+            </Text>{" "}
+            <span>{title}</span>
           </Text>
-        </Group>
+        )}
       </Skeleton>
     );
   };
@@ -49,8 +61,7 @@ const FindChallenge = () => {
       })}
     >
       <NumberInput
-        label="Find a challenge"
-        description="Enter a numerical challenge ID"
+        label="Enter a challenge ID"
         hideControls
         size="md"
         rightSection={<RightSection />}
@@ -58,8 +69,9 @@ const FindChallenge = () => {
         onKeyUp={form.validate}
         {...form.getInputProps("challenge")}
       />
+
       <Group position="right" mt="md">
-        <Button type="submit" size="md">
+        <Button type="submit" disabled={!exists}>
           Go
         </Button>
       </Group>
