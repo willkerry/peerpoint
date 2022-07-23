@@ -39,6 +39,7 @@ const FindChallenge = () => {
         setIsRedirecting(true);
         router.push(`/c/${values.challenge}`);
       })}
+      action="#"
     >
       <NumberInput
         label="Find a challenge"
