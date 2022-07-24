@@ -21,15 +21,17 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = (props) => {
-  const theme = useMantineTheme();
-  const [opened, setOpened] = React.useState(false);
+  /*
+   * const theme = useMantineTheme();
+   * const [opened, setOpened] = React.useState(false);
+   */
   const { data: session } = useSession();
 
   const sidebar = (
     <Navbar
       p="md"
       hiddenBreakpoint="sm"
-      hidden={!opened}
+      // hidden={!opened}
       width={{ sm: 200, lg: 300 }}
     >
       <Navbar.Section grow>
@@ -51,7 +53,7 @@ const Layout: React.FC<Props> = (props) => {
     <AppShell
       navbarOffsetBreakpoint="sm"
       fixed
-      navbar={sidebar}
+      // navbar={sidebar}
       header={
         <MantineHeader height={50} p="md">
           <div
@@ -61,7 +63,7 @@ const Layout: React.FC<Props> = (props) => {
               height: "100%",
             }}
           >
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger
                 opened={opened}
                 onClick={() => setOpened((o) => !o)}
@@ -69,7 +71,7 @@ const Layout: React.FC<Props> = (props) => {
                 color={theme.colors.gray[6]}
                 mr="xl"
               />
-            </MediaQuery>
+            </MediaQuery> */}
             <Group position="apart" grow style={{ width: "100%" }}>
               <Link href="/" passHref>
                 <Text component="a" weight={700}>
