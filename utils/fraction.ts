@@ -1,5 +1,5 @@
 const num = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
-const den = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
+const dem = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"];
 
 const swap = (n: number, outs: string[]): string => {
   return n
@@ -10,7 +10,7 @@ const swap = (n: number, outs: string[]): string => {
 };
 
 const fraction = (n: number, d: number): string => {
-  return `${swap(n, num)}⁄${swap(d, den)}`;
+  return `${swap(n, num)}⁄${swap(d, dem)}`;
 };
 
 export default fraction;
