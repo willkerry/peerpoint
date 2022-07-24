@@ -30,8 +30,6 @@ const FindChallenge = () => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
 
-  console.log(exists, title, isLoading);
-
   const RightSection = () => {
     return (
       <Skeleton visible={isLoading} mr={10}>
