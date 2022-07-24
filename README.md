@@ -2,11 +2,11 @@ MSc Project, working title: Peerpoint
 
 - [x] Establish DB design
 - [x] Implement ~all~ some APIs/middlewares
-- [ ] Implement session cookies
+- [x] Implement session cookies
 - [x] Migrate client-side Judge0 request-response code from trial project
 - [ ] Tests
 - [x] Implement client requests
-- [ ] Build frontend views/forms
+- [x] Build frontend views/forms
 
 Maybe also:
 
@@ -35,20 +35,11 @@ Right now, we’re using a local SQLite database (this won't carry into producti
 
 ### Note to self:
 
-Just change Prisma provider when I want to migrate to a production database, e.g.
+Swap to Heroku postgres?
 
 ```prisma
 datasource db {
   provider = "postgresql"
   url      = "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
-}
-```
-
-or...
-
-```prisma
-datasource db {
-  provider = "mysql"
-  url      = "mysql://USER:PASSWORD@HOST:PORT/DATABASE"
 }
 ```
