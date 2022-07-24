@@ -1,6 +1,6 @@
-import { InputWrapper, Skeleton, InputWrapperProps } from "@mantine/core";
-import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
+import { InputWrapper, InputWrapperProps, Skeleton } from "@mantine/core";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
+import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import dynamic from "next/dynamic";
 import { Language, usefulLanguages } from "../../@types/Language";
 
@@ -8,7 +8,6 @@ const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
   loading: () => <Skeleton height={30} radius="md" />,
 });
-
 type Props = ReactCodeMirrorProps &
   InputWrapperProps & {
     children?: React.ReactNode;
