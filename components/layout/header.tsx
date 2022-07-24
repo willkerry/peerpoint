@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { Button, Loader, Group } from "@mantine/core";
+import { Button, Group, Skeleton } from "@mantine/core";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -13,15 +13,9 @@ const Header: React.FC = () => {
 
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <Loader />;
+  let headerLinks;
 
-  let headerLinks = (
-    <Link href="/">
-      <a className="bold" data-active={isActive("/")}>
-        Feed
-      </a>
-    </Link>
-  );
+  if (status === "loading") return <Skeleton width={80} height={36} />;
 
   if (!session) {
     headerLinks = (
