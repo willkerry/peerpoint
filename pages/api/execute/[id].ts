@@ -1,27 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import { executeCode } from "../../../utils/execute-code";
-import rateLimit from "../../../utils/rate-limit";
 import HTTPError from "../../../utils/http-error";
 import postAttempt from "../../../utils/post-attempt";
-/*
- * TODO assign non-auth users a session cookie
- */
+import rateLimit from "../../../utils/rate-limit";
 
 const limiter = rateLimit({
   interval: 60 * 1000,
   uniqueTokenPerInterval: 500,
 });
 
-const fetchAndExecute = async (id: number, code: string, language: number) => {
+const fetchAndExecute = async (
+  id: number,
+  code: string,
+  language: number,
+  cookie: string
+) => {
   const challenge = await prisma.challenge.findUnique({ where: { id: id } });
   if (!challenge) return;
   const output = await executeCode(language, code, challenge.expectedOutput);
   postAttempt({
     challengeId: id,
-    userId: 1, // TODO Get user ID from session
+    cookie,
     success: output?.status?.id === 3,
-    code: code,
     output: output?.stdout,
   });
   return output;
@@ -49,7 +50,8 @@ export default async function handle(
     await fetchAndExecute(
       Number(req.query.id),
       req.body.userCode,
-      req.body.language
+      req.body.language,
+      req.cookies["next-auth.csrf-token"]
     ).then((result) => {
       res.status(200).json(result);
     });
