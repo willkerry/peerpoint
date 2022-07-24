@@ -1,16 +1,5 @@
-import {
-  Anchor,
-  AppShell,
-  Burger,
-  Group,
-  Header as MantineHeader,
-  MediaQuery,
-  Navbar,
-  Stack,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
-import { useSession } from "next-auth/react";
+import { AppShell, Group, Header as MantineHeader, Text } from "@mantine/core";
+// import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import Header from "./header";
@@ -25,29 +14,31 @@ const Layout: React.FC<Props> = (props) => {
    * const theme = useMantineTheme();
    * const [opened, setOpened] = React.useState(false);
    */
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
-  const sidebar = (
-    <Navbar
-      p="md"
-      hiddenBreakpoint="sm"
-      // hidden={!opened}
-      width={{ sm: 200, lg: 300 }}
-    >
-      <Navbar.Section grow>
-        {session && (
-          <Stack>
-            <Link href="/" passHref>
-              <Anchor component="a">Feed</Anchor>
-            </Link>
-            <Link href="/drafts" passHref>
-              <Anchor component="a">Drafts</Anchor>
-            </Link>
-          </Stack>
-        )}
-      </Navbar.Section>
-    </Navbar>
-  );
+  /*
+   * const sidebar = (
+   *   <Navbar
+   *     p="md"
+   *     hiddenBreakpoint="sm"
+   *     // hidden={!opened}
+   *     width={{ sm: 200, lg: 300 }}
+   *   >
+   *     <Navbar.Section grow>
+   *       {session && (
+   *         <Stack>
+   *           <Link href="/" passHref>
+   *             <Anchor component="a">Feed</Anchor>
+   *           </Link>
+   *           <Link href="/drafts" passHref>
+   *             <Anchor component="a">Drafts</Anchor>
+   *           </Link>
+   *         </Stack>
+   *       )}
+   *     </Navbar.Section>
+   *   </Navbar>
+   * );
+   */
 
   return (
     <AppShell
