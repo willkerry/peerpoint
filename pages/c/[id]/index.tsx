@@ -17,12 +17,12 @@ import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 import Router from "next/router";
 import React, { useState } from "react";
-import { SubmissionResponse } from "../../@types/Submission";
-import CodeEditor from "../../components/inputs/code-editor";
-import Layout from "../../components/layout/layout";
-import Meta from "../../components/meta";
-import prisma from "../../lib/prisma";
-import { deletePost, publishPost } from "../../utils";
+import { SubmissionResponse } from "../../../@types/Submission";
+import CodeEditor from "../../../components/inputs/code-editor";
+import Layout from "../../../components/layout/layout";
+import Meta from "../../../components/meta";
+import prisma from "../../../lib/prisma";
+import { deletePost, publishPost } from "../../../utils";
 
 const basicSetup: BasicSetupOptions = { lineNumbers: false };
 
@@ -34,20 +34,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return { props: JSON.parse(JSON.stringify(challenge)) };
 };
 
-async function runUserCode(
+async function sendExecuteRequest(
   id: number,
   language: number,
   userCode: string
 ): Promise<SubmissionResponse> {
   const res = await fetch(`/api/execute/${id}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      language,
-      userCode,
-    }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ language, userCode }),
   });
   return res.json();
 }
@@ -73,9 +68,7 @@ const Post: React.FC<
 
   async function handleRun(): Promise<void> {
     setIsSubmitting(true);
-    const data = await runUserCode(props.id, props.language, userCode);
-    console.log(props.language);
-    console.log(data);
+    const data = await sendExecuteRequest(props.id, props.language, userCode);
     setOutput(data);
     setIsSubmitting(false);
     setShowOutput(true);
