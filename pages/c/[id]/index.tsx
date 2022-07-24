@@ -15,8 +15,9 @@ import { Challenge } from "@prisma/client";
 import type { BasicSetupOptions } from "@uiw/react-codemirror";
 import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import Router from "next/router";
-import React, { useState } from "react";
+import { AnchorHTMLAttributes, useState } from "react";
 import { SubmissionResponse } from "../../../@types/Submission";
 import CodeEditor from "../../../components/inputs/code-editor";
 import Layout from "../../../components/layout/layout";
@@ -125,6 +126,15 @@ const Post: React.FC<
                 </Button>
               </>
             )}
+            <Link href={`${props.id}/monitor`}>
+              <Button<AnchorHTMLAttributes<HTMLAnchorElement>>
+                variant="default"
+                component="a"
+                compact
+              >
+                Monitor
+              </Button>
+            </Link>
             <Button loading={isSubmitting} onClick={() => handleRun()}>
               Run
             </Button>
