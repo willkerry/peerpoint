@@ -28,10 +28,8 @@ model Attempt {
   createdAt   DateTime  @default(now())
   challenge   Challenge @relation(fields: [challengeId], references: [id])
   challengeId Int
-  user        User      @relation(fields: [userId], references: [id])
-  userId      Int
+  cookie      String?   @default(uuid())
   success     Boolean
-  code        String    @db.Text
   output      String    @db.Text
 }
 
@@ -78,7 +76,6 @@ model User {
   challenges    Challenge[]
   accounts      Account[]
   sessions      Session[]
-  Attempt       Attempt[]
 
   @@map(name: "users")
 }
