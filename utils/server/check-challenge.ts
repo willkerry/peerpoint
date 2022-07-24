@@ -9,9 +9,5 @@ const checkChallenge = async (
   if (!challenge) return;
   return { exists: true, title: challenge.title };
 };
-/*
- * const exists = await prisma.challenge.count({ where: { id } });
- * return { exists: exists > 0, title: "Challenge" };
- */
 
 export default checkChallenge;
