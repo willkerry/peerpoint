@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import { getSession } from "next-auth/react";
-import { standardLimiter } from "../../../utils/rate-limit";
+import { standardLimiter } from "../../../utils/server";
 
 // POST /api/c
 export default async function handle(

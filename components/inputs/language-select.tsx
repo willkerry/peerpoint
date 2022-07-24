@@ -2,7 +2,7 @@ import { NativeSelect, Table, NativeSelectProps } from "@mantine/core";
 import { QuestionIcon } from "@primer/octicons-react";
 import { useState } from "react";
 import { usefulLanguages } from "../../@types/Language";
-import InfoModal from "../info-modal";
+import InfoModal from "../display/info-modal";
 
 const defaultProps = {
   data: usefulLanguages.map((l) => ({

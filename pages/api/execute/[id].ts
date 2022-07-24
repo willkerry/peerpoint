@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { executeCode } from "../../../utils/execute-code";
-import HTTPError from "../../../utils/http-error";
-import postAttempt from "../../../utils/post-attempt";
-import rateLimit from "../../../utils/rate-limit";
+import {
+  executeCode,
+  HTTPError,
+  postAttempt,
+  rateLimit,
+} from "../../../utils/server";
 
 const limiter = rateLimit({
   interval: 60 * 1000,

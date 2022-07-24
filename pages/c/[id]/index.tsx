@@ -11,29 +11,20 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { Challenge } from "@prisma/client";
 import type { BasicSetupOptions } from "@uiw/react-codemirror";
-import { GetServerSideProps } from "next";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { AnchorHTMLAttributes, useState } from "react";
+import useSWR from "swr";
 import { SubmissionResponse } from "../../../@types/Submission";
-import CodeEditor from "../../../components/inputs/code-editor";
-import Layout from "../../../components/layout/layout";
-import Meta from "../../../components/meta";
-import prisma from "../../../lib/prisma";
+import { CodeEditor } from "../../../components/inputs";
+import { Layout, Meta } from "../../../components/layout/";
 import { deletePost, publishPost } from "../../../utils";
+import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
+import DisplayId from "../../../components/display/id";
 
 const basicSetup: BasicSetupOptions = { lineNumbers: false };
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const challenge = await prisma.challenge.findUnique({
-    where: { id: Number(params?.id) || -1 },
-    include: { author: { select: { name: true, email: true } } },
-  });
-  return { props: JSON.parse(JSON.stringify(challenge)) };
-};
 
 async function sendExecuteRequest(
   id: number,
@@ -48,10 +39,12 @@ async function sendExecuteRequest(
   return res.json();
 }
 
-const Post: React.FC<
-  Challenge & { author: { name: string; email: string } }
-> = (props) => {
-  const [userCode, setUserCode] = useState(props.skeleton);
+const Post: React.FC = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data } = useSWR(id, fetchChallenge);
+
+  const [userCode, setUserCode] = useState(data?.skeleton);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [output, setOutput] = useState<SubmissionResponse>();
   const [showOutput, setShowOutput] = useState(false);
@@ -61,87 +54,88 @@ const Post: React.FC<
   if (status === "loading") return <LoadingOverlay visible />;
 
   const userHasValidSession = Boolean(session);
-  const postBelongsToUser = session?.user?.email === props.author?.email;
-  let title = props.title;
-  if (!props.published) {
-    title = `${title} (Draft)`;
-  }
+  const postBelongsToUser = session?.user?.email === data?.author?.email;
 
-  async function handleRun(): Promise<void> {
+  const handleSubmit = async (event): Promise<void> => {
+    event.preventDefault();
     setIsSubmitting(true);
-    const data = await sendExecuteRequest(props.id, props.language, userCode);
-    setOutput(data);
+    await setOutput(
+      await sendExecuteRequest(data?.id, data?.language, userCode)
+    );
     setIsSubmitting(false);
     setShowOutput(true);
-  }
-  async function handleDelete(): Promise<void> {
+  };
+
+  const handleDelete = async (): Promise<void> => {
     if (confirm("Are you sure you want to delete this item?")) {
-      await deletePost(props.id);
+      await deletePost(data?.id);
       await Router.push("/");
     }
     return;
-  }
+  };
+
   return (
     <Layout>
       <LoadingOverlay visible={isSubmitting} />
-      <Meta title={title} />
-      <Title order={3} mb={12}>
-        {title}
+      <Meta title={data?.title} />
+      <Title order={4} mb={12}>
+        {data?.title}
       </Title>
-      <CodeEditor
-        label="Code editor"
-        value={String(userCode)}
-        language={props.language}
-        onChange={(value) => setUserCode(value)}
-        editable={!isSubmitting}
-        basicSetup={basicSetup}
-      />
-      <Affix>
-        <Paper>
-          <Group p="md">
-            {!props.published && userHasValidSession && postBelongsToUser && (
-              <Button
-                onClick={() => publishPost(props.id)}
-                disabled={isSubmitting}
-              >
-                Publish
-              </Button>
-            )}
-            {userHasValidSession && postBelongsToUser && (
-              <>
-                <Button
-                  color="red"
-                  variant="outline"
-                  onClick={() => handleDelete()}
-                  disabled={isSubmitting}
-                >
-                  Delete
-                </Button>
-                <Button
-                  onClick={() => handleDelete()}
-                  variant="outline"
-                  disabled={isSubmitting}
-                >
-                  Edit
-                </Button>
-              </>
-            )}
-            <Link href={`${props.id}/monitor`}>
-              <Button<AnchorHTMLAttributes<HTMLAnchorElement>>
-                variant="default"
-                component="a"
-                compact
-              >
-                Monitor
-              </Button>
-            </Link>
-            <Button loading={isSubmitting} onClick={() => handleRun()}>
-              Run
-            </Button>
-          </Group>
-        </Paper>
-      </Affix>
+      <DisplayId id={data?.id} />
+      <form onSubmit={handleSubmit} id="codexec">
+        <CodeEditor
+          label="Code editor"
+          language={data?.language}
+          editable={!isSubmitting}
+          basicSetup={basicSetup}
+          value={data?.skeleton}
+          onChange={(value) => setUserCode(value)}
+        />
 
+        <Affix>
+          <Paper>
+            <Group p="md">
+              {!data?.published && userHasValidSession && postBelongsToUser && (
+                <Button
+                  onClick={() => publishPost(data?.id)}
+                  disabled={isSubmitting}
+                  compact
+                >
+                  Publish
+                </Button>
+              )}
+              {userHasValidSession && postBelongsToUser && (
+                <>
+                  <Button
+                    color="red"
+                    variant="outline"
+                    onClick={() => handleDelete()}
+                    disabled={isSubmitting}
+                    compact
+                  >
+                    Delete
+                  </Button>
+                  <Button variant="outline" disabled={isSubmitting} compact>
+                    Edit
+                  </Button>
+                </>
+              )}
+              <Link href={`${data?.id}/monitor`}>
+                <Button<AnchorHTMLAttributes<HTMLAnchorElement>>
+                  variant="default"
+                  component="a"
+                  compact
+                >
+                  Monitor
+                </Button>
+              </Link>
+              <Button type="submit" form="codexec" loading={isSubmitting}>
+                Run
+              </Button>
+            </Group>
+          </Paper>
+        </Affix>
+      </form>
       <Drawer
         position="bottom"
         opened={showOutput}

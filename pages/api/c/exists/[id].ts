@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import checkChallenge from "../../../../utils/check-challenge";
-import rateLimit from "../../../../utils/rate-limit";
+import { checkChallenge, rateLimit } from "../../../../utils/server";
 
 const limiter = rateLimit({
   interval: 60 * 1000,

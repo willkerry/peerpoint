@@ -1,22 +1,18 @@
 import { Alert, Grid, Skeleton, Stack } from "@mantine/core";
 import type { Challenge } from "@prisma/client";
 import React from "react";
-import useSWR, { SWRResponse } from "swr";
-import ChallengePreview from "../components/challenge-preview";
-import FindChallenge from "../components/inputs/find-challenge";
-import Layout from "../components/layout/layout";
-import Meta from "../components/meta";
-import getter from "../lib/getter";
+import useSWR from "swr";
+import ChallengePreview from "../components/display/challenge-preview";
+import { FindChallenge } from "../components/inputs";
+import { Layout, Meta } from "../components/layout";
+import fetchChallenges from "../lib/fetchers/fetch-challenges";
 
 type Props = {
   feed: Challenge[];
 };
 
 const Blog: React.FC<Props> = () => {
-  const { data, error }: SWRResponse<Challenge[] | any> = useSWR(
-    "/api/c",
-    getter
-  );
+  const { data, error } = useSWR("/", fetchChallenges);
 
   return (
     <Layout>

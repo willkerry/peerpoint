@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import { SubmissionResponse } from "../@types/Submission";
-import { decodeBase64 } from "./base64";
-import sleep from "./sleep";
+import { SubmissionResponse } from "../../@types/Submission";
+import { decodeBase64 } from "../base64";
+import sleep from "../sleep";
 import HTTPError from "./http-error";
 
 /**

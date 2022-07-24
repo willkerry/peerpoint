@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { SubmissionResponse } from "../@types/Submission";
-import { encodeBase64 } from "./base64";
+import { SubmissionResponse } from "../../@types/Submission";
+import { encodeBase64 } from "../base64";
 import getOutput from "./get-output";
 import HTTPError from "./http-error";
 

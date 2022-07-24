@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import React from "react";
 import Router from "next/router";
-import { usefulLanguages } from "../@types/Language";
+import { usefulLanguages } from "../../@types/Language";
 import type { Challenge } from "@prisma/client";
 
 const ChallengePreview: React.FC<{ post: Challenge }> = ({ post }) => {

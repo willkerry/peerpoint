@@ -1,11 +1,9 @@
 import { Button, Group, Stack, TextInput, Title } from "@mantine/core";
 import Router from "next/router";
-import React, { useState } from "react";
-import Layout from "../components/layout/layout";
-import Meta from "../components/meta";
-import CodeEditor from "../components/inputs/code-editor";
-import LanguageSelect from "../components/inputs/language-select";
+import { SyntheticEvent, useState } from "react";
 import { type Language } from "../@types/Language";
+import { CodeEditor, LanguageSelect } from "../components/inputs";
+import { Layout, Meta } from "../components/layout";
 
 const Create: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -15,7 +13,7 @@ const Create: React.FC = () => {
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [isComplete, setIsComplete] = useState<boolean>(false);
 
-  const submitData = async (e: React.SyntheticEvent) => {
+  const submitData = async (e: SyntheticEvent) => {
     e.preventDefault();
     setSubmitting(true);
     try {

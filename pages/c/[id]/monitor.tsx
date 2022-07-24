@@ -7,23 +7,16 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import useSWR, { SWRResponse } from "swr";
-import Layout from "../../../components/layout/layout";
-import Meta from "../../../components/meta";
-import getter from "../../../lib/getter";
-import fraction from "../../../utils/fraction";
-import { MonitorResponse } from "../../api/c/monitor/[id]";
+import useSWR from "swr";
+import { Layout, Meta } from "../../../components/layout";
+import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 
 const Monitor = () => {
   const router = useRouter();
   const { id } = router.query;
   const [period, setPeriod] = useState(60);
-  const { data }: SWRResponse<MonitorResponse> = useSWR(
-    `/api/c/monitor/${Number(id)}?${new URLSearchParams({
-      period: String(period),
-    })}`,
-    getter
-  );
+
+  const { data } = useSWR({ id, period }, fetchMonitoring);
 
   return (
     <Layout>
@@ -58,8 +51,13 @@ const Monitor = () => {
               ]}
               label={
                 <Skeleton visible={!data}>
-                  <Text size="xl" weight={500} align="center">
-                    {fraction(data?.successfulStudents, data?.activeStudents)}
+                  <Text
+                    size="xl"
+                    weight={500}
+                    align="center"
+                    sx={{ fontVariantNumeric: "diagonal-fractions" }}
+                  >
+                    {data?.successfulStudents}/{data?.activeStudents}
                   </Text>
                 </Skeleton>
               }

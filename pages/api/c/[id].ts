@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
-import { standardLimiter } from "../../../utils/rate-limit";
+import { standardLimiter } from "../../../utils/server";
 
-// DELETE /api/c/:id
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
@@ -18,13 +17,39 @@ export default async function handle(
     res.status(429).send("Rate limited");
     return;
   }
-
+  // DELETE /api/c/:id
   if (req.method === "DELETE") {
     if (session) {
       const post = await prisma.challenge.delete({
         where: { id: Number(postId) },
       });
       res.json(post);
+    } else {
+      res.status(401).send({ message: "Unauthorized" });
+    }
+  }
+  // GET /api/c/:id
+  else if (req.method === "GET") {
+    const challenge = await prisma.challenge.findUnique({
+      where: { id: Number(postId) || -1 },
+      include: { author: { select: { name: true, email: true } } },
+    });
+    res.status(200).json(challenge);
+  }
+  // PATCH /api/c/:id
+  else if (req.method === "PATCH") {
+    if (session) {
+      const { title, expectedOutput, skeleton, language } = req.body;
+      const result = await prisma.challenge.update({
+        where: { id: Number(postId) },
+        data: {
+          title: title,
+          expectedOutput: expectedOutput,
+          skeleton: skeleton,
+          language: language,
+        },
+      });
+      res.json(result);
     } else {
       res.status(401).send({ message: "Unauthorized" });
     }

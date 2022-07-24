@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import rateLimit from "../../../../utils/rate-limit";
+import { rateLimit } from "../../../../utils/server";
 import prisma from "../../../../lib/prisma";
 import countStudents from "../../../../utils/monitoring/count-students";
 
