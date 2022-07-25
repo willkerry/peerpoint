@@ -79,9 +79,11 @@ const Post: React.FC = () => {
       <LoadingOverlay visible={isSubmitting} />
       <Meta title={data?.title} />
       <Title order={4} mb={12}>
-        {data?.title}
+        <Group position="apart" align="center">
+          {data?.title} <DisplayId id={data?.id} />
+        </Group>
       </Title>
-      <DisplayId id={data?.id} />
+
       <form onSubmit={handleSubmit} id="codexec">
         <CodeEditor
           label="Code editor"

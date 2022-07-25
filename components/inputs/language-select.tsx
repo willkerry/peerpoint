@@ -21,8 +21,9 @@ const LanguageSelect = (props: NativeSelectProps) => {
         isOpen={open}
         setClosed={() => setOpen(false)}
         setOpen={() => setOpen(true)}
-        icon={<QuestionIcon />}
+        button={<QuestionIcon />}
         inline
+        actionIcon
       >
         <LanguageInfo />
       </InfoModal>
