@@ -1,44 +1,28 @@
-import { Skeleton, Text, Image, Button } from "@mantine/core";
+import { Image, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { getQrCode } from "../../utils";
 import InfoModal from "./info-modal";
 import { URL } from "../../lib/constants";
 import { DownloadIcon } from "@primer/octicons-react";
+import DisplayId from "./display-id";
 
-const DisplayId = ({ id }) => {
+const IdButton = ({ id }) => {
   const [opened, handlers] = useDisclosure(false);
   const qrCode = getQrCode(`${URL}/c/${id}`);
-  const idString = String(id).padStart(5, "0");
-  const button = (
-    <Skeleton visible={!id}>
-      <Text sx={{ display: "inline" }} weight={500} color="dimmed">
-        ID{" "}
-      </Text>
-      <Text
-        sx={{
-          display: "inline",
-          fontVariant: "tabular-nums slashed-zero",
-        }}
-        weight={500}
-      >
-        {idString}
-      </Text>
-    </Skeleton>
-  );
   return (
     <InfoModal
       isOpen={opened}
       setClosed={() => handlers.close()}
       setOpen={() => handlers.open()}
-      title={idString}
+      title="Share"
       variant="default"
-      button={button}
+      button={<DisplayId id={id} />}
     >
       <Image
         src={qrCode}
         alt="QR code for this ID"
-        width={398}
-        height={398}
+        width={300}
+        height={300}
         mb={12}
         withPlaceholder
       />
@@ -51,4 +35,4 @@ const DisplayId = ({ id }) => {
   );
 };
 
-export default DisplayId;
+export default IdButton;

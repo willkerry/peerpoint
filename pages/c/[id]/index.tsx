@@ -22,7 +22,7 @@ import { CodeEditor } from "../../../components/inputs";
 import { Layout, Meta } from "../../../components/layout/";
 import { deletePost, publishPost } from "../../../utils";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
-import DisplayId from "../../../components/display/id";
+import IdButton from "../../../components/display/id-button";
 
 const basicSetup: BasicSetupOptions = { lineNumbers: false };
 
@@ -80,7 +80,7 @@ const Post: React.FC = () => {
       <Meta title={data?.title} />
       <Title order={4} mb={12}>
         <Group position="apart" align="center">
-          {data?.title} <DisplayId id={data?.id} />
+          {data?.title} <IdButton id={data?.id} />
         </Group>
       </Title>
 
