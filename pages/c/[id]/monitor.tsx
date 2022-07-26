@@ -4,6 +4,7 @@ import {
   Group,
   Center,
   Stack,
+  Skeleton,
   NativeSelect,
   useMantineTheme,
   TextInput,
@@ -17,45 +18,34 @@ import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 import DisplayId from "../../../components/display/display-id";
 import { Var } from "../../../components/display/variable";
 import { BugIcon } from "@primer/octicons-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useDebouncedValue } from "@mantine/hooks";
 
 const Monitor = () => {
+  const theme = useMantineTheme();
   const router = useRouter();
   const { id } = router.query;
-  const [period, setPeriod] = useState({ value: "15", label: "15 minutes" });
-  const { data } = useSWR({ id, period: period.value }, fetchMonitoring);
-  const theme = useMantineTheme();
+
+  const [period, setPeriod] = useState(15);
+  const { data } = useSWR({ id, period }, fetchMonitoring);
+
+  const [loading] = useDebouncedValue(!data, 500);
 
   const periods = [
-    { label: "1 minute", value: "1" },
+    { label: "60 seconds", value: "1" },
     { label: "15 minutes", value: "15" },
-    { label: "1 hour", value: "60" },
+    { label: "60 minutes", value: "60" },
     { label: "7 days", value: "10080" },
   ];
 
   const r = 140;
   const circumference = 2 * Math.PI * r;
 
-  const label = (
-    <Text
-      weight={250}
-      color="dimmed"
-      align="center"
-      sx={{
-        fontVariantNumeric: "diagonal-fractions",
-        fontSize: "4em",
-      }}
-    >
-      {data?.successfulStudents}/{data?.activeStudents}
-    </Text>
-  );
-
-  const empty = (
-    <Stack align="center">
-      <BugIcon size={24} />
-      <Text color="dimmed">No data available</Text>
-    </Stack>
-  );
+  const transitionProps = {
+    initial: { opacity: 0, y: -r },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: r },
+  };
 
   return (
     <Layout>
@@ -70,14 +60,10 @@ const Monitor = () => {
           label="Period"
           description="Include historical data from this period"
           data={periods}
-          value={period.value}
-          onChange={(event) =>
-            setPeriod({
-              value: event.target.value,
-              label: event.target.selectedOptions[0].text,
-            })
-          }
+          value={period}
+          onChange={(event) => setPeriod(Number(event.target.value))}
         />
+
         <Stack align="center">
           <Center
             sx={{
@@ -86,79 +72,103 @@ const Monitor = () => {
               overflow: "hidden",
             }}
           >
-            <AnimatePresence>
-              {data?.successRate ? (
-                <motion.div
-                  key="fraction"
-                  initial={{ opacity: 0, y: -r }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: r }}
-                  style={{ position: "absolute" }}
+            {data?.activeStudents >= 1 ? (
+              <motion.div
+                key={data?.successRate}
+                {...transitionProps}
+                style={{ position: "absolute" }}
+              >
+                <Text
+                  weight={250}
+                  color="dimmed"
+                  align="center"
+                  sx={{
+                    fontVariantNumeric: "diagonal-fractions",
+                    fontSize: "4em",
+                  }}
                 >
-                  {label}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="empty"
-                  initial={{ opacity: 0, y: -r }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: r }}
-                  style={{ position: "absolute" }}
-                >
-                  {empty}
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <motion.svg
-              width={320}
-              height={320}
-              style={{ transform: "rotate(-90deg)" }}
-            >
-              <circle
-                cx={160}
-                cy={160}
-                r={r}
-                stroke={theme.colors.gray[3]}
-                strokeWidth={20}
-                fill="transparent"
-              />
-
-              <motion.circle
-                cx={160}
-                cy={160}
-                r={r}
-                stroke={theme.colors.orange[5]}
-                fill="transparent"
-                strokeWidth={20}
-                strokeLinecap="round"
-                strokeDashoffset={circumference}
-                initial={{
-                  strokeDasharray: `${0}, ${circumference}`,
-                }}
-                animate={{
-                  strokeDasharray: `${
-                    (Math.max(data?.successRate, 7) * circumference) / 100
-                  }, ${
-                    circumference -
-                    (Math.max(data?.successRate, 7) * circumference) / 100
-                  }`,
-                }}
-                transition={{ type: "spring", stiffness: 40, delay: 0.5 }}
-              />
-            </motion.svg>
+                  {data?.successfulStudents}/{data?.activeStudents}
+                </Text>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                {...transitionProps}
+                style={{ position: "absolute" }}
+              >
+                <Stack align="center">
+                  <BugIcon size={24} />
+                  <Text color="dimmed">No data available</Text>
+                </Stack>
+              </motion.div>
+            )}
+            <Skeleton visible={loading} circle>
+              <motion.svg
+                width={320}
+                height={320}
+                style={{ transform: "rotate(-90deg)" }}
+              >
+                <circle
+                  cx={160}
+                  cy={160}
+                  r={r}
+                  stroke={theme.colors.gray[3]}
+                  strokeWidth={20}
+                  fill="transparent"
+                />
+                <motion.circle
+                  cx={160}
+                  cy={160}
+                  r={r}
+                  stroke={theme.colors.orange[5]}
+                  fill="transparent"
+                  strokeWidth={20}
+                  strokeLinecap="round"
+                  strokeDashoffset={circumference}
+                  initial={{
+                    strokeDasharray: `${0}, ${circumference}`,
+                  }}
+                  animate={{
+                    strokeDasharray: `${
+                      ((data?.successfulStudents > 1 ? data?.successRate : 2) *
+                        circumference) /
+                      100
+                    }, ${
+                      circumference -
+                      ((data?.successfulStudents > 1 ? data?.successRate : 2) *
+                        circumference) /
+                        100
+                    }`,
+                    stroke:
+                      data?.successRate < 50
+                        ? theme.colors.orange[5]
+                        : theme.colors.green[5],
+                    strokeWidth: data?.successRate ? 20 : 12,
+                    opacity: data?.activeStudents >= 1 ? 1 : 0,
+                  }}
+                  transition={{ type: "spring", stiffness: 40, delay: 0.5 }}
+                />
+              </motion.svg>
+            </Skeleton>
           </Center>
-          <Text>
-            <Var>{data?.activeStudents?.toLocaleString()}</Var>{" "}
-            {data?.activeStudents !== 1 ? "students have" : "student has"}{" "}
-            attemped challenge{" "}
-            <Var>
-              <DisplayId id={id} />
-            </Var>{" "}
-            in the last <Var>{period.label}</Var>, of whom{" "}
-            <Var>{data?.successfulStudents?.toLocaleString()}</Var>{" "}
-            {data?.successfulStudents !== 1 ? "have" : "has"} submitted a
-            correct solution.
-          </Text>
+
+          <Skeleton visible={loading}>
+            <Text>
+              <Var>{data?.activeStudents?.toLocaleString()}</Var>{" "}
+              {data?.activeStudents !== 1 ? "students have" : "student has"}{" "}
+              attemped challenge <DisplayId id={id} /> in the last {period}.{" "}
+              {data?.activeStudents > 1 ? (
+                <>
+                  Of those,{" "}
+                  <Var>{data?.successfulStudents?.toLocaleString()}</Var> have
+                  submitted correct solutions.
+                </>
+              ) : (
+                data?.successfulStudents > 0 &&
+                "That student has submitted a correct solution."
+              )}
+            </Text>
+          </Skeleton>
         </Stack>
       </Stack>
     </Layout>
