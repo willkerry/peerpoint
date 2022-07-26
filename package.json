@@ -14,7 +14,6 @@
   "dependencies": {
     "@codemirror/lang-lezer": "^6.0.0",
     "@codemirror/language-data": "^6.1.0",
-    "@fontsource/inter": "^4.5.11",
     "@mantine/core": "^4.2.10",
     "@mantine/form": "^4.2.12",
     "@mantine/hooks": "^4.2.12",
@@ -25,6 +24,8 @@
     "@prisma/client": "^4.0.0",
     "@uiw/codemirror-extensions-langs": "^4.11.4",
     "@uiw/react-codemirror": "^4.10.4",
+    "framer-motion": "^6.5.1",
+    "inter-ui": "^3.19.3",
     "next": "12.2.3",
     "next-auth": "^4.8.0",
     "react": "^18",

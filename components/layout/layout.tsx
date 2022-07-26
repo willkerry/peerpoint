@@ -1,7 +1,8 @@
-import { AppShell, Group, Header as MantineHeader, Text } from "@mantine/core";
+import { AppShell, Group, Header as MantineHeader } from "@mantine/core";
 // import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import Logo from "../icons/logo";
 import Header from "./header";
 // import Logo from "./icons/logo";
 
@@ -65,10 +66,8 @@ const Layout: React.FC<Props> = (props) => {
             </MediaQuery> */}
             <Group position="apart" grow style={{ width: "100%" }}>
               <Link href="/" passHref>
-                <Text component="a" weight={700}>
-                  {/* <Logo /> */}
-                  Peerpoint
-                </Text>
+                <Logo height="1em" />
+                {/* Peerpoint */}
               </Link>
               <Header />
             </Group>

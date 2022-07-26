@@ -42,13 +42,13 @@ const ChallengePreview: React.FC<{ post: Challenge }> = ({ post }) => {
         style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
       >
         <Text weight={500}>{post.title}</Text>
-        <Badge color={color}>
+        <Badge color={color} variant="dot">
           {usefulLanguages.find((l) => l.id === post.language)?.name}
         </Badge>
       </Group>
       <Button
         onClick={() => Router.push("/c/[id]", `/c/${post.id}`)}
-        variant="light"
+        variant="default"
         fullWidth
         mt="lg"
       >
