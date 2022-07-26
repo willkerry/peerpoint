@@ -34,7 +34,14 @@ const DisplayId = ({ id }) => {
       variant="default"
       button={button}
     >
-      <Image src={qrCode} alt="QR code for this ID" mb={12} />
+      <Image
+        src={qrCode}
+        alt="QR code for this ID"
+        width={398}
+        height={398}
+        mb={12}
+        withPlaceholder
+      />
       <a href={qrCode} download="qr-code.png">
         <Button rightIcon={<DownloadIcon />} variant="default">
           Download QR code
