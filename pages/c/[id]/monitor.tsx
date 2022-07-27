@@ -27,9 +27,10 @@ const Monitor = () => {
   const { id } = router.query;
 
   const [period, setPeriod] = useState(15);
-  const { data } = useSWR({ id, period }, fetchMonitoring);
+  const { data: bouncey } = useSWR({ id, period }, fetchMonitoring);
 
-  const [loading] = useDebouncedValue(!data, 500);
+  const [loading] = useDebouncedValue(!bouncey, 500);
+  const [data] = useDebouncedValue(bouncey, 500);
 
   const periods = [
     { label: "60 seconds", value: "1" },
@@ -156,7 +157,8 @@ const Monitor = () => {
             <Text>
               <Var>{data?.activeStudents?.toLocaleString()}</Var>{" "}
               {data?.activeStudents !== 1 ? "students have" : "student has"}{" "}
-              attemped challenge <DisplayId id={id} /> in the last {period}.{" "}
+              attemped challenge <DisplayId id={Number(id)} /> in the last{" "}
+              {period}.{" "}
               {data?.activeStudents > 1 ? (
                 <>
                   Of those,{" "}

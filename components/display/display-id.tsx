@@ -1,7 +1,11 @@
 import { Box, Text } from "@mantine/core";
+import { useState, useEffect } from "react";
 
-const DisplayId = ({ id }) => {
-  const idString = String(id).padStart(5, "0");
+const DisplayId = ({ id }: { id: number }) => {
+  const [idString, setIdString] = useState("00000");
+  useEffect(() => {
+    id && setIdString(String(id).padStart(5, "0"));
+  }, [id]);
   return (
     <Box sx={{ display: "inline-block" }}>
       <Text sx={{ display: "inline" }} weight={500} color="dimmed">
