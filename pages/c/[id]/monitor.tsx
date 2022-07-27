@@ -18,8 +18,10 @@ import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 import DisplayId from "../../../components/display/display-id";
 import { Var } from "../../../components/display/variable";
 import { BugIcon } from "@primer/octicons-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useDebouncedValue } from "@mantine/hooks";
+import prettyMilliseconds from "pretty-ms";
+import { Box } from "@mantine/core";
 
 const Monitor = () => {
   const theme = useMantineTheme();
@@ -27,6 +29,7 @@ const Monitor = () => {
   const { id } = router.query;
 
   const [period, setPeriod] = useState(15);
+
   const { data: bouncey } = useSWR({ id, period }, fetchMonitoring);
 
   const [loading] = useDebouncedValue(!bouncey, 500);
@@ -44,8 +47,8 @@ const Monitor = () => {
 
   const transitionProps = {
     initial: { opacity: 0, y: -r },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: r },
+    animate: { opacity: 1, y: 0, transition: { delay: 0.4 } },
+    exit: { opacity: 0, y: r, transition: { delay: 0.15, duration: 0.25 } },
   };
 
   return (
@@ -66,43 +69,49 @@ const Monitor = () => {
         />
 
         <Stack align="center">
-          <Center
-            sx={{
-              position: "relative",
-              borderRadius: 9999,
-              overflow: "hidden",
-            }}
-          >
-            {data?.activeStudents >= 1 ? (
-              <motion.div
-                key={data?.successRate}
-                {...transitionProps}
-                style={{ position: "absolute" }}
-              >
-                <Text
-                  weight={250}
-                  color="dimmed"
-                  align="center"
-                  sx={{
-                    fontVariantNumeric: "diagonal-fractions",
-                    fontSize: "4em",
-                  }}
-                >
-                  {data?.successfulStudents}/{data?.activeStudents}
-                </Text>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                {...transitionProps}
-                style={{ position: "absolute" }}
-              >
-                <Stack align="center">
-                  <BugIcon size={24} />
-                  <Text color="dimmed">No data available</Text>
-                </Stack>
-              </motion.div>
-            )}
+          <Center sx={{ position: "relative" }}>
+            <Center
+              style={{
+                position: "absolute",
+                width: r * 2,
+                height: r * 2,
+                borderRadius: "50%",
+                overflow: "hidden",
+              }}
+            >
+              <AnimatePresence>
+                {data?.activeStudents >= 1 ? (
+                  <motion.div
+                    key={data?.successRate}
+                    {...transitionProps}
+                    style={{ position: "absolute" }}
+                  >
+                    <Text
+                      weight={250}
+                      color="dimmed"
+                      align="center"
+                      sx={{
+                        fontVariantNumeric: "diagonal-fractions",
+                        fontSize: "4em",
+                      }}
+                    >
+                      {data?.successfulStudents}/{data?.activeStudents}
+                    </Text>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty"
+                    {...transitionProps}
+                    style={{ position: "absolute" }}
+                  >
+                    <Stack align="center">
+                      <BugIcon size={24} />
+                      <Text color="dimmed">No data available</Text>
+                    </Stack>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Center>
             <Skeleton visible={loading} circle>
               <motion.svg
                 width={320}
@@ -158,7 +167,7 @@ const Monitor = () => {
               <Var>{data?.activeStudents?.toLocaleString()}</Var>{" "}
               {data?.activeStudents !== 1 ? "students have" : "student has"}{" "}
               attemped challenge <DisplayId id={Number(id)} /> in the last{" "}
-              {period}.{" "}
+              <Var>{prettyMilliseconds(period * 60000)}</Var>.{" "}
               {data?.activeStudents > 1 ? (
                 <>
                   Of those,{" "}
