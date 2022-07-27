@@ -21,7 +21,6 @@ import { BugIcon } from "@primer/octicons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDebouncedValue } from "@mantine/hooks";
 import prettyMilliseconds from "pretty-ms";
-import { Box } from "@mantine/core";
 
 const Monitor = () => {
   const theme = useMantineTheme();
