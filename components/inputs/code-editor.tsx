@@ -1,4 +1,4 @@
-import { InputWrapper, InputWrapperProps, Skeleton } from "@mantine/core";
+import { Input, InputWrapperProps, Skeleton } from "@mantine/core";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import dynamic from "next/dynamic";
@@ -19,7 +19,7 @@ const defaultProps = {
 };
 
 const CodeEditor = (props: Props) => (
-  <InputWrapper
+  <Input.Wrapper
     label={props.label}
     description={props.description}
     required={props.required}
@@ -32,7 +32,7 @@ const CodeEditor = (props: Props) => (
         ),
       ]}
     />
-  </InputWrapper>
+  </Input.Wrapper>
 );
 
 CodeEditor.defaultProps = defaultProps;

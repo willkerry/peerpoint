@@ -16,8 +16,7 @@ type Props = {
   button: React.ReactNode;
   inline?: boolean;
   actionIcon?: boolean;
-  variant?: ActionIconProps<"button">["variant"] &
-    ButtonProps<"button">["variant"];
+  variant?: ActionIconProps["variant"] & ButtonProps["variant"];
 };
 
 const InfoModal = ({
@@ -31,9 +30,8 @@ const InfoModal = ({
   actionIcon = false,
   variant,
 }: Props) => {
-  const buttonProps: ButtonProps<"button"> & ActionIconProps<"button"> = {
+  const buttonProps: ButtonProps & ActionIconProps = {
     variant: variant,
-    onClick: setOpen,
     sx: inline && { display: "inline" },
   };
 
@@ -43,9 +41,11 @@ const InfoModal = ({
         {children}
       </Modal>
       {actionIcon ? (
-        <ActionIcon {...buttonProps}>{button}</ActionIcon>
+        <ActionIcon onClick={setOpen} {...buttonProps}>
+          {button}
+        </ActionIcon>
       ) : (
-        <Button compact {...buttonProps}>
+        <Button onClick={setOpen} compact {...buttonProps}>
           {button}
         </Button>
       )}
