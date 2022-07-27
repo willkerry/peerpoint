@@ -3,7 +3,7 @@ import {
   DefaultProps,
   MantineColor,
   createStyles,
-  useMantineDefaultProps,
+  useComponentDefaultProps,
 } from "@mantine/styles";
 import { Box } from "@mantine/core";
 
@@ -41,7 +41,7 @@ const defaultProps: Partial<VarProps> = {
 };
 
 export const Var = forwardRef<HTMLElement, VarProps>((props, ref) => {
-  const { color, className, ...others } = useMantineDefaultProps(
+  const { color, className, ...others } = useComponentDefaultProps(
     "Mark",
     defaultProps,
     props
