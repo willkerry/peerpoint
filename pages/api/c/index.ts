@@ -20,7 +20,6 @@ export default async function handle(
   if (req.method === "POST") {
     const session = await getSession({ req });
     const { title, expectedOutput, skeleton, language } = req.body;
-
     const langInt = Number(language);
 
     if (!title || !expectedOutput || !skeleton || !language) {
@@ -28,25 +27,26 @@ export default async function handle(
       return;
     }
     if (!languages.some((l) => l.id === langInt) || isNaN(langInt)) {
-      res.status(900).send("Invalid language");
-      return;
-    }
-    if (!session) {
-      res.status(401).send("Unauthorized");
+      res.status(400).send("Invalid language");
       return;
     }
     try {
-      const result = await prisma.challenge.create({
-        data: {
-          title: title,
-          expectedOutput: expectedOutput,
-          skeleton: skeleton,
-          language: Number(language),
-          published: true,
-          author: { connect: { email: session?.user?.email } },
-        },
-      });
-      res.status(200).send(result);
+      console.log(session);
+      if (session) {
+        const result = await prisma.challenge.create({
+          data: {
+            title: title,
+            expectedOutput: expectedOutput,
+            skeleton: skeleton,
+            language: Number(language),
+            published: true,
+            author: { connect: { email: session?.user?.email } },
+          },
+        });
+        res.status(200).send(result);
+      } else {
+        res.status(401).send("Unauthorized");
+      }
     } catch (e) {
       console.error(e);
       res.status(500).send(e);
