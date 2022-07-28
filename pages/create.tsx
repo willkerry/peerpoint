@@ -1,93 +1,192 @@
-import { Button, Group, Stack, TextInput, Title } from "@mantine/core";
+import { Button, Group, Stack, TextInput, Text, Title } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
+import { useForm } from "@mantine/form";
 import Router from "next/router";
-import { SyntheticEvent, useState } from "react";
-import { type Language } from "../@types/Language";
+import { SyntheticEvent, useState, useEffect } from "react";
 import { CodeEditor, LanguageSelect } from "../components/inputs";
 import { Layout, Meta } from "../components/layout";
+import { sendOneOffExecuteRequest } from "../utils";
+import { SubmissionResponse } from "../@types/Submission";
+import { Var } from "../components/display/variable";
 
 const Create: React.FC = () => {
-  const [title, setTitle] = useState<string>("");
-  const [language, setLanguage] = useState<Language["id"] | null>(null);
-  const [skeleton, setSkeleton] = useState<string>("");
-  const [expectedOutput, setExpectedOutput] = useState<string>("");
-  const [isSubmitting, setSubmitting] = useState<boolean>(false);
-  const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [executing, setExecuting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const submitData = async (e: SyntheticEvent) => {
-    e.preventDefault();
+  const form = useForm({
+    initialValues: {
+      title: "",
+      language: undefined,
+      skeleton: "",
+      expectedOutput: "",
+    },
+  });
+
+  const run = async () => {
+    setExecuting(true);
+    const res = await sendOneOffExecuteRequest(
+      form.values.language,
+      form.values.skeleton
+    );
+    setExecuting(false);
+    return res;
+  };
+
+  const submitData = async (values) => {
     setSubmitting(true);
+    let res: SubmissionResponse;
     try {
-      const body = { title, skeleton, language, expectedOutput };
-      await fetch(`/api/c`, {
+      res = await run();
+      if (res.status.id > 4) {
+        throw new Error(
+          `Your program failed to run. ${res.status.description}`
+        );
+      }
+    } catch (e) {
+      form.setFieldError("skeleton", e.message);
+      setSubmitting(false);
+      return;
+    }
+    try {
+      if (res.stdout !== values.expectedOutput) {
+        throw new Error(
+          "Your expected output doesn’t match the program’s output."
+        );
+      }
+    } catch (e) {
+      form.setFieldError("expectedOutput", e.message);
+      setSubmitting(false);
+      return;
+    }
+    try {
+      const ex = await fetch(`/api/c`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(values),
       });
+      if (!ex.ok) {
+        console.error("Error", await ex);
+        throw new Error(
+          `The create API threw an error. ${ex.status} ${
+            ex.statusText
+          } ${await ex.text()}`
+        );
+      }
       setSubmitting(false);
-      setIsComplete(true);
-      await Router.push("/");
+      setSuccess(true);
+      return;
     } catch (error) {
-      console.error(error);
+      form.setFieldError("submit", error.message);
+      setSubmitting(false);
+      return;
     }
   };
+
+  const runAndPopulate = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (!form.values.language) {
+      form.setFieldError("language", "Select a language.");
+      return;
+    }
+    if (!form.values.skeleton) {
+      form.setFieldError("skeleton", "Enter something to execute.");
+      return;
+    }
+    const res = await run();
+    if (res.stdout) {
+      form.setFieldValue("expectedOutput", res.stdout);
+      return;
+    } else {
+      form.setFieldError("skeleton", res.message);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    if (success) {
+      openConfirmModal({
+        title: "Challenge created",
+        children: (
+          <Text size="sm">
+            Your challenge <Var>{form.values.title}</Var> has been created.
+          </Text>
+        ),
+        labels: {
+          confirm: "Create more",
+          cancel: "Exit",
+        },
+        onCancel: () => {
+          setSuccess(false);
+          Router.push("/");
+        },
+        onConfirm: () => {
+          form.reset();
+          setSuccess(false);
+        },
+      });
+    }
+  }, [success, form]);
 
   return (
     <Layout>
       <Meta title="Create new challenge" />
       <div>
-        <form onSubmit={submitData}>
+        <form onSubmit={form.onSubmit((values) => submitData(values))}>
           <Stack>
             <Title order={1}>New challenge</Title>
             <TextInput
               autoFocus
               required
-              onChange={(e) => setTitle(e.target.value)}
               label="Title"
               type="text"
-              value={title}
+              {...form.getInputProps("title")}
             />
             <LanguageSelect
               required
               label="Language"
-              value={language}
-              onChange={(e) => setLanguage(Number(e.target.value))}
+              {...form.getInputProps("language", { type: "input" })}
             />
             <CodeEditor
               label="Skeleton"
-              language={language}
+              language={form.values.language}
               description="
                 This is what appears in students’ code editors. Include
                 instructions (commented out), and any necessary boilerplate or
                 variables."
-              value={skeleton}
-              onChange={(value) => setSkeleton(value)}
               required
+              {...form.getInputProps("skeleton")}
             />
+            <Button
+              disabled={!form.values.skeleton}
+              onClick={runAndPopulate}
+              loading={executing}
+              type="button"
+              variant="light"
+            >
+              {submitting && executing
+                ? "Checking program output"
+                : "Run and populate Expected output"}
+            </Button>
             <CodeEditor
               label="Expected output"
               description="
                 The stdout of student submissions is (fuzzily) checked against
                 this value, and matches are considered successful."
-              value={expectedOutput}
-              onChange={(value) => setExpectedOutput(value)}
               required
+              {...form.getInputProps("expectedOutput")}
             />
             <Group>
-              <Button
-                disabled={!expectedOutput || !title || isComplete}
-                loading={isSubmitting}
-                type="submit"
-              >
+              <Button loading={submitting} disabled={executing} type="submit">
                 Create
               </Button>
-              <Button
-                variant="subtle"
-                onClick={() => Router.push("/")}
-                disabled={isSubmitting || isComplete}
-              >
+              <Button variant="subtle" onClick={() => Router.push("/")}>
                 Cancel
               </Button>
             </Group>
+            <Text color="red" size="xs">
+              {form.errors.submit}
+            </Text>
           </Stack>
         </form>
       </div>

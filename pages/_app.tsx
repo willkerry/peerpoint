@@ -3,6 +3,7 @@ import { AppProps } from "next/app";
 import { MantineProvider, MantineThemeOverride } from "@mantine/core";
 import "inter-ui";
 import { createContext } from "react";
+import { ModalsProvider } from "@mantine/modals";
 
 const peerpointTheme: MantineThemeOverride = {
   primaryColor: "orange",
@@ -17,9 +18,11 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <LoadingContext.Provider value={true}>
       <MantineProvider theme={peerpointTheme} withGlobalStyles withNormalizeCSS>
-        <SessionProvider session={pageProps.session}>
-          <Component {...pageProps} />
-        </SessionProvider>
+        <ModalsProvider>
+          <SessionProvider session={pageProps.session}>
+            <Component {...pageProps} />
+          </SessionProvider>
+        </ModalsProvider>
       </MantineProvider>
     </LoadingContext.Provider>
   );

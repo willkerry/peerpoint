@@ -20,24 +20,11 @@ import useSWR from "swr";
 import { SubmissionResponse } from "../../../@types/Submission";
 import { CodeEditor } from "../../../components/inputs";
 import { Layout, Meta } from "../../../components/layout/";
-import { deletePost, publishPost } from "../../../utils";
+import { deletePost, publishPost, sendExecuteRequest } from "../../../utils";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import IdButton from "../../../components/display/id-button";
 
 const basicSetup: BasicSetupOptions = { lineNumbers: false };
-
-async function sendExecuteRequest(
-  id: number,
-  language: number,
-  userCode: string
-): Promise<SubmissionResponse> {
-  const res = await fetch(`/api/execute/${id}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ language, userCode }),
-  });
-  return res.json();
-}
 
 const Post: React.FC = () => {
   const router = useRouter();
