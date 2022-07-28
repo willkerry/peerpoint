@@ -1,56 +1,60 @@
-import { NativeSelect, Table, NativeSelectProps } from "@mantine/core";
-import { QuestionIcon } from "@primer/octicons-react";
-import { useState } from "react";
+import { Select, SelectProps, Group, Text, Avatar } from "@mantine/core";
+import { CodeIcon } from "@primer/octicons-react";
+import { forwardRef } from "react";
 import { usefulLanguages } from "../../@types/Language";
-import InfoModal from "../display/info-modal";
 
 const defaultProps = {
   data: usefulLanguages.map((l) => ({
-    label: l.name,
     value: String(l.id),
+    label: l.name,
+    ...l,
   })),
 };
 
-const LanguageSelect = (props: NativeSelectProps) => {
-  const [open, setOpen] = useState(false);
-  const label = (
-    <>
-      <span>{props.label}</span>
-      <InfoModal
-        title="Supported languages"
-        isOpen={open}
-        setClosed={() => setOpen(false)}
-        setOpen={() => setOpen(true)}
-        button={<QuestionIcon />}
-        inline
-        actionIcon
-      >
-        <LanguageInfo />
-      </InfoModal>
-    </>
+interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
+  image: string;
+  label: string;
+  compiler: string;
+}
+
+const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
+  ({ label, compiler, image, ...others }: ItemProps, ref) => (
+    <div ref={ref} {...others}>
+      <Group noWrap>
+        <Avatar src={image} size="sm">
+          {label.split("")[0]}
+        </Avatar>
+        <div>
+          <Text size="sm">{label}</Text>
+          <Text size="xs" sx={{ opacity: 0.6 }}>
+            {compiler}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  )
+);
+
+SelectItem.displayName = "SelectItem";
+
+const LanguageSelect = (props: SelectProps) => {
+  return (
+    <Select
+      {...props}
+      placeholder="Select a language"
+      itemComponent={SelectItem}
+      searchable
+      icon={<CodeIcon size={14} />}
+      label={props.label}
+      filter={(value, item) =>
+        item?.label?.toLowerCase().includes(value.toLowerCase()) ||
+        item?.compiler?.toLowerCase().includes(value.toLowerCase()) ||
+        item?.cm?.toLowerCase().includes(value.toLowerCase())
+      }
+    />
   );
-  return <NativeSelect {...props} label={label} />;
 };
 
 LanguageSelect.defaultProps = defaultProps;
-export default LanguageSelect;
 
-export const LanguageInfo = () => {
-  const rows = usefulLanguages.map((l) => (
-    <tr key={l.id}>
-      <td>{l.name}</td>
-      <td>{l.compiler}</td>
-    </tr>
-  ));
-  return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Compiler/Runtime</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
-  );
-};
+export default LanguageSelect;
