@@ -1,13 +1,14 @@
 import { NextApiHandler } from "next";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import EmailProvider from "next-auth/providers/email";
 import prisma from "../../../lib/prisma";
 
-const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
+const authHandler: NextApiHandler = (req, res) =>
+  NextAuth(req, res, authOptions);
 export default authHandler;
 
-const options = {
+export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       server: {

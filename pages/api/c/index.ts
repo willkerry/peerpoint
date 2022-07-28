@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
 import { standardLimiter } from "../../../utils/server";
 import { languages } from "../../../@types/Language";
+import { authOptions } from "../auth/[...nextauth]";
 
 // POST /api/c (create a new challenge)
 export default async function handle(
@@ -18,7 +19,7 @@ export default async function handle(
   }
 
   if (req.method === "POST") {
-    const session = await getSession({ req });
+    const session = await unstable_getServerSession(req, res, authOptions);
     const { title, expectedOutput, skeleton, language } = req.body;
     const langInt = Number(language);
 

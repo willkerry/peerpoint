@@ -111,7 +111,7 @@ const Monitor = () => {
                 )}
               </AnimatePresence>
             </Center>
-            <Skeleton visible={loading} circle>
+            <Skeleton visible={loading} circle width={320} height={320}>
               <motion.svg
                 width={320}
                 height={320}
