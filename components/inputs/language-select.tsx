@@ -1,13 +1,16 @@
-import { Select, SelectProps, Group, Text, Avatar } from "@mantine/core";
+import { Select, Group, Text, Avatar } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 import { CodeIcon } from "@primer/octicons-react";
 import { forwardRef } from "react";
 import { usefulLanguages } from "../../@types/Language";
+import { CreateFormValues } from "../../pages/create";
 
 const defaultProps = {
   data: usefulLanguages.map((l) => ({
-    value: String(l.id),
+    value: l.id,
     label: l.name,
-    ...l,
+    image: l.image,
+    compiler: l.compiler,
   })),
 };
 
@@ -37,15 +40,22 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
 
 SelectItem.displayName = "SelectItem";
 
-const LanguageSelect = (props: SelectProps) => {
+const LanguageSelect = ({
+  form,
+}: {
+  form: UseFormReturnType<CreateFormValues>;
+}) => {
   return (
     <Select
-      {...props}
+      {...form.getInputProps("language")}
+      {...defaultProps}
+      required
       placeholder="Select a language"
       itemComponent={SelectItem}
+      selectOnBlur
       searchable
       icon={<CodeIcon size={14} />}
-      label={props.label}
+      label="Language"
       filter={(value, item) =>
         item?.label?.toLowerCase().includes(value.toLowerCase()) ||
         item?.compiler?.toLowerCase().includes(value.toLowerCase()) ||

@@ -3,21 +3,29 @@ import { openConfirmModal } from "@mantine/modals";
 import { useForm } from "@mantine/form";
 import Router from "next/router";
 import { SyntheticEvent, useState, useEffect } from "react";
-import { CodeEditor, LanguageSelect } from "../components/inputs";
+import { CodeEditor } from "../components/inputs";
 import { Layout, Meta } from "../components/layout";
 import { sendOneOffExecuteRequest } from "../utils";
 import { SubmissionResponse } from "../@types/Submission";
 import { Var } from "../components/display/variable";
+import LanguageSelect from "../components/inputs/language-select";
+
+export interface CreateFormValues {
+  title: string;
+  language: string;
+  skeleton: string;
+  expectedOutput: string;
+}
 
 const Create: React.FC = () => {
   const [executing, setExecuting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const form = useForm({
+  const form = useForm<CreateFormValues>({
     initialValues: {
       title: "",
-      language: undefined,
+      language: "",
       skeleton: "",
       expectedOutput: "",
     },
@@ -26,7 +34,7 @@ const Create: React.FC = () => {
   const run = async () => {
     setExecuting(true);
     const res = await sendOneOffExecuteRequest(
-      form.values.language,
+      Number(form.values.language),
       form.values.skeleton
     );
     setExecuting(false);
@@ -142,11 +150,7 @@ const Create: React.FC = () => {
               type="text"
               {...form.getInputProps("title")}
             />
-            <LanguageSelect
-              required
-              label="Language"
-              {...form.getInputProps("language", { type: "input" })}
-            />
+            <LanguageSelect form={form} />
             <CodeEditor
               label="Skeleton"
               language={form.values.language}
