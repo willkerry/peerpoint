@@ -8,7 +8,7 @@ import {
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import dynamic from "next/dynamic";
-import { Language, usefulLanguages } from "../../@types/Language";
+import { Language, languageMap } from "../../@types/Language";
 
 const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
   ssr: false,
@@ -46,9 +46,7 @@ const CodeEditor = (props: Props) => {
         <ReactCodeMirror
           {...props}
           extensions={[
-            loadLanguage(
-              usefulLanguages.find((l) => l.id === props.language)?.cm || "c"
-            ),
+            loadLanguage(languageMap.get(props.language)?.cm ?? "c"),
           ]}
         />
       </Box>

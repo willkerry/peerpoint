@@ -1,5 +1,4 @@
 import { Alert, Grid, Skeleton, Stack } from "@mantine/core";
-import type { Challenge } from "@prisma/client";
 import React from "react";
 import useSWR from "swr";
 import ChallengePreview from "../components/display/challenge-preview";
@@ -7,13 +6,8 @@ import { FindChallenge } from "../components/inputs";
 import { Layout, Meta } from "../components/layout";
 import fetchChallenges from "../lib/fetchers/fetch-challenges";
 
-type Props = {
-  feed: Challenge[];
-};
-
-const Blog: React.FC<Props> = () => {
+const Blog: React.FC = () => {
   const { data, error } = useSWR("/", fetchChallenges);
-
   return (
     <Layout>
       <Meta title="Peerpoint" />

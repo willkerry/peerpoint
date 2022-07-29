@@ -2,16 +2,20 @@ import { Select, Group, Text, Avatar } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { CodeIcon } from "@primer/octicons-react";
 import { forwardRef } from "react";
-import { usefulLanguages } from "../../@types/Language";
+import { languageMap } from "../../@types/Language";
 import { CreateFormValues } from "../../pages/create";
 
 const defaultProps = {
-  data: usefulLanguages.map((l) => ({
-    value: l.id,
-    label: l.name,
-    image: l.image,
-    compiler: l.compiler,
-  })),
+  data: Array.from(languageMap.keys(), (k) => {
+    const l = languageMap.get(k);
+    return {
+      value: k,
+      label: l?.name,
+      image: l?.image,
+      color: l?.color,
+      compiler: l?.compiler,
+    };
+  }),
 };
 
 interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
@@ -25,7 +29,7 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
     <div ref={ref} {...others}>
       <Group noWrap>
         <Avatar src={image} size="sm">
-          {label.split("")[0]}
+          {label?.split("")[0]}
         </Avatar>
         <div>
           <Text size="sm">{label}</Text>

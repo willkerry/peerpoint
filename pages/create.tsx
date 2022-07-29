@@ -31,6 +31,8 @@ const Create: React.FC = () => {
     },
   });
 
+  console.log(form.values);
+
   const run = async () => {
     setExecuting(true);
     const res = await sendOneOffExecuteRequest(

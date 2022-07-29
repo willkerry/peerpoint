@@ -1,21 +1,18 @@
 import {
-  Badge,
   Button,
   Card,
   Code,
   Group,
-  MANTINE_COLORS,
   Text,
   useMantineTheme,
 } from "@mantine/core";
 import React from "react";
 import Router from "next/router";
-import { usefulLanguages } from "../../@types/Language";
 import type { Challenge } from "@prisma/client";
+import LanguageIndicator from "./language-indicator";
 
 const ChallengePreview: React.FC<{ post: Challenge }> = ({ post }) => {
   const theme = useMantineTheme();
-  const color = MANTINE_COLORS[post.language % 14];
   return (
     <Card shadow="sm" p="lg">
       <Card.Section
@@ -42,9 +39,7 @@ const ChallengePreview: React.FC<{ post: Challenge }> = ({ post }) => {
         style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
       >
         <Text weight={500}>{post.title}</Text>
-        <Badge color={color} variant="dot">
-          {usefulLanguages.find((l) => l.id === post.language)?.name}
-        </Badge>
+        <LanguageIndicator language={post.language} compact />
       </Group>
       <Button
         onClick={() => Router.push("/c/[id]", `/c/${post.id}`)}
