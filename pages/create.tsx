@@ -1,4 +1,12 @@
-import { Button, Group, Stack, TextInput, Text, Title } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Stack,
+  TextInput,
+  Text,
+  Title,
+  Alert,
+} from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { useForm } from "@mantine/form";
 import Router from "next/router";
@@ -9,6 +17,7 @@ import { sendOneOffExecuteRequest } from "../utils";
 import { SubmissionResponse } from "../@types/Submission";
 import { Var } from "../components/display/variable";
 import LanguageSelect from "../components/inputs/language-select";
+import { AlertIcon } from "@primer/octicons-react";
 
 export interface CreateFormValues {
   title: string;
@@ -31,14 +40,19 @@ const Create: React.FC = () => {
     },
   });
 
-  console.log(form.values);
-
   const run = async () => {
     setExecuting(true);
-    const res = await sendOneOffExecuteRequest(
-      Number(form.values.language),
-      form.values.skeleton
-    );
+    let res: SubmissionResponse;
+    try {
+      res = await sendOneOffExecuteRequest(
+        Number(form.values.language),
+        form.values.skeleton
+      );
+    } catch (e) {
+      console.error(e);
+      setExecuting(false);
+      return;
+    }
     setExecuting(false);
     return res;
   };
@@ -104,11 +118,16 @@ const Create: React.FC = () => {
       return;
     }
     const res = await run();
-    if (res.stdout) {
-      form.setFieldValue("expectedOutput", res.stdout);
+    if (res.status.id > 4) {
+      form.setFieldError("skeleton", res.status.description);
+      form.setFieldValue("expectedOutput", res.compile_output);
+      return;
+    } else if (!res.stdout) {
+      form.setFieldError("skeleton", "Your program didn’t output anything.");
+      form.setFieldValue("expectedOutput", res.compile_output);
       return;
     } else {
-      form.setFieldError("skeleton", res.message);
+      form.setFieldValue("expectedOutput", res.stdout);
       return;
     }
   };
@@ -153,6 +172,14 @@ const Create: React.FC = () => {
               {...form.getInputProps("title")}
             />
             <LanguageSelect form={form} />
+            {form.values.language == "62" && (
+              <Alert icon={<AlertIcon />} color="orange">
+                Beware: Peerpoint runs Java impracticably slowly, due to a known
+                bottleneck in some third party code running on under-resourced
+                hardware.
+              </Alert>
+            )}
+
             <CodeEditor
               label="Skeleton"
               language={form.values.language}

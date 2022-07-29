@@ -17,7 +17,9 @@ const LanguageIndicator = ({
   if (compact)
     return (
       <Group spacing="xs">
-        <Tooltip label={l?.name}>{avatar}</Tooltip>
+        <Tooltip label={l?.name} position="left">
+          {avatar}
+        </Tooltip>
       </Group>
     );
   return (

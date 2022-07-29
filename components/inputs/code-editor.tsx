@@ -26,6 +26,7 @@ const defaultProps = {
 
 const CodeEditor = (props: Props) => {
   const theme = useMantineTheme();
+  const languageCode = languageMap.get(props.language)?.cm ?? "c";
   return (
     <Input.Wrapper
       label={props.label}
@@ -43,12 +44,7 @@ const CodeEditor = (props: Props) => {
           }`,
         }}
       >
-        <ReactCodeMirror
-          {...props}
-          extensions={[
-            loadLanguage(languageMap.get(props.language)?.cm ?? "c"),
-          ]}
-        />
+        <ReactCodeMirror {...props} extensions={[loadLanguage(languageCode)]} />
       </Box>
     </Input.Wrapper>
   );

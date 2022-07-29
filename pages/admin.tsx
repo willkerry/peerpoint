@@ -1,4 +1,11 @@
-import { Group, Table, Title, UnstyledButton } from "@mantine/core";
+import {
+  Checkbox,
+  Group,
+  Table,
+  Text,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
 import useSWR from "swr";
 import { Layout, Meta } from "../components/layout";
 import fetchChallenges from "../lib/fetchers/fetch-challenges";
@@ -13,47 +20,68 @@ import {
 } from "@tanstack/react-table";
 import { Challenge } from "@prisma/client";
 import { useState, useEffect } from "react";
-import IdButton from "../components/display/id-button";
 import LanguageIndicator from "../components/display/language-indicator";
 import { SortAscIcon, SortDescIcon } from "@primer/octicons-react";
+import DisplayId from "../components/display/display-id";
 
 type ChallengeRow = {
+  select?: () => void;
   id: Challenge["id"];
   title: Challenge["title"];
   language: Challenge["language"];
   createdAt: Challenge["createdAt"];
-  updatedAt: Challenge["updatedAt"];
 };
 
 const columnHelper = createColumnHelper<ChallengeRow>();
-const columns: ColumnDef<ChallengeRow>[] = [
-  columnHelper.accessor("id", {
-    cell: (info) => <IdButton id={info.getValue()} />,
-    header: "",
-  }),
-  columnHelper.accessor("title", {
-    cell: (info) => info.getValue(),
-    header: "Title",
-  }),
-  columnHelper.accessor("language", {
-    cell: (info) => <LanguageIndicator language={info.getValue()} />,
-    header: "Language",
-  }),
-  columnHelper.accessor("createdAt", {
-    cell: (info) => new Date(info.getValue()).toLocaleDateString(),
-    header: "Created At",
-  }),
-  columnHelper.accessor("updatedAt", {
-    cell: (info) => new Date(info.getValue()).toLocaleDateString(),
-    header: "Updated At",
-  }),
-];
 
 const Admin: React.FC = () => {
   const { data } = useSWR("/", fetchChallenges);
   const [tableData, setTableData] = useState<ChallengeRow[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  // const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  const columns: ColumnDef<ChallengeRow>[] = [
+    columnHelper.accessor("id", {
+      cell: (info) => <DisplayId id={info.getValue()} />,
+      header: "",
+    }),
+    columnHelper.accessor("title", {
+      cell: (info) => info.getValue(),
+      header: "Title",
+    }),
+    columnHelper.accessor("language", {
+      cell: (info) => <LanguageIndicator language={info.getValue()} />,
+      header: "Language",
+    }),
+    columnHelper.accessor("createdAt", {
+      cell: (info) => (
+        <Text
+          {...{
+            component: "time",
+            dateTime: info.getValue().toString(),
+            weight: 500,
+            children: new Date(info.getValue()).toLocaleDateString(),
+            sx: {
+              fontVariantNumeric: "tabular-nums slashed-zero",
+            },
+          }}
+        />
+      ),
+      header: "Date",
+    }),
+    {
+      id: "select",
+      cell: ({ row }) => (
+        <Checkbox
+          {...{
+            checked: row.getIsSelected(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (data) {
@@ -63,7 +91,6 @@ const Admin: React.FC = () => {
           title: challenge.title,
           language: challenge.language,
           createdAt: challenge.createdAt,
-          updatedAt: challenge.updatedAt,
         }))
       );
     }
@@ -72,11 +99,12 @@ const Admin: React.FC = () => {
   const table = useReactTable<ChallengeRow>({
     data: tableData,
     columns,
-    state: { sorting },
+    state: { sorting, rowSelection },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
   });
 
   return (
@@ -85,7 +113,7 @@ const Admin: React.FC = () => {
       <Title mb="xl" order={3}>
         Your challenges
       </Title>
-      <Table>
+      <Table fontSize="xs" highlightOnHover>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -118,7 +146,7 @@ const Admin: React.FC = () => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} onClick={() => console.log(row.id)}>
+            <tr key={row.id} onClick={row.getToggleSelectedHandler()}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

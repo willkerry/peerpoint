@@ -31,6 +31,7 @@ export default async function handle(
       }
     );
   } catch (e) {
+    console.warn(e);
     if (e instanceof HTTPError) {
       res.status(e.status).json({ error: e.message });
       return;

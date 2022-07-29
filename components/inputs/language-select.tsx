@@ -1,4 +1,4 @@
-import { Select, Group, Text, Avatar } from "@mantine/core";
+import { Select, Group, Text, Avatar, Badge } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { CodeIcon } from "@primer/octicons-react";
 import { forwardRef } from "react";
@@ -14,6 +14,7 @@ const defaultProps = {
       image: l?.image,
       color: l?.color,
       compiler: l?.compiler,
+      cm: l?.cm,
     };
   }),
 };
@@ -22,11 +23,12 @@ interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
   image: string;
   label: string;
   compiler: string;
+  cm: string;
 }
 
 const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ label, compiler, image, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
+  ({ label, compiler, image, cm, ...others }: ItemProps, ref) => (
+    <Group ref={ref} {...others} noWrap position="apart">
       <Group noWrap>
         <Avatar src={image} size="sm">
           {label?.split("")[0]}
@@ -38,7 +40,8 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
           </Text>
         </div>
       </Group>
-    </div>
+      {!cm && <Badge color="gray">Basic editor</Badge>}
+    </Group>
   )
 );
 
