@@ -14,7 +14,9 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
+  RowSelectionState,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
@@ -23,6 +25,7 @@ import { useState, useEffect } from "react";
 import LanguageIndicator from "../components/display/language-indicator";
 import { SortAscIcon, SortDescIcon } from "@primer/octicons-react";
 import DisplayId from "../components/display/display-id";
+import { Input } from "@mantine/core";
 
 type ChallengeRow = {
   select?: () => void;
@@ -38,7 +41,8 @@ const Admin: React.FC = () => {
   const { data } = useSWR("/", fetchChallenges);
   const [tableData, setTableData] = useState<ChallengeRow[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const columns: ColumnDef<ChallengeRow>[] = [
     columnHelper.accessor("id", {
@@ -77,6 +81,7 @@ const Admin: React.FC = () => {
             checked: row.getIsSelected(),
             indeterminate: row.getIsSomeSelected(),
             onChange: row.getToggleSelectedHandler(),
+            size: "xs",
           }}
         />
       ),
@@ -105,6 +110,7 @@ const Admin: React.FC = () => {
     getSortedRowModel: getSortedRowModel(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   return (
@@ -113,6 +119,15 @@ const Admin: React.FC = () => {
       <Title mb="xl" order={3}>
         Your challenges
       </Title>
+      <Group>
+        <Input
+          value={globalFilter ?? ""}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="p-2 font-lg shadow border border-block"
+          placeholder="Search all columns..."
+        />
+        Controls<div>{JSON.stringify(table.getState().rowSelection)}</div>
+      </Group>
       <Table fontSize="xs" highlightOnHover>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -146,13 +161,17 @@ const Admin: React.FC = () => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} onClick={row.getToggleSelectedHandler()}>
+            <UnstyledButton
+              component="tr"
+              key={row.id}
+              onClick={row.getToggleSelectedHandler()}
+            >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
-            </tr>
+            </UnstyledButton>
           ))}
         </tbody>
       </Table>

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { SubmissionResponse } from "../../../@types/Submission";
 import prisma from "../../../lib/prisma";
 import {
   executeCode,
@@ -20,7 +21,12 @@ const fetchAndExecute = async (
 ) => {
   const challenge = await prisma.challenge.findUnique({ where: { id: id } });
   if (!challenge) return;
-  const output = await executeCode(language, code, challenge.expectedOutput);
+  let output: SubmissionResponse;
+  try {
+    output = await executeCode(language, code, challenge.expectedOutput);
+  } catch (e) {
+    throw new HTTPError(e, e.status || 500);
+  }
   postAttempt({
     challengeId: id,
     cookie,
@@ -33,10 +39,15 @@ const fetchAndExecute = async (
 // POST /api/execute/:id
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<SubmissionResponse>
 ) {
   if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed." });
+    res.status(405).json({
+      status: {
+        id: 405,
+        description: "Method not allowed",
+      },
+    });
     return;
   }
 
@@ -44,7 +55,12 @@ export default async function handle(
     await limiter.check(res, 10, "CACHE_TOKEN");
   } catch (e) {
     console.warn(e);
-    res.status(429).send("Rate limited");
+    res.status(429).send({
+      status: {
+        id: 429,
+        description: "Rate limited.",
+      },
+    });
     return;
   }
 
@@ -58,11 +74,12 @@ export default async function handle(
       res.status(200).json(result);
     });
   } catch (e) {
-    if (e instanceof HTTPError) {
-      res.status(e.status).json({ error: e.message });
-      return;
-    }
-    res.status(500).json({ error: e.message });
+    res.status(e.status ?? 500).json({
+      status: {
+        id: e.status ?? 500,
+        description: e.message,
+      },
+    });
     return;
   }
 }

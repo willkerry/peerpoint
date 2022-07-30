@@ -17,31 +17,31 @@ export const executeCode = async (
   if (!language) throw new HTTPError("Missing language number.", 400);
   if (!code) throw new HTTPError("Missing code.", 400);
 
-  let token: string;
+  console.log("Sending submission request...");
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_JUDGE0_HOSTNAME
+    }submissions?${new URLSearchParams({ base64_encoded: "true" })}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        language_id: language,
+        source_code: encodeBase64(code),
+        expected_output: expectedOutput ? encodeBase64(expectedOutput) : null,
+      }),
+    }
+  );
+  console.log("Submission request sent.");
 
-  try {
-    const res = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_JUDGE0_HOSTNAME
-      }submissions?${new URLSearchParams({ base64_encoded: "true" })}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          language_id: language,
-          source_code: encodeBase64(code),
-          expected_output: expectedOutput ? encodeBase64(expectedOutput) : null,
-        }),
-      }
-    );
-    if (!res.ok)
-      throw new HTTPError(`Code execution API: ${res.statusText}`, res.status);
-    ({ token } = await res.json());
-  } catch (e) {
-    throw new HTTPError(e, 500);
-  }
+  if (!res.ok)
+    throw new HTTPError(`Code execution API: ${res.statusText}`, res.status);
+
+  const { token } = await res.json();
+
+  console.log(`Submission token: ${token}`);
 
   const output = await getOutput(token);
   return output;

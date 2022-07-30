@@ -135,11 +135,9 @@ const Post: React.FC = () => {
       >
         <Stack>
           {output?.status?.id > 3 && (
-            <Alert title={output?.status?.description} color="red">
-              {(output?.message && output.message) || (
-                  <Code>{output?.compile_output}</Code>
-                ) ||
-                "Successfully compiled though."}
+            <Alert title={`Error ${output?.status?.id}`} color="red">
+              {output?.status?.description ?? output?.message}
+              <Code>{output?.compile_output}</Code>
             </Alert>
           )}
           {output?.status?.id <= 3 && (
@@ -150,7 +148,9 @@ const Post: React.FC = () => {
             </Alert>
           )}
           <Code block>
-            <ScrollArea>{output?.stdout || output?.stderr}</ScrollArea>
+            <ScrollArea>
+              {output?.stdout ?? output?.stderr ?? output?.compile_output}
+            </ScrollArea>
           </Code>
         </Stack>
       </Drawer>
