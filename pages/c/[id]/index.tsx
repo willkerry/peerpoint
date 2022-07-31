@@ -8,22 +8,22 @@ import {
   Paper,
   ScrollArea,
   Stack,
-  Title,
   Text,
+  Title,
 } from "@mantine/core";
+import { openConfirmModal, openModal } from "@mantine/modals";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import { AnchorHTMLAttributes, useState, useEffect } from "react";
+import { AnchorHTMLAttributes, useEffect, useState } from "react";
 import useSWR from "swr";
 import { SubmissionResponse } from "../../../@types/Submission";
+import { Var } from "../../../components/display";
+import IdButton from "../../../components/display/id-button";
 import { CodeEditor } from "../../../components/inputs";
 import { Layout, Meta } from "../../../components/layout/";
-import { deletePost, publishPost, sendExecuteRequest } from "../../../utils";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
-import IdButton from "../../../components/display/id-button";
-import { openModal, openConfirmModal } from "@mantine/modals";
-import { Var } from "../../../components/display";
+import { deletePost, publishPost, sendExecuteRequest } from "../../../utils";
 
 const Post: React.FC = () => {
   const router = useRouter();
@@ -38,31 +38,33 @@ const Post: React.FC = () => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    setShowResult(false);
-    openModal({
-      title: output?.status?.description,
-      children: (
-        <Stack>
-          {output?.status?.id > 3 && (
-            <Alert title={`Error status ${output?.status?.id}`} color="red">
-              {output?.status?.description ?? output?.message}
-            </Alert>
-          )}
-          {output?.status?.id <= 3 && (
-            <Alert color="green">
+    if (showResult) {
+      setShowResult(false);
+      openModal({
+        title: output?.status?.description,
+        children: (
+          <Stack>
+            {output?.status?.id > 3 && (
+              <Alert title={`Error status ${output?.status?.id}`} color="red">
+                {output?.status?.description ?? output?.message}
+              </Alert>
+            )}
+            {output?.status?.id <= 3 && (
+              <Alert color="green">
+                <ScrollArea>
+                  {output?.message || "That’s the correct output."}
+                </ScrollArea>
+              </Alert>
+            )}
+            <Code block>
               <ScrollArea>
-                {output?.message || "That’s the correct output."}
+                {output?.stdout ?? output?.stderr ?? output?.compile_output}
               </ScrollArea>
-            </Alert>
-          )}
-          <Code block>
-            <ScrollArea>
-              {output?.stdout ?? output?.stderr ?? output?.compile_output}
-            </ScrollArea>
-          </Code>
-        </Stack>
-      ),
-    });
+            </Code>
+          </Stack>
+        ),
+      });
+    }
   }, [output, showResult]);
 
   if (status === "loading") return <LoadingOverlay visible />;
@@ -77,6 +79,7 @@ const Post: React.FC = () => {
       await sendExecuteRequest(data?.id, data?.language, userCode)
     );
     setIsSubmitting(false);
+    setShowResult(true);
   };
 
   const handleDelete = async (): Promise<void> => {

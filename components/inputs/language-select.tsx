@@ -63,6 +63,7 @@ const LanguageSelect = ({
       searchable
       icon={<CodeIcon size={14} />}
       label="Language"
+      dropdownPosition="bottom"
       filter={(value, item) =>
         item?.label?.toLowerCase().includes(value.toLowerCase()) ||
         item?.compiler?.toLowerCase().includes(value.toLowerCase()) ||
