@@ -1,23 +1,12 @@
-import {
-  createEmotionCache,
-  MantineProvider,
-  MantineThemeOverride,
-} from "@mantine/core";
+import { createEmotionCache, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { theme } from "../lib/theme";
+import "@ibm/plex";
 
-import "inter-ui";
-
-const peerpointTheme: MantineThemeOverride = {
-  primaryColor: "orange",
-  fontFamily:
-    "Inter var,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
-  headings: { fontFamily: "inherit" },
-};
-
-const cache = createEmotionCache({ key: "pp" });
+const emotionCache = createEmotionCache({ key: "pp" });
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -30,8 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <MantineProvider
-        theme={peerpointTheme}
-        emotionCache={cache}
+        {...{ theme, emotionCache }}
         withGlobalStyles
         withNormalizeCSS
       >

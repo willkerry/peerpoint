@@ -11,7 +11,6 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import type { BasicSetupOptions } from "@uiw/react-codemirror";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
@@ -23,8 +22,6 @@ import { Layout, Meta } from "../../../components/layout/";
 import { deletePost, publishPost, sendExecuteRequest } from "../../../utils";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import IdButton from "../../../components/display/id-button";
-
-const basicSetup: BasicSetupOptions = { lineNumbers: false };
 
 const Post: React.FC = () => {
   const router = useRouter();
@@ -76,7 +73,6 @@ const Post: React.FC = () => {
           label="Code editor"
           language={data?.language}
           editable={!isSubmitting}
-          basicSetup={basicSetup}
           value={data?.skeleton}
           onChange={(value) => setUserCode(value)}
         />
