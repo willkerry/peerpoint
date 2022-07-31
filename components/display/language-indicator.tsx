@@ -1,12 +1,14 @@
-import { Avatar, Group, Text, Tooltip } from "@mantine/core";
+import { Avatar, CSSObject, Group, Text, Tooltip } from "@mantine/core";
 import { languageMap } from "../../@types/Language";
 
 const LanguageIndicator = ({
   language,
   compact,
+  sx,
 }: {
   language: number;
   compact?: boolean;
+  sx?: CSSObject;
 }) => {
   const l = languageMap.get(language);
   const avatar = (
@@ -16,14 +18,14 @@ const LanguageIndicator = ({
   );
   if (compact)
     return (
-      <Group spacing="xs">
+      <Group spacing="xs" sx={sx}>
         <Tooltip label={l?.name} position="left">
           {avatar}
         </Tooltip>
       </Group>
     );
   return (
-    <Group spacing="xs">
+    <Group spacing="xs" sx={sx}>
       {avatar}
       {l?.name}
     </Group>
