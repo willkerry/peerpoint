@@ -81,29 +81,30 @@ const CodeEditor = ({ language, value, basicSetup, ...props }: Props) => {
       error={props.error}
       {...props}
     >
-      <Box
-        my={8}
-        sx={{
-          borderRadius: 5,
-          overflow: "hidden",
-          border: `1px solid ${
-            props.error ? theme.colors.red[5] : theme.colors.gray[4]
-          }`,
-          position: "relative",
-        }}
-      >
-        <LanguageIndicator
-          compact
-          language={language}
-          sx={{ position: "absolute", right: 3, top: 3, zIndex: 1 }}
-        />
-        <ReactCodeMirror
-          {...extensions}
-          onChange={props.onChange}
-          value={value}
-          basicSetup={basicSetup}
-          theme={editorTheme}
-        />
+      <Box sx={{ position: "relative" }}>
+        <Box
+          my={8}
+          sx={{
+            borderRadius: 5,
+            overflow: "hidden",
+            border: `1px solid ${
+              props.error ? theme.colors.red[5] : theme.colors.gray[4]
+            }`,
+          }}
+        >
+          <ReactCodeMirror
+            {...extensions}
+            onChange={props.onChange}
+            value={value}
+            basicSetup={basicSetup}
+            theme={editorTheme}
+          />
+          <LanguageIndicator
+            compact
+            language={language}
+            sx={{ position: "absolute", right: 6, top: 6, zIndex: 1 }}
+          />
+        </Box>
       </Box>
     </Input.Wrapper>
   );

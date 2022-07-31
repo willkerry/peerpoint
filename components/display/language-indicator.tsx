@@ -11,6 +11,7 @@ const LanguageIndicator = ({
   sx?: CSSObject;
 }) => {
   const l = languageMap.get(language);
+  if (!l) return null;
   const avatar = (
     <Avatar src={l?.image} size="xs" alt={l?.name} color={l?.color}>
       <Text size="sm">{l?.name?.charAt(0)}</Text>
