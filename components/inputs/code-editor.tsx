@@ -99,11 +99,19 @@ const CodeEditor = ({ language, value, basicSetup, ...props }: Props) => {
             basicSetup={basicSetup}
             theme={editorTheme}
           />
-          <LanguageIndicator
-            compact
-            language={language}
-            sx={{ position: "absolute", right: 6, top: 6, zIndex: 1 }}
-          />
+          <Box
+            sx={{
+              position: "absolute",
+              right: 3,
+              top: 3,
+              zIndex: 1,
+              backdropFilter: "blur(2px)",
+              borderRadius: theme.radius.sm,
+              padding: 4,
+            }}
+          >
+            <LanguageIndicator compact language={language} />
+          </Box>
         </Box>
       </Box>
     </Input.Wrapper>
