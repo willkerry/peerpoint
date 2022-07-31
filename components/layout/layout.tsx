@@ -1,4 +1,4 @@
-import { AppShell, Group, Header as MantineHeader } from "@mantine/core";
+import { AppShell, Group, Header as MantineHeader, Box } from "@mantine/core";
 // import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
@@ -48,8 +48,8 @@ const Layout: React.FC<Props> = (props) => {
       // navbar={sidebar}
       header={
         <MantineHeader height={50} p="md">
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
               height: "100%",
@@ -66,12 +66,13 @@ const Layout: React.FC<Props> = (props) => {
             </MediaQuery> */}
             <Group position="apart" grow style={{ width: "100%" }}>
               <Link href="/" passHref>
-                <Logo height="1em" />
-                {/* Peerpoint */}
+                <Box component="a" sx={{ color: "inherit", lineHeight: 0 }}>
+                  <Logo height="1em" />
+                </Box>
               </Link>
               <Header />
             </Group>
-          </div>
+          </Box>
         </MantineHeader>
       }
     >
