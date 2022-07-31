@@ -94,6 +94,7 @@ const Create: React.FC = () => {
             <CodeEditor
               label="Skeleton"
               language={form.values.language}
+              descriptionProps={{ sx: { minHeight: "2.5em" } }}
               description="
                 This is what appears in students’ code editors. Include
                 instructions (commented out), and any necessary boilerplate or
@@ -118,6 +119,7 @@ const Create: React.FC = () => {
           <Grid.Col sm={6}>
             <CodeEditor
               label="Expected output"
+              descriptionProps={{ sx: { minHeight: "2.5em" } }}
               description="
                 The stdout of student submissions is (fuzzily) checked against
                 this value, and matches are considered successful."

@@ -25,11 +25,11 @@ const defaultProps = {
   children: null,
 };
 
-const CodeEditor = (props: Props) => {
+const CodeEditor = ({ language, ...props }: Props) => {
   const theme = useMantineTheme();
-  const language = languageMap.get(props.language)?.cm;
+  const l = languageMap.get(language)?.cm;
   const extensions = {
-    extensions: language ? [loadLanguage(language)] : [],
+    extensions: l ? [loadLanguage(l)] : [],
   };
   return (
     <Input.Wrapper
@@ -37,6 +37,7 @@ const CodeEditor = (props: Props) => {
       description={props.description}
       required={props.required}
       error={props.error}
+      {...props}
     >
       <Box
         my={8}
@@ -51,10 +52,14 @@ const CodeEditor = (props: Props) => {
       >
         <LanguageIndicator
           compact
-          language={props.language}
+          language={language}
           sx={{ position: "absolute", right: 3, top: 3, zIndex: 1 }}
         />
-        <ReactCodeMirror {...props} {...extensions} />
+        <ReactCodeMirror
+          {...extensions}
+          onChange={props.onChange}
+          value={props.value}
+        />
       </Box>
     </Input.Wrapper>
   );
