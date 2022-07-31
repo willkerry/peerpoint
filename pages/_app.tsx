@@ -1,9 +1,14 @@
+import {
+  createEmotionCache,
+  MantineProvider,
+  MantineThemeOverride,
+} from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
-import { MantineProvider, MantineThemeOverride } from "@mantine/core";
+import Head from "next/head";
+
 import "inter-ui";
-import { createContext } from "react";
-import { ModalsProvider } from "@mantine/modals";
 
 const peerpointTheme: MantineThemeOverride = {
   primaryColor: "orange",
@@ -12,19 +17,31 @@ const peerpointTheme: MantineThemeOverride = {
   headings: { fontFamily: "inherit" },
 };
 
-const LoadingContext = createContext<boolean>(false);
+const cache = createEmotionCache({ key: "pp" });
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <LoadingContext.Provider value={true}>
-      <MantineProvider theme={peerpointTheme} withGlobalStyles withNormalizeCSS>
+    <>
+      <Head>
+        <title>Peerpoint</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <MantineProvider
+        theme={peerpointTheme}
+        emotionCache={cache}
+        withGlobalStyles
+        withNormalizeCSS
+      >
         <ModalsProvider>
           <SessionProvider session={pageProps.session}>
             <Component {...pageProps} />
           </SessionProvider>
         </ModalsProvider>
       </MantineProvider>
-    </LoadingContext.Provider>
+    </>
   );
 };
 
