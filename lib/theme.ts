@@ -11,7 +11,7 @@ export const theme: MantineThemeOverride = {
   components: {
     Code: {
       styles: (theme) => ({
-        root: {
+        block: {
           backgroundColor: theme.colors.dark[8],
           color: theme.colors.gray[4],
           fontSize: theme.fontSizes.sm,
