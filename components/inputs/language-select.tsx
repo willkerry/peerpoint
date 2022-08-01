@@ -1,6 +1,6 @@
 import { Select, Group, Text, Avatar, Badge } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import { CodeIcon } from "@primer/octicons-react";
+import { IconCode } from "@tabler/icons";
 import { forwardRef } from "react";
 import { languageMap } from "../../@types/Language";
 import { CreateFormValues } from "../../pages/create";
@@ -61,7 +61,7 @@ const LanguageSelect = ({
       itemComponent={SelectItem}
       selectOnBlur
       searchable
-      icon={<CodeIcon size={14} />}
+      icon={<IconCode size={16} />}
       label="Language"
       dropdownPosition="bottom"
       filter={(value, item) =>

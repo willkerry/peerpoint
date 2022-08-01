@@ -23,9 +23,9 @@ import {
 import { Challenge } from "@prisma/client";
 import { useState, useEffect } from "react";
 import LanguageIndicator from "../components/display/language-indicator";
-import { SortAscIcon, SortDescIcon } from "@primer/octicons-react";
 import DisplayId from "../components/display/display-id";
 import { Input } from "@mantine/core";
+import { IconSortAscending, IconSortDescending } from "@tabler/icons";
 
 type ChallengeRow = {
   select?: () => void;
@@ -148,8 +148,8 @@ const Admin: React.FC = () => {
                           header.getContext()
                         )}
                         {{
-                          asc: <SortAscIcon size={12} />,
-                          desc: <SortDescIcon size={12} />,
+                          asc: <IconSortAscending size={14} />,
+                          desc: <IconSortDescending size={14} />,
                         }[header.column.getIsSorted() as string] ?? null}
                       </Group>
                     </UnstyledButton>

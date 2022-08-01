@@ -1,9 +1,8 @@
 import { Image, Button, Box, Loader } from "@mantine/core";
 import { getQrCode } from "../../utils";
 import { URL } from "../../lib/constants";
-import { DownloadIcon } from "@primer/octicons-react";
 import DisplayId from "./display-id";
-import { IconQrcode } from "@tabler/icons";
+import { IconDownload, IconQrcode } from "@tabler/icons";
 import { openModal } from "@mantine/modals";
 import { DisplayIDProps } from "./display-id";
 
@@ -35,7 +34,7 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
         />
       </Box>
       <a href={qrCode} download="qr-code.png">
-        <Button rightIcon={<DownloadIcon />} variant="default">
+        <Button rightIcon={<IconDownload size={16} />} variant="default">
           Download QR code
         </Button>
       </a>

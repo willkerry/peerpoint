@@ -1,26 +1,24 @@
 import {
-  Title,
-  Text,
-  Group,
   Center,
-  Stack,
-  Skeleton,
+  Group,
   NativeSelect,
-  useMantineTheme,
+  Skeleton,
+  Stack,
+  Text,
   TextInput,
+  Title,
+  useMantineTheme,
 } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { IconBraces } from "@tabler/icons";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
+import prettyMilliseconds from "pretty-ms";
 import { useState } from "react";
 import useSWR from "swr";
-import IdButton from "../../../components/display/id-button";
+import { DisplayId, IdButton, Var } from "../../../components/display";
 import { Layout, Meta } from "../../../components/layout";
 import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
-import DisplayId from "../../../components/display/display-id";
-import { Var } from "../../../components/display/variable";
-import { BugIcon } from "@primer/octicons-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useDebouncedValue } from "@mantine/hooks";
-import prettyMilliseconds from "pretty-ms";
 
 const Monitor = () => {
   const theme = useMantineTheme();
@@ -103,8 +101,8 @@ const Monitor = () => {
                     {...transitionProps}
                     style={{ position: "absolute" }}
                   >
-                    <Stack align="center">
-                      <BugIcon size={24} />
+                    <Stack spacing="xs" align="center">
+                      <IconBraces size={44} stroke={1} />
                       <Text color="dimmed">No data available</Text>
                     </Stack>
                   </motion.div>
