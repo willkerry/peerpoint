@@ -8,36 +8,64 @@ import { IdButton } from "../../../components/display";
 import { CodeEditor } from "../../../components/inputs";
 import { Layout, Meta } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
-import { submitHandler, resultModal } from "../../../utils/run/handlers";
+import { resultModal } from "../../../utils/run/handlers";
 import RunControls from "../../../components/inputs/run-controls";
+import { useForm } from "@mantine/form";
+import { sendExecuteRequest } from "../../../utils";
 
 const Post: React.FC = () => {
+  // Get challenge ID from URL
   const router = useRouter();
   const { id } = router.query;
+
+  // Fetch challenge data
   const { data } = useSWR(id, fetchChallenge);
 
-  const [userCode, setUserCode] = useState(data?.skeleton);
+  // Get user session
+  const { data: session } = useSession();
+  const userHasSession = Boolean(session);
+  const challengeBelongsToUser = session?.user?.email === data?.author?.email;
+
+  // Establish useStates
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [output, setOutput] = useState<SubmissionResponse>();
   const [showResult, setShowResult] = useState(false);
 
-  const { data: session, status } = useSession();
+  // Initialise form
+  const form = useForm({
+    initialValues: {
+      userCode: "",
+    },
+  });
 
+  // Populate form with challenge skeleton when it loads
+  useEffect(() => {
+    if (data?.skeleton) form.setFieldValue("userCode", data.skeleton);
+    console.log("useEffect called");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.skeleton]);
+
+  // Launch result modal when showResult is true
   useEffect(() => {
     if (showResult) resultModal(setShowResult, output);
-  }, [output, showResult]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showResult]);
 
-  if (status === "loading") return <LoadingOverlay visible />;
-
-  const postBelongsToUser = session?.user?.email === data?.author?.email;
-
-  const handleSubmit = submitHandler(
-    setIsSubmitting,
-    setOutput,
-    data,
-    userCode,
-    setShowResult
-  );
+  /*
+   * Call client-side code execution function when form is submitted
+   * (Error handling happens there.)
+   */
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    const response = await sendExecuteRequest(
+      data?.id,
+      data?.language,
+      form.values.userCode
+    );
+    setOutput(response);
+    setIsSubmitting(false);
+    setShowResult(true);
+  };
 
   return (
     <Layout>
@@ -51,17 +79,16 @@ const Post: React.FC = () => {
         </Group>
       </Title>
 
-      <form onSubmit={handleSubmit} id="codexec">
+      <form id="exec" onSubmit={form.onSubmit(handleSubmit)}>
         <CodeEditor
           label="Code editor"
           language={data?.language}
-          editable={!isSubmitting}
-          value={data?.skeleton}
-          onChange={(value) => setUserCode(value)}
+          {...form.getInputProps("userCode")}
         />
         <RunControls
           {...{
-            privileged: Boolean(session) && postBelongsToUser,
+            privileged: userHasSession && challengeBelongsToUser,
+            disabled: !form.values.userCode,
             isSubmitting,
             data,
             hasOutput: Boolean(output),

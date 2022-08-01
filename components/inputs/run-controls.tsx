@@ -24,6 +24,7 @@ type RunControlsProps = {
   data: Challenge;
   hasOutput: boolean;
   setShowResult: Dispatch<SetStateAction<boolean>>;
+  disabled: boolean;
 };
 
 function RunControls({
@@ -32,6 +33,7 @@ function RunControls({
   data,
   hasOutput,
   setShowResult,
+  disabled,
 }: RunControlsProps) {
   const handleDelete = deleteHandler(data);
   const handleEdit = editHandler(data);
@@ -89,7 +91,12 @@ function RunControls({
             </ActionIcon>
           </Tooltip>
 
-          <Button type="submit" form="codexec" loading={isSubmitting}>
+          <Button
+            type="submit"
+            form="exec"
+            loading={isSubmitting}
+            {...{ disabled }}
+          >
             Run
           </Button>
         </Group>

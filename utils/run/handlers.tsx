@@ -1,29 +1,10 @@
 import { openConfirmModal, openModal } from "@mantine/modals";
 import Router from "next/router";
-import { deletePost, sendExecuteRequest } from "../../utils";
+import { deletePost } from "../../utils";
 import { Challenge } from "@prisma/client";
 import { Var } from "../../components/display";
 import { Alert, Code, ScrollArea, Stack, Text } from "@mantine/core";
-import { Dispatch, SetStateAction } from "react";
 import { SubmissionResponse } from "../../@types/Submission";
-
-export function submitHandler(
-  setIsSubmitting: Dispatch<SetStateAction<boolean>>,
-  setOutput: Dispatch<SetStateAction<SubmissionResponse>>,
-  data: Challenge,
-  userCode: string,
-  setShowResult: Dispatch<SetStateAction<boolean>>
-) {
-  return async (event): Promise<void> => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    await setOutput(
-      await sendExecuteRequest(data?.id, data?.language, userCode)
-    );
-    setIsSubmitting(false);
-    setShowResult(true);
-  };
-}
 
 export function deleteHandler(data: Challenge) {
   return async (): Promise<void> => {
