@@ -55,7 +55,7 @@ const Monitor = () => {
       <Meta title="Monitor" />
       <Group position="apart" mb={12}>
         <Title order={3}>Monitoring</Title>
-        <IdButton id={id} />
+        <IdButton id={String(id)} />
       </Group>
       <Stack>
         <TextInput label="Challenge title" value={data?.title} disabled />

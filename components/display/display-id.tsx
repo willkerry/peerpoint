@@ -2,7 +2,7 @@ import { Box, Text } from "@mantine/core";
 import { useState, useEffect } from "react";
 
 export type DisplayIDProps = {
-  id: number;
+  id: number | string;
 };
 
 const DisplayId: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
