@@ -1,15 +1,17 @@
 import { Avatar, CSSObject, Group, Text, Tooltip } from "@mantine/core";
 import { languageMap } from "../../@types/Language";
 
-const LanguageIndicator = ({
-  language,
-  compact,
-  sx,
-}: {
+type LanguageIndicatorProps = {
   language: number;
   compact?: boolean;
   sx?: CSSObject;
-}) => {
+};
+
+const LanguageIndicator: React.FC<LanguageIndicatorProps> = ({
+  language,
+  compact,
+  sx,
+}: LanguageIndicatorProps) => {
   const l = languageMap.get(language);
   if (!l) return null;
   const avatar = (

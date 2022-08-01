@@ -1,7 +1,11 @@
 import { Box, Text } from "@mantine/core";
 import { useState, useEffect } from "react";
 
-const DisplayId = ({ id }: { id: number }) => {
+export type DisplayIDProps = {
+  id: number;
+};
+
+const DisplayId: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
   const [idString, setIdString] = useState("00000");
   useEffect(() => {
     id && setIdString(String(id).padStart(5, "0"));

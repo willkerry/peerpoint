@@ -27,16 +27,17 @@ type RunControlsProps = {
   disabled: boolean;
 };
 
-function RunControls({
+const RunControls: React.FC<RunControlsProps> = ({
   privileged,
   isSubmitting,
   data,
   hasOutput,
   setShowResult,
   disabled,
-}: RunControlsProps) {
+}: RunControlsProps) => {
   const handleDelete = deleteHandler(data);
   const handleEdit = editHandler(data);
+
   return (
     <Affix zIndex={1} position={{ bottom: 10, right: 10 }}>
       <Paper withBorder p={7}>
@@ -103,6 +104,6 @@ function RunControls({
       </Paper>
     </Affix>
   );
-}
+};
 
 export default RunControls;

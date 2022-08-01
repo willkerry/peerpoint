@@ -19,7 +19,7 @@ type Props = {
   variant?: ActionIconProps["variant"] & ButtonProps["variant"];
 };
 
-const InfoModal = ({
+const InfoModal: React.FC<Props> = ({
   isOpen,
   setClosed,
   setOpen,
