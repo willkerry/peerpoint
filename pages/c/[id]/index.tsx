@@ -1,12 +1,4 @@
-import {
-  Anchor,
-  Button,
-  Code,
-  Collapse,
-  Group,
-  Skeleton,
-  Title,
-} from "@mantine/core";
+import { Button, Code, Group, Skeleton, Title } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
