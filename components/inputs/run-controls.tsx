@@ -62,18 +62,19 @@ function RunControls({
                   <IconEdit size={16} />
                 </ActionIcon>
               </Tooltip>
-
-              <Link href={`${data?.id}/monitor`}>
-                <Tooltip label="Monitor responses">
-                  <ActionIcon<AnchorHTMLAttributes<HTMLAnchorElement>>
-                    variant="light"
-                    color="green"
-                    component="a"
-                  >
-                    <IconHeartRateMonitor size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              </Link>
+              <Tooltip label="Monitor responses">
+                <div>
+                  <Link href={`${data?.id}/monitor`}>
+                    <ActionIcon<AnchorHTMLAttributes<HTMLAnchorElement>>
+                      variant="light"
+                      color="green"
+                      component="a"
+                    >
+                      <IconHeartRateMonitor size={16} />
+                    </ActionIcon>
+                  </Link>
+                </div>
+              </Tooltip>
               <Divider sx={{ height: "36px" }} orientation="vertical" />
             </Group>
           )}
