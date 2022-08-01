@@ -1,5 +1,5 @@
-import useSWR, { SWRResponse } from "swr";
-import getter from "../lib/getter";
+import useSWR from "swr";
+import fetchChallengeExists from "../lib/fetchers/fetch-challenge-exists";
 
 const useChallenge = (
   id: number
@@ -7,10 +7,9 @@ const useChallenge = (
   exists: boolean;
   title: string;
   isLoading: boolean;
-  isError: Error;
+  isError: boolean;
 } => {
-  const { data, error }: SWRResponse<{ exists?: boolean; title?: string }> =
-    useSWR(`/api/c/exists/${!id ? 0 : id}`, getter);
+  const { data, error } = useSWR({ id }, fetchChallengeExists);
   return {
     exists: data?.exists,
     title: data?.title,

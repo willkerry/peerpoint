@@ -34,6 +34,10 @@ export default async function handle(
       where: { id: Number(postId) || -1 },
       include: { author: { select: { name: true, email: true } } },
     });
+    if (!challenge) {
+      res.status(404).json({ message: "Challenge not found" });
+      return;
+    }
     res.status(200).json(challenge);
   }
   // PATCH /api/c/:id
