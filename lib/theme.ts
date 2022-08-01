@@ -8,4 +8,15 @@ export const theme: MantineThemeOverride = {
   headings: { fontFamily: "inherit", fontWeight: 600 },
   fontFamilyMonospace:
     "'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;",
+  components: {
+    Code: {
+      styles: (theme) => ({
+        root: {
+          backgroundColor: theme.colors.dark[8],
+          color: theme.colors.gray[4],
+          fontSize: theme.fontSizes.sm,
+        },
+      }),
+    },
+  },
 };
