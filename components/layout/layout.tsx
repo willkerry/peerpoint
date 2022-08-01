@@ -76,7 +76,7 @@ const Layout: React.FC<Props> = (props) => {
         </MantineHeader>
       }
     >
-      {props.children}
+      <Box sx={{ position: "relative" }}>{props.children}</Box>
     </AppShell>
   );
 };
