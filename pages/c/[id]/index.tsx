@@ -1,4 +1,5 @@
-import { Button, Code, Group, Skeleton, Title } from "@mantine/core";
+import { Grid, Group, Skeleton, Title } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -6,15 +7,11 @@ import useSWR from "swr";
 import { SubmissionResponse } from "../../../@types/Submission";
 import { EmptyState, IdButton } from "../../../components/display";
 import { CodeEditor } from "../../../components/inputs";
+import RunControls from "../../../components/inputs/run-controls";
 import { Layout, Meta } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
-import { resultModal } from "../../../utils/run/handlers";
-import RunControls from "../../../components/inputs/run-controls";
-import { useForm } from "@mantine/form";
 import { sendExecuteRequest } from "../../../utils";
-import { useClickOutside, useDisclosure } from "@mantine/hooks";
-import { IconCode } from "@tabler/icons";
-import { Grid } from "@mantine/core";
+import { resultModal } from "../../../utils/run/handlers";
 
 const Post: React.FC = () => {
   // Get challenge ID from URL
@@ -33,14 +30,9 @@ const Post: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [output, setOutput] = useState<SubmissionResponse>();
   const [showResult, setShowResult] = useState(false);
-  const [expectedOutputOpened, expectedOutputHandlers] = useDisclosure(false);
-  const ref = useClickOutside(() => expectedOutputHandlers.close());
+
   // Initialise form
-  const form = useForm({
-    initialValues: {
-      userCode: "",
-    },
-  });
+  const form = useForm({ initialValues: { userCode: "" } });
 
   // Populate form with challenge skeleton when it loads
   useEffect(() => {
@@ -106,36 +98,18 @@ const Post: React.FC = () => {
               />
             </form>
           </Grid.Col>
-
-          <Grid.Col sm={4}>
-            <Button
-              variant="subtle"
-              leftIcon={<IconCode />}
-              ref={ref}
-              onClick={expectedOutputHandlers.toggle}
-            >
-              What’s the expected output?
-            </Button>
-          </Grid.Col>
-          <Grid.Col sm={8}>
-            {expectedOutputOpened && (
-              <Code ref={ref} block>
-                {data?.expectedOutput}
-              </Code>
-            )}
-          </Grid.Col>
-          <RunControls
-            {...{
-              privileged: userHasSession && challengeBelongsToUser,
-              disabled: !form.values.userCode,
-              isSubmitting,
-              data,
-              hasOutput: Boolean(output),
-              setShowResult,
-            }}
-          />
         </Grid>
       )}
+      <RunControls
+        {...{
+          privileged: userHasSession && challengeBelongsToUser,
+          disabled: !form.values.userCode,
+          isSubmitting,
+          data,
+          hasOutput: Boolean(output),
+          setShowResult,
+        }}
+      />
     </Layout>
   );
 };
