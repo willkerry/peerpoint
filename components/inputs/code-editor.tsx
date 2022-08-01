@@ -29,7 +29,14 @@ const defaultProps = {
   children: null,
 };
 
-const CodeEditor = ({ language, value, basicSetup, ...props }: Props) => {
+const CodeEditor = ({
+  language,
+  value,
+  basicSetup,
+  editable,
+  onChange,
+  ...props
+}: Props) => {
   const theme = useMantineTheme();
 
   const CodeMirrorThemeExtension: Extension = EditorView.theme({
@@ -74,13 +81,7 @@ const CodeEditor = ({ language, value, basicSetup, ...props }: Props) => {
   });
 
   return (
-    <Input.Wrapper
-      label={props.label}
-      description={props.description}
-      required={props.required}
-      error={props.error}
-      {...props}
-    >
+    <Input.Wrapper {...props}>
       <Box sx={{ position: "relative" }}>
         <Box
           my={8}
@@ -94,10 +95,7 @@ const CodeEditor = ({ language, value, basicSetup, ...props }: Props) => {
         >
           <ReactCodeMirror
             {...extensions}
-            onChange={props.onChange}
-            value={value}
-            basicSetup={basicSetup}
-            theme={editorTheme}
+            {...{ editable, basicSetup, value, onChange, theme: editorTheme }}
           />
           <Box
             sx={{
@@ -110,7 +108,7 @@ const CodeEditor = ({ language, value, basicSetup, ...props }: Props) => {
               padding: 4,
             }}
           >
-            <LanguageIndicator compact language={language} />
+            <LanguageIndicator compact {...{ language }} />
           </Box>
         </Box>
       </Box>
