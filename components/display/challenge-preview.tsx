@@ -26,8 +26,8 @@ const ChallengePreview: React.FC<{ post: Challenge }> = ({ post }) => {
           block
           color="dark"
           sx={(theme) => ({
-            backgroundColor: theme.colors.dark[8],
-            color: theme.colors.dark[0],
+            color: theme.colors.dark[2],
+            fontSize: theme.fontSizes.xs,
             userSelect: "none",
           })}
         >
