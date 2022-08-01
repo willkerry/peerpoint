@@ -1,8 +1,10 @@
 import {
+  ActionIcon,
   Affix,
   Alert,
   Button,
   Code,
+  Divider,
   Group,
   LoadingOverlay,
   Paper,
@@ -12,18 +14,25 @@ import {
   Title,
 } from "@mantine/core";
 import { openConfirmModal, openModal } from "@mantine/modals";
+import {
+  IconDeviceAnalytics,
+  IconEdit,
+  IconHeartRateMonitor,
+  IconHistory,
+  IconTrash,
+} from "@tabler/icons";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { AnchorHTMLAttributes, useEffect, useState } from "react";
 import useSWR from "swr";
 import { SubmissionResponse } from "../../../@types/Submission";
-import { Var } from "../../../components/display";
-import IdButton from "../../../components/display/id-button";
+import { Var, IdButton } from "../../../components/display";
 import { CodeEditor } from "../../../components/inputs";
 import { Layout, Meta } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import { deletePost, publishPost, sendExecuteRequest } from "../../../utils";
+import { Tooltip } from "@mantine/core";
 
 const Post: React.FC = () => {
   const router = useRouter();
@@ -134,9 +143,9 @@ const Post: React.FC = () => {
           value={data?.skeleton}
           onChange={(value) => setUserCode(value)}
         />
-        <Affix zIndex={1} position={{ bottom: 15, right: 15 }}>
-          <Paper withBorder p="md">
-            <Group>
+        <Affix zIndex={1} position={{ bottom: 10, right: 10 }}>
+          <Paper withBorder p={7}>
+            <Group spacing={8}>
               {!data?.published && userHasValidSession && postBelongsToUser && (
                 <Button
                   onClick={() => publishPost(data?.id)}
@@ -146,41 +155,54 @@ const Post: React.FC = () => {
                   Publish
                 </Button>
               )}
-              <Button.Group>
-                {userHasValidSession && postBelongsToUser && (
-                  <>
-                    <Button
+
+              {userHasValidSession && postBelongsToUser && (
+                <Group spacing={8}>
+                  <Tooltip label="Delete challenge">
+                    <ActionIcon
                       color="red"
+                      variant="light"
                       onClick={() => handleDelete()}
                       disabled={isSubmitting}
-                      compact
                     >
-                      Delete
-                    </Button>
-                    <Link href={`${data?.id}/monitor`}>
-                      <Button<AnchorHTMLAttributes<HTMLAnchorElement>>
-                        variant="default"
-                        component="a"
-                        compact
-                      >
-                        Monitor
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="default"
+                      <IconTrash size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+
+                  <Tooltip label="Edit challenge">
+                    <ActionIcon
+                      variant="light"
+                      color="blue"
                       disabled={isSubmitting}
                       onClick={handleEdit}
-                      compact
                     >
-                      Edit
-                    </Button>
-                  </>
-                )}
-              </Button.Group>
+                      <IconEdit size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+
+                  <Link href={`${data?.id}/monitor`}>
+                    <Tooltip label="Monitor responses">
+                      <ActionIcon<AnchorHTMLAttributes<HTMLAnchorElement>>
+                        variant="light"
+                        color="green"
+                        component="a"
+                      >
+                        <IconHeartRateMonitor size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Link>
+                  <Divider sx={{ height: "36px" }} orientation="vertical" />
+                </Group>
+              )}
               {output && (
-                <Button variant="default" onClick={() => setShowResult(true)}>
-                  Result
-                </Button>
+                <Tooltip label="Review output">
+                  <ActionIcon
+                    variant="default"
+                    onClick={() => setShowResult(true)}
+                  >
+                    <IconHistory size={16} />
+                  </ActionIcon>
+                </Tooltip>
               )}
               <Button type="submit" form="codexec" loading={isSubmitting}>
                 Run
