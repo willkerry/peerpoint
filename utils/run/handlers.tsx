@@ -5,6 +5,7 @@ import { Challenge } from "@prisma/client";
 import { Var } from "../../components/display";
 import { Alert, Code, ScrollArea, Stack, Text, Title } from "@mantine/core";
 import { SubmissionResponse } from "../../@types/Submission";
+import { IconAlertCircle, IconTrophy } from "@tabler/icons";
 
 export function deleteHandler(data: Challenge) {
   return async (): Promise<void> => {
@@ -45,22 +46,41 @@ export function editHandler(data: Challenge) {
 
 export function resultModal(setShowResult, output: SubmissionResponse) {
   setShowResult(false);
-  const wasError = output?.status?.id > 3;
+  const wasError = output?.status?.id > 4;
+  const wasWrong = output?.status?.id === 4;
+  const wasCorrect = output?.status?.id === 3;
   openModal({
     title: <Title order={4}>Output</Title>,
     children: (
       <Stack>
         {wasError ? (
-          <Alert title={`Error status ${output?.status?.id}`} color="red">
+          <Alert
+            icon={<IconAlertCircle size={16} />}
+            title="Your program could not be executed"
+            color="red"
+          >
             {output?.status?.description ?? output?.message}
           </Alert>
-        ) : (
-          <Alert title="Success" variant="filled" color="green">
+        ) : wasCorrect ? (
+          <Alert
+            icon={<IconTrophy size={16} />}
+            title="Success"
+            variant="filled"
+            color="green"
+          >
             <ScrollArea>
               {output?.message || "That’s the correct output."}
             </ScrollArea>
           </Alert>
-        )}
+        ) : wasWrong ? (
+          <Alert title="Incorrect output" color="yellow">
+            <ScrollArea>
+              {output?.message ||
+                "Your program ran successfully but did not produce the expected output."}
+            </ScrollArea>
+          </Alert>
+        ) : null}
+
         <Stack spacing={0}>
           <Title order={6}>
             {output?.stdout
