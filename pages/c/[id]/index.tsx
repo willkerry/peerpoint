@@ -1,4 +1,4 @@
-import { Grid, Group, Skeleton, Title } from "@mantine/core";
+import { Grid, Group, LoadingOverlay, Skeleton, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -64,6 +64,7 @@ const Post: React.FC = () => {
 
   return (
     <Layout>
+      <LoadingOverlay visible={isSubmitting} />
       <Meta title={data?.title ?? "Peerpoint Challenge"} />
       {error ? (
         <EmptyState />
@@ -93,6 +94,7 @@ const Post: React.FC = () => {
             <form id="exec" onSubmit={form.onSubmit(handleSubmit)}>
               <CodeEditor
                 label="Code editor"
+                editable={!isSubmitting}
                 language={data?.language}
                 {...form.getInputProps("userCode")}
               />
