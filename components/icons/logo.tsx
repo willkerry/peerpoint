@@ -2,10 +2,14 @@ import { SVGProps, useState, useEffect } from "react";
 import { useInterval } from "@mantine/hooks";
 import { motion } from "framer-motion";
 
-const Logo = (props: SVGProps<SVGSVGElement>) => {
+type LogoProps = SVGProps<SVGSVGElement> & {
+  animate?: boolean;
+};
+
+const Logo = (props: LogoProps) => {
   const [toggle, setToggle] = useState(false);
 
-  const active = false;
+  const active = props.animate;
 
   const ticker = useInterval(() => {
     setToggle(!toggle);

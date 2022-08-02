@@ -4,19 +4,32 @@ import {
   Title,
   Text,
   Space,
-  StackProps,
   useMantineTheme,
-  Container,
 } from "@mantine/core";
 import { IconTrafficCone } from "@tabler/icons";
 import { FindChallenge } from "../inputs";
 
-const EmptyState: React.FC = (
-  props: StackProps & React.RefAttributes<HTMLDivElement>
+type EmptyStateProps = {
+  title?: string;
+  description?: string;
+};
+
+const defaultProps: EmptyStateProps = {
+  title: "No challenges found",
+  description: "Have a look for another one.",
+};
+
+const EmptyState: React.FC<EmptyStateProps> = (
+  props: EmptyStateProps = defaultProps
 ) => {
   const theme = useMantineTheme();
   return (
-    <Stack my={64} spacing="sm" {...props}>
+    <Stack
+      my={64}
+      spacing="sm"
+      sx={(theme) => ({ maxWidth: theme.breakpoints.xs })}
+      mx="auto"
+    >
       <Center>
         <IconTrafficCone
           size={56}
@@ -26,16 +39,14 @@ const EmptyState: React.FC = (
       </Center>
       <Center>
         <Title order={1} color="">
-          Challenge not found.
+          {props.title}
         </Title>
       </Center>
       <Center>
-        <Text color="dimmed">Try another one.</Text>
+        <Text color="dimmed">{props.description}</Text>
       </Center>
       <Space h="xl" />
-      <Container size="xs">
-        <FindChallenge />
-      </Container>
+      <FindChallenge />
     </Stack>
   );
 };
