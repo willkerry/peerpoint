@@ -1,13 +1,24 @@
-const path = "chart.googleapis.com/chart";
+const PATH = "https://chart.googleapis.com/chart";
 
-const getQrCode = (str: string) => {
-  const query = new URLSearchParams();
-  query.append("cht", "qr");
-  query.append("chs", "500x500");
-  query.append("chl", str);
-  query.append("choe", "UTF-8");
-  query.append("chld", "H|0");
-  return `https://${path}?${query.toString()}`;
+type OutputEncoding = "UTF-8" | "Shift_JIS" | "ISO-8859-1";
+type ErrorCorrection = "L" | "M" | "Q" | "H";
+
+const getQrCode = (
+  data: string,
+  size = 500,
+  errorCorrection: ErrorCorrection = "H",
+  margin = 0,
+  encoding: OutputEncoding = "UTF-8"
+): string => {
+  const url = new URL(PATH);
+
+  url.searchParams.set("cht", "qr");
+  url.searchParams.set("chs", `${size}x${size}`);
+  url.searchParams.set("chl", data);
+  url.searchParams.set("choe", encoding);
+  url.searchParams.set("chld", `${errorCorrection}|${margin}`);
+
+  return url.href;
 };
 
 export default getQrCode;
