@@ -3,14 +3,13 @@ import React from "react";
 import useSWR from "swr";
 import ChallengePreview from "../components/display/challenge-preview";
 import { FindChallenge } from "../components/inputs";
-import { Layout, Meta } from "../components/layout";
+import { Layout } from "../components/layout";
 import fetchChallenges from "../lib/fetchers/fetch-challenges";
 
 const Blog: React.FC = () => {
   const { data, error } = useSWR("/", fetchChallenges);
   return (
     <Layout>
-      <Meta title="Peerpoint" />
       <Stack spacing="lg">
         <FindChallenge />
         <Alert

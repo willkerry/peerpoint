@@ -5,7 +5,7 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { Var } from "../components/display";
 import { CodeEditor, LanguageSelect } from "../components/inputs";
-import { Layout, Meta } from "../components/layout";
+import { Layout } from "../components/layout";
 import {
   quickExecuteAndPopulate,
   submitHandler,
@@ -73,8 +73,7 @@ const Create: React.FC = () => {
   };
 
   return (
-    <Layout loading={submitting || executing}>
-      <Meta title="Create new challenge" />
+    <Layout loading={submitting || executing} title="Create new challenge">
       <Title order={1}>New challenge</Title>
       <form onSubmit={form.onSubmit((values) => submitData(values))}>
         <Grid>

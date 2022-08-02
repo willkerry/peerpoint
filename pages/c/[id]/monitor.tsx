@@ -17,7 +17,7 @@ import prettyMilliseconds from "pretty-ms";
 import { useState } from "react";
 import useSWR from "swr";
 import { DisplayId, IdButton, Var } from "../../../components/display";
-import { Layout, Meta } from "../../../components/layout";
+import { Layout } from "../../../components/layout";
 import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 
 const Monitor = () => {
@@ -49,8 +49,7 @@ const Monitor = () => {
   };
 
   return (
-    <Layout loading={loading}>
-      <Meta title="Monitor" />
+    <Layout loading={loading} title="Monitor">
       <Group position="apart" mb={12}>
         <Title order={3}>Monitoring</Title>
         <IdButton id={String(id)} />

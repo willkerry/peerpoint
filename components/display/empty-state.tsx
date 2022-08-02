@@ -14,14 +14,10 @@ type EmptyStateProps = {
   description?: string;
 };
 
-const defaultProps: EmptyStateProps = {
-  title: "No challenges found",
-  description: "Have a look for another one.",
-};
-
-const EmptyState: React.FC<EmptyStateProps> = (
-  props: EmptyStateProps = defaultProps
-) => {
+const EmptyState: React.FC<EmptyStateProps> = ({
+  title = "No challenges found",
+  description = "Have a look for another one.",
+}: EmptyStateProps) => {
   const theme = useMantineTheme();
   return (
     <Stack
@@ -39,11 +35,11 @@ const EmptyState: React.FC<EmptyStateProps> = (
       </Center>
       <Center>
         <Title order={1} color="">
-          {props.title}
+          {title}
         </Title>
       </Center>
       <Center>
-        <Text color="dimmed">{props.description}</Text>
+        <Text color="dimmed">{description}</Text>
       </Center>
       <Space h="xl" />
       <FindChallenge />

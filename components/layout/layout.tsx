@@ -4,14 +4,26 @@ import Link from "next/link";
 import React from "react";
 import Logo from "../icons/logo";
 import Header from "./header";
+import Meta from "./meta";
 // import Logo from "./icons/logo";
 
 type Props = {
   children?: React.ReactNode;
   loading?: boolean;
+  title?: string;
 };
 
-const Layout: React.FC<Props> = (props) => {
+const defaultProps = {
+  children: null,
+  loading: false,
+  title: "Peerpoint",
+};
+
+const Layout: React.FC<Props> = ({
+  title,
+  children,
+  loading,
+} = defaultProps) => {
   /*
    * const theme = useMantineTheme();
    * const [opened, setOpened] = React.useState(false);
@@ -43,20 +55,22 @@ const Layout: React.FC<Props> = (props) => {
    */
 
   return (
-    <AppShell
-      navbarOffsetBreakpoint="sm"
-      fixed
-      // navbar={sidebar}
-      header={
-        <MantineHeader height={50} p="md">
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              height: "100%",
-            }}
-          >
-            {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+    <>
+      <Meta {...{ title }} />
+      <AppShell
+        navbarOffsetBreakpoint="sm"
+        fixed
+        // navbar={sidebar}
+        header={
+          <MantineHeader height={50} p="md">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger
                 opened={opened}
                 onClick={() => setOpened((o) => !o)}
@@ -65,20 +79,21 @@ const Layout: React.FC<Props> = (props) => {
                 mr="xl"
               />
             </MediaQuery> */}
-            <Group position="apart" grow style={{ width: "100%" }}>
-              <Link href="/" passHref>
-                <Box component="a" sx={{ color: "inherit", lineHeight: 0 }}>
-                  <Logo animate={props.loading} height="1em" />
-                </Box>
-              </Link>
-              <Header />
-            </Group>
-          </Box>
-        </MantineHeader>
-      }
-    >
-      <Box sx={{ position: "relative" }}>{props.children}</Box>
-    </AppShell>
+              <Group position="apart" grow style={{ width: "100%" }}>
+                <Link href="/" passHref>
+                  <Box component="a" sx={{ color: "inherit", lineHeight: 0 }}>
+                    <Logo animate={loading} height="1em" />
+                  </Box>
+                </Link>
+                <Header />
+              </Group>
+            </Box>
+          </MantineHeader>
+        }
+      >
+        <Box sx={{ position: "relative" }}>{children}</Box>
+      </AppShell>
+    </>
   );
 };
 

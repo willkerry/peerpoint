@@ -2,7 +2,7 @@ import EmptyState from "../components/display/empty-state";
 import { Layout } from "../components/layout";
 
 const Error500: React.FC = () => (
-  <Layout>
+  <Layout title="500">
     <EmptyState
       title="Error 500"
       description="Something went wrong in the backend."

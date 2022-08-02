@@ -7,7 +7,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import useSWR from "swr";
-import { Layout, Meta } from "../components/layout";
+import { Layout } from "../components/layout";
 import fetchChallenges from "../lib/fetchers/fetch-challenges";
 import {
   ColumnDef,
@@ -114,8 +114,7 @@ const Admin: React.FC = () => {
   });
 
   return (
-    <Layout>
-      <Meta title="Admin" />
+    <Layout loading={!data} title="Admin">
       <Title mb="xl" order={3}>
         Your challenges
       </Title>

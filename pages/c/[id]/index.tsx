@@ -8,7 +8,7 @@ import { SubmissionResponse } from "../../../@types/Submission";
 import { EmptyState, IdButton } from "../../../components/display";
 import { CodeEditor } from "../../../components/inputs";
 import RunControls from "../../../components/inputs/run-controls";
-import { Layout, Meta } from "../../../components/layout/";
+import { Layout } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import { sendExecuteRequest } from "../../../utils";
 import { resultModal } from "../../../utils/run/handlers";
@@ -63,9 +63,8 @@ const Post: React.FC = () => {
   };
 
   return (
-    <Layout loading={isSubmitting}>
+    <Layout loading={isSubmitting} title={data?.title ?? "Peerpoint Challenge"}>
       <LoadingOverlay visible={isSubmitting} />
-      <Meta title={data?.title ?? "Peerpoint Challenge"} />
       {error ? (
         <EmptyState />
       ) : (
