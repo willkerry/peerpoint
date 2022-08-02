@@ -49,7 +49,7 @@ const Monitor = () => {
   };
 
   return (
-    <Layout>
+    <Layout loading={loading}>
       <Meta title="Monitor" />
       <Group position="apart" mb={12}>
         <Title order={3}>Monitoring</Title>
@@ -77,7 +77,7 @@ const Monitor = () => {
               }}
             >
               <AnimatePresence>
-                {data?.activeStudents >= 1 ? (
+                {loading ? null : data?.activeStudents >= 1 ? (
                   <motion.div
                     key={data?.successRate}
                     {...transitionProps}
@@ -109,54 +109,53 @@ const Monitor = () => {
                 )}
               </AnimatePresence>
             </Center>
-            <Skeleton visible={loading} circle width={320} height={320}>
-              <motion.svg
-                width={320}
-                height={320}
-                style={{ transform: "rotate(-90deg)" }}
-              >
-                <circle
-                  cx={160}
-                  cy={160}
-                  r={r}
-                  stroke={theme.colors.gray[3]}
-                  strokeWidth={20}
-                  fill="transparent"
-                />
-                <motion.circle
-                  cx={160}
-                  cy={160}
-                  r={r}
-                  stroke={theme.colors.orange[5]}
-                  fill="transparent"
-                  strokeWidth={20}
-                  strokeLinecap="round"
-                  strokeDashoffset={circumference}
-                  initial={{
-                    strokeDasharray: `${0}, ${circumference}`,
-                  }}
-                  animate={{
-                    strokeDasharray: `${
-                      ((data?.successfulStudents > 1 ? data?.successRate : 2) *
-                        circumference) /
+
+            <motion.svg
+              width={320}
+              height={320}
+              style={{ transform: "rotate(-90deg)" }}
+            >
+              <circle
+                cx={160}
+                cy={160}
+                r={r}
+                stroke={theme.colors.gray[3]}
+                strokeWidth={20}
+                fill="transparent"
+              />
+              <motion.circle
+                cx={160}
+                cy={160}
+                r={r}
+                stroke={theme.colors.orange[5]}
+                fill="transparent"
+                strokeWidth={20}
+                strokeLinecap="round"
+                strokeDashoffset={circumference}
+                initial={{
+                  strokeDasharray: `${0}, ${circumference}`,
+                }}
+                animate={{
+                  strokeDasharray: `${
+                    ((data?.successfulStudents > 1 ? data?.successRate : 2) *
+                      circumference) /
+                    100
+                  }, ${
+                    circumference -
+                    ((data?.successfulStudents > 1 ? data?.successRate : 2) *
+                      circumference) /
                       100
-                    }, ${
-                      circumference -
-                      ((data?.successfulStudents > 1 ? data?.successRate : 2) *
-                        circumference) /
-                        100
-                    }`,
-                    stroke:
-                      data?.successRate < 50
-                        ? theme.colors.orange[5]
-                        : theme.colors.green[5],
-                    strokeWidth: data?.successRate ? 20 : 12,
-                    opacity: data?.activeStudents >= 1 ? 1 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 40, delay: 0.5 }}
-                />
-              </motion.svg>
-            </Skeleton>
+                  }`,
+                  stroke:
+                    data?.successRate < 50
+                      ? theme.colors.orange[5]
+                      : theme.colors.green[5],
+                  strokeWidth: data?.successRate ? 20 : 12,
+                  opacity: data?.activeStudents >= 1 ? 1 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 40, delay: 0.5 }}
+              />
+            </motion.svg>
           </Center>
 
           <Skeleton visible={loading}>

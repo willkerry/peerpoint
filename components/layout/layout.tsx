@@ -7,7 +7,8 @@ import Header from "./header";
 // import Logo from "./icons/logo";
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  loading?: boolean;
 };
 
 const Layout: React.FC<Props> = (props) => {
@@ -67,7 +68,7 @@ const Layout: React.FC<Props> = (props) => {
             <Group position="apart" grow style={{ width: "100%" }}>
               <Link href="/" passHref>
                 <Box component="a" sx={{ color: "inherit", lineHeight: 0 }}>
-                  <Logo height="1em" />
+                  <Logo animate={props.loading} height="1em" />
                 </Box>
               </Link>
               <Header />

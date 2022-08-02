@@ -63,7 +63,7 @@ const Post: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout loading={isSubmitting}>
       <LoadingOverlay visible={isSubmitting} />
       <Meta title={data?.title ?? "Peerpoint Challenge"} />
       {error ? (

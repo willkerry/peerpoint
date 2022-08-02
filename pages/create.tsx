@@ -73,7 +73,7 @@ const Create: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout loading={submitting || executing}>
       <Meta title="Create new challenge" />
       <Title order={1}>New challenge</Title>
       <form onSubmit={form.onSubmit((values) => submitData(values))}>
