@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-import { SubmissionResponse } from "../../@types/Submission";
+import { SubmissionRequest, SubmissionResponse } from "../../@types/Submission";
 import { encodeBase64 } from "../base64";
+import { getApiHeaders, getApiSubmissionsUrl } from "./get-api";
 import getOutput from "./get-output";
 import HTTPError from "./http-error";
 
@@ -18,22 +19,18 @@ export const executeCode = async (
   if (!code) throw new HTTPError("Missing code.", 400);
 
   console.log("Sending submission request...");
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_JUDGE0_HOSTNAME
-    }submissions?${new URLSearchParams({ base64_encoded: "true" })}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        language_id: language,
-        source_code: encodeBase64(code),
-        expected_output: expectedOutput ? encodeBase64(expectedOutput) : null,
-      }),
-    }
-  );
+
+  const url = getApiSubmissionsUrl();
+  const headers = getApiHeaders();
+
+  const submissionRequest: SubmissionRequest = {
+    language_id: language,
+    source_code: encodeBase64(code),
+    expected_output: expectedOutput ? encodeBase64(expectedOutput) : null,
+  };
+  const body: BodyInit = JSON.stringify(submissionRequest);
+  const res = await fetch(url, { method: "POST", headers, body });
+
   console.log("Submission request sent.");
 
   if (!res.ok)
