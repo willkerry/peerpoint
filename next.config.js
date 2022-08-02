@@ -1,11 +1,26 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-// @ts-check
-
-/* 
- * @type {import('next').NextConfig}
- */
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-    enabled: process.env.ANALYZE === 'true',
-})
-module.exports = withBundleAnalyzer({})
+module.exports = async () => {
+    /**
+     * @type {import('next').NextConfig}
+     */
+    const nextConfig = {
+        poweredByHeader: false,
+        swcMinify: true,
+        compiler: {
+            removeConsole: true,
+        },
+        async headers() {
+            return [
+                {
+                    source: '/:path*',
+                    headers: [
+                        {
+                            key: 'X-Powered-By',
+                            value: 'COBOL Server Home Edition 1996',
+                        },
+                    ],
+                },
+            ]
+        }
+    }
+    return nextConfig
+}

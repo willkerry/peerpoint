@@ -1,10 +1,4 @@
-import {
-  Box,
-  Input,
-  InputWrapperProps,
-  Skeleton,
-  useMantineTheme,
-} from "@mantine/core";
+import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import { Extension } from "@codemirror/state";
@@ -14,11 +8,12 @@ import { Language, languageMap } from "../../@types/Language";
 import LanguageIndicator from "../display/language-indicator";
 import { createTheme } from "@uiw/codemirror-themes";
 import { tags as t } from "@lezer/highlight";
+import { Suspense } from "react";
 
 const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
-  ssr: false,
-  loading: () => <Skeleton height={30} radius="md" />,
+  suspense: true,
 });
+
 type Props = ReactCodeMirrorProps &
   InputWrapperProps & {
     children?: React.ReactNode;
@@ -45,6 +40,7 @@ const CodeEditor = ({
   });
 
   const l = languageMap.get(language)?.cm;
+
   const extensions = {
     extensions: l
       ? [loadLanguage(l), CodeMirrorThemeExtension]
@@ -93,10 +89,12 @@ const CodeEditor = ({
             }`,
           }}
         >
-          <ReactCodeMirror
-            {...extensions}
-            {...{ editable, basicSetup, value, onChange, theme: editorTheme }}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ReactCodeMirror
+              {...extensions}
+              {...{ editable, basicSetup, value, onChange, theme: editorTheme }}
+            />
+          </Suspense>
           <Box
             sx={{
               position: "absolute",

@@ -1,5 +1,4 @@
 import { Alert, Grid, Skeleton, Stack } from "@mantine/core";
-import React from "react";
 import useSWR from "swr";
 import ChallengePreview from "../components/display/challenge-preview";
 import { FindChallenge } from "../components/inputs";

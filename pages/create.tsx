@@ -4,12 +4,17 @@ import { openConfirmModal } from "@mantine/modals";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { Var } from "../components/display";
-import { CodeEditor, LanguageSelect } from "../components/inputs";
+import { LanguageSelect } from "../components/inputs";
 import { Layout } from "../components/layout";
 import {
   quickExecuteAndPopulate,
   submitHandler,
 } from "../utils/create/form-handlers";
+import dynamic from "next/dynamic";
+
+const CodeEditor = dynamic(() => import("../components/inputs/code-editor"), {
+  ssr: false,
+});
 
 export interface CreateFormValues {
   title: string;
