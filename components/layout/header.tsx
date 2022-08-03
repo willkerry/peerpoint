@@ -14,11 +14,14 @@ import {
 } from "@mantine/core";
 import {
   IconInfoCircle,
+  IconLogin,
   IconLogout,
+  IconMenu2,
   IconPlus,
   IconSearch,
   IconTable,
   IconUser,
+  IconUserPlus,
 } from "@tabler/icons";
 
 const Header: React.FC = () => {
@@ -30,23 +33,76 @@ const Header: React.FC = () => {
 
   const { data: session, status } = useSession();
 
-  let headerLinks;
-
   if (status === "loading") return <Skeleton width={80} height={36} />;
 
-  if (!session) {
-    headerLinks = (
-      <Link href="/api/auth/signin" passHref>
-        <Button variant="outline" data-active={isActive("/signup")}>
-          Log in
-        </Button>
-      </Link>
+  const accountItems = [];
+
+  const applicationItems = [
+    <Menu.Item
+      href="/about"
+      key="about"
+      component={NextLink}
+      icon={<IconInfoCircle size={14} />}
+    >
+      About
+    </Menu.Item>,
+    <Menu.Item
+      icon={<IconSearch size={14} />}
+      key="find"
+      rightSection={
+        <Text size="xs" color="dimmed">
+          ⌘K
+        </Text>
+      }
+    >
+      Find a challenge
+    </Menu.Item>,
+  ];
+
+  if (session) {
+    accountItems.push(
+      <Menu.Item
+        onClick={() => signOut()}
+        color="red"
+        icon={<IconLogout size={14} />}
+      >
+        Log out
+      </Menu.Item>
+    );
+    applicationItems.unshift(
+      <Menu.Item
+        href="/admin"
+        key="challenges"
+        component={NextLink}
+        icon={<IconTable size={14} />}
+      >
+        Your challenges
+      </Menu.Item>
+    );
+  } else {
+    accountItems.push(
+      <Menu.Item
+        component={NextLink}
+        href="/api/auth/signin"
+        icon={<IconLogin size={14} />}
+      >
+        Log in
+      </Menu.Item>
+    );
+    accountItems.push(
+      <Menu.Item
+        component={NextLink}
+        href="/api/auth/signin"
+        icon={<IconUserPlus size={14} />}
+      >
+        Create account
+      </Menu.Item>
     );
   }
 
-  if (session) {
-    headerLinks = (
-      <Group>
+  const headerLinks = (
+    <Group>
+      {session ? (
         <Tooltip label="Create a challenge">
           <ActionIcon
             component={NextLink}
@@ -58,54 +114,38 @@ const Header: React.FC = () => {
             <IconPlus size={16} stroke={3} />
           </ActionIcon>
         </Tooltip>
+      ) : (
+        ""
+      )}
 
-        <Menu shadow="md" width={200}>
-          <Menu.Target>
-            <ActionIcon component="a" variant="outline" size="lg">
+      <Menu
+        shadow="md"
+        width={200}
+        position="bottom-end"
+        withArrow
+        arrowOffset={12}
+        offset={-1}
+      >
+        <Menu.Target>
+          <ActionIcon component="a" variant="outline" size="lg">
+            {session ? (
               <IconUser size={16} stroke={2} />
-            </ActionIcon>
-          </Menu.Target>
+            ) : (
+              <IconMenu2 size={16} />
+            )}
+          </ActionIcon>
+        </Menu.Target>
 
-          <Menu.Dropdown>
-            <Menu.Label>Application</Menu.Label>
-            <Menu.Item
-              href="/admin"
-              component={NextLink}
-              icon={<IconTable size={14} />}
-            >
-              Your challenges
-            </Menu.Item>
-            <Menu.Item
-              href="/about"
-              component={NextLink}
-              icon={<IconInfoCircle size={14} />}
-            >
-              About
-            </Menu.Item>
-            <Menu.Item
-              icon={<IconSearch size={14} />}
-              rightSection={
-                <Text size="xs" color="dimmed">
-                  ⌘K
-                </Text>
-              }
-            >
-              Find a challenge
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Label>Account</Menu.Label>
-            <Menu.Item
-              onClick={() => signOut()}
-              color="red"
-              icon={<IconLogout size={14} />}
-            >
-              Log out
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      </Group>
-    );
-  }
+        <Menu.Dropdown>
+          <Menu.Label>Application</Menu.Label>
+          {applicationItems}
+          <Menu.Divider />
+          <Menu.Label>Account</Menu.Label>
+          {accountItems}
+        </Menu.Dropdown>
+      </Menu>
+    </Group>
+  );
 
   return headerLinks;
 };
