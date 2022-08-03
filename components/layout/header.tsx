@@ -1,11 +1,8 @@
 import React from "react";
-import Link from "next/link";
 import { NextLink } from "@mantine/next";
-import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import {
   ActionIcon,
-  Button,
   Group,
   Menu,
   Skeleton,
@@ -25,12 +22,6 @@ import {
 } from "@tabler/icons";
 
 const Header: React.FC = () => {
-  const router = useRouter();
-
-  const isActive = (pathname: string) => {
-    return router.pathname === pathname;
-  };
-
   const { data: session, status } = useSession();
 
   if (status === "loading") return <Skeleton width={80} height={36} />;
