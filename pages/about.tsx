@@ -60,9 +60,7 @@ const About: React.FC<null> = () => {
           <figure>
             <Paper p="md" withBorder>
               <p>What is the output of the following code?</p>
-              <pre>
-                <code>{javaSnippet}</code>
-              </pre>
+              <pre>{javaSnippet}</pre>
               <ol type="a">
                 <li>
                   <code>1, 3</code>
@@ -93,9 +91,7 @@ const About: React.FC<null> = () => {
                 Complete the expression in method <code>m()</code> so that the
                 main method outputs <code>1, 1</code>.
               </p>
-              <pre>
-                <code>{javaSnippet2}</code>
-              </pre>
+              <pre>{javaSnippet2}</pre>
               <TextInput label="Answer" type="text" value="i += 2;" readOnly />
             </Paper>
             <figcaption>
@@ -133,7 +129,7 @@ const About: React.FC<null> = () => {
                     <Text mt="lg" size="sm" weight={600}>
                       Your program’s output
                     </Text>
-                    <Code block>1, NaN</Code>
+                    <pre>1, NaN</pre>
                   </Paper>
                 ) : (
                   <CodeEditor value={javaSnippet2} language={62} />
