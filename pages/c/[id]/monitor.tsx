@@ -118,7 +118,7 @@ const Monitor = () => {
                 cx={160}
                 cy={160}
                 r={r}
-                stroke={theme.colors.gray[3]}
+                stroke={theme.colors.dark[3]}
                 strokeWidth={20}
                 fill="transparent"
               />

@@ -1,4 +1,4 @@
-import { Grid, Group, LoadingOverlay, Skeleton, Title } from "@mantine/core";
+import { Grid, Group, Skeleton, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -64,7 +64,6 @@ const Post: React.FC = () => {
 
   return (
     <Layout loading={isSubmitting} title={data?.title ?? "Peerpoint Challenge"}>
-      <LoadingOverlay visible={isSubmitting} />
       {error ? (
         <EmptyState />
       ) : (
