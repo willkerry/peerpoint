@@ -32,7 +32,6 @@ export default async function handle(
       return;
     }
     try {
-      console.log(session);
       if (session) {
         const result = await prisma.challenge.create({
           data: {
