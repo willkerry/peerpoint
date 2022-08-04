@@ -39,6 +39,8 @@ const Header: React.FC = () => {
     </Menu.Item>,
     <Menu.Item
       icon={<IconSearch size={14} />}
+      href="/"
+      component={NextLink}
       key="find"
       rightSection={
         <Text size="xs" color="dimmed">
