@@ -1,13 +1,14 @@
 import {
   Alert,
   Button,
-  Code,
   Container,
   Paper,
   TextInput,
   Text,
   TypographyStylesProvider,
   Skeleton,
+  Radio,
+  Group,
 } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 import { useState } from "react";
@@ -58,23 +59,15 @@ const About: React.FC<null> = () => {
             programming context, this leads to questions like:
           </p>
           <figure>
-            <Paper p="md" withBorder>
+            <Paper p="xs" withBorder>
               <p>What is the output of the following code?</p>
               <pre>{javaSnippet}</pre>
-              <ol type="a">
-                <li>
-                  <code>1, 3</code>
-                </li>
-                <li>
-                  <code>3, 1</code>
-                </li>
-                <li>
-                  <code>1, 1</code>
-                </li>
-                <li>
-                  <code>1, 0</code>
-                </li>
-              </ol>
+              <Radio.Group label="Answer" value="3">
+                <Radio value="1" label={<code>1, 3</code>} />
+                <Radio value="2" label={<code>3, 1</code>} />
+                <Radio value="3" label={<code>1, 1</code>} />
+                <Radio value="4" label={<code>1, 0</code>} />
+              </Radio.Group>
             </Paper>
             <figcaption>
               Example 1: a reliable, multiple-choice clicker question.
@@ -86,7 +79,10 @@ const About: React.FC<null> = () => {
             teacher might rephrase the question to collect a text input answer:
           </p>
           <figure>
-            <Paper p="md" withBorder>
+            <Paper p="xs" withBorder>
+              <Text size="sm" weight={500}>
+                Question
+              </Text>
               <p>
                 Complete the expression in method <code>m()</code> so that the
                 main method outputs <code>1, 1</code>.
@@ -110,7 +106,10 @@ const About: React.FC<null> = () => {
           </p>
           <p>Peerpoint reframes the question like this:</p>
           <figure>
-            <Paper p="md" withBorder>
+            <Paper p="xs" withBorder>
+              <Text size="sm" weight={500}>
+                Question
+              </Text>
               <p>
                 Complete the expression in method <code>m()</code> so that the
                 main method outputs <code>1, 1</code>.
@@ -118,7 +117,6 @@ const About: React.FC<null> = () => {
               <Skeleton
                 visible={fakeLoading}
                 mb={demoCode || fakeLoading ? "xs" : 0}
-                height={250}
               >
                 {demoCode ? (
                   <Paper withBorder p="sm">
@@ -136,7 +134,7 @@ const About: React.FC<null> = () => {
                 )}
               </Skeleton>
 
-              <Button.Group>
+              <Group position="apart">
                 <Button
                   variant="default"
                   compact
@@ -154,15 +152,14 @@ const About: React.FC<null> = () => {
                   Run
                 </Button>
                 <Button
-                  variant="default"
-                  color="dark"
+                  variant="subtle"
                   compact
                   disabled={!demoCode}
                   onClick={() => setDemoCode(false)}
                 >
                   Reset
                 </Button>
-              </Button.Group>
+              </Group>
             </Paper>
             <figcaption>
               Example 3: a Peerpoint challenge. (FYI, this figure’s a demo.)
