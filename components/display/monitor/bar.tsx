@@ -15,8 +15,6 @@ import { ChartProps } from "../monitor/";
 Chart.register(CategoryScale, LinearScale, PointElement, BarElement);
 
 const Bar: React.FC<ChartProps> = ({ data }) => {
-  const [range, setRange] = useState<[number, number]>([1, 2]);
-
   const theme = useMantineTheme();
   Chart.defaults.font = {
     family: theme.fontFamily,
@@ -69,14 +67,7 @@ const Bar: React.FC<ChartProps> = ({ data }) => {
   };
 
   return (
-    <>
-      <RangeSlider
-        value={range}
-        onChange={(value) => setRange(value)}
-        minRange={0}
-      />
-      <BarChart data={chartData} options={options} height={50} width={100} />
-    </>
+    <BarChart data={chartData} options={options} height={50} width={100} />
   );
 };
 export default Bar;
