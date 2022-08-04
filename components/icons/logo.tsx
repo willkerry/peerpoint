@@ -6,28 +6,26 @@ type LogoProps = SVGProps<SVGSVGElement> & {
   animate?: boolean;
 };
 
-const Logo = (props: LogoProps) => {
+const Logo: React.FC<LogoProps> = (props) => {
   const [toggle, setToggle] = useState(false);
-
-  const active = props.animate;
-
+  const { animate, ...rest } = props;
   const ticker = useInterval(() => {
     setToggle(!toggle);
   }, 1400);
 
   useEffect(() => {
-    if (active) {
+    if (animate) {
       ticker.start();
       return ticker.stop;
     }
-  }, [active, ticker]);
+  }, [animate, ticker]);
 
   return (
     <svg
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 117 16"
-      {...props}
+      {...rest}
       style={{ overflow: "visible" }}
     >
       <title>Peerpoint</title>
@@ -38,12 +36,12 @@ const Logo = (props: LogoProps) => {
       <g stroke="#FD7E14" strokeLinecap="round">
         <motion.g
           animate={{
-            opacity: !active ? 1 : toggle ? 0.65 : 1,
-            strokeWidth: !active ? 1 : toggle ? 1 / 0.8 : 1,
-            scale: !active ? 1 : toggle ? 0.8 : 1,
-            translateY: !active ? 0 : toggle ? 3 : 0,
-            translateX: !active ? 0 : toggle ? -1 : 0,
-            rotate: !active ? 0 : toggle ? -8 : 0,
+            opacity: !animate ? 1 : toggle ? 0.65 : 1,
+            strokeWidth: !animate ? 1 : toggle ? 1 / 0.8 : 1,
+            scale: !animate ? 1 : toggle ? 0.8 : 1,
+            translateY: !animate ? 0 : toggle ? 3 : 0,
+            translateX: !animate ? 0 : toggle ? -1 : 0,
+            rotate: !animate ? 0 : toggle ? -8 : 0,
           }}
           transition={{
             type: "spring",
@@ -56,12 +54,12 @@ const Logo = (props: LogoProps) => {
         </motion.g>
         <motion.g
           animate={{
-            opacity: !active ? 0.65 : toggle ? 1 : 0.65,
-            scale: !active ? 1 : toggle ? 1 : 0.8,
-            strokeWidth: !active ? 1 : toggle ? 1 : 1 / 0.8,
-            translateY: !active ? 0 : toggle ? 0 : 1,
-            translateX: !active ? 0 : !toggle ? 2.5 : 0,
-            rotate: !active ? 0 : toggle ? 0 : 3.5,
+            opacity: !animate ? 0.65 : toggle ? 1 : 0.65,
+            scale: !animate ? 1 : toggle ? 1 : 0.8,
+            strokeWidth: !animate ? 1 : toggle ? 1 : 1 / 0.8,
+            translateY: !animate ? 0 : toggle ? 0 : 1,
+            translateX: !animate ? 0 : !toggle ? 2.5 : 0,
+            rotate: !animate ? 0 : toggle ? 0 : 3.5,
           }}
           transition={{ type: "spring" }}
         >
