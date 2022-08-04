@@ -5,9 +5,6 @@ module.exports = async () => {
     const nextConfig = {
         poweredByHeader: false,
         swcMinify: true,
-        compiler: {
-            removeConsole: true,
-        },
         async headers() {
             return [
                 {
