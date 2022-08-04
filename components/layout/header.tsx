@@ -57,6 +57,7 @@ const Header: React.FC = () => {
       <Menu.Item
         onClick={() => signOut()}
         color="red"
+        key="logout"
         icon={<IconLogout size={14} />}
       >
         Log out
@@ -76,6 +77,7 @@ const Header: React.FC = () => {
     accountItems.push(
       <Menu.Item
         component={NextLink}
+        key="login"
         href="/api/auth/signin"
         icon={<IconLogin size={14} />}
       >

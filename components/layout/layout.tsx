@@ -5,7 +5,6 @@ import React from "react";
 import Logo from "../icons/logo";
 import Header from "./header";
 import Meta from "./meta";
-// import Logo from "./icons/logo";
 
 type Props = {
   children?: React.ReactNode;
