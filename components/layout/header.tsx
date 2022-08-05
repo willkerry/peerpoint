@@ -8,21 +8,29 @@ import {
   Skeleton,
   Text,
   Tooltip,
+  useMantineColorScheme,
 } from "@mantine/core";
 import {
   IconInfoCircle,
   IconLogin,
   IconLogout,
   IconMenu2,
+  IconMoon,
   IconPlus,
   IconSearch,
+  IconSun,
   IconTable,
   IconUser,
   IconUserPlus,
 } from "@tabler/icons";
+import { useOs } from "@mantine/hooks";
 
 const Header: React.FC = () => {
   const { data: session, status } = useSession();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const light = colorScheme === "light";
+  const os = useOs();
+  const cmd = os === "macos" || os === "ios";
 
   if (status === "loading") return <Skeleton width={80} height={36} />;
 
@@ -42,13 +50,20 @@ const Header: React.FC = () => {
       href="/"
       component={NextLink}
       key="find"
+    >
+      Find a challenge
+    </Menu.Item>,
+    <Menu.Item
+      onClick={() => toggleColorScheme()}
+      key="dark-mode"
+      icon={light ? <IconMoon size={14} /> : <IconSun size={14} />}
       rightSection={
         <Text size="xs" color="dimmed">
-          ⌘K
+          {cmd ? "⌘" : "Ctrl+"}J
         </Text>
       }
     >
-      Find a challenge
+      {light ? "Dark mode" : "Light mode"}
     </Menu.Item>,
   ];
 

@@ -4,7 +4,7 @@ import {
   ColorSchemeProvider,
   MantineProvider,
 } from "@mantine/core";
-import { useColorScheme } from "@mantine/hooks";
+import { useColorScheme, useHotkeys } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
@@ -23,6 +23,8 @@ const App = ({ Component, pageProps }: AppProps) => {
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   const router = useRouter();
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   return (
     <>
