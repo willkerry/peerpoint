@@ -20,9 +20,9 @@ const Blog: React.FC = () => {
 
         <Grid>
           {data && !error ? (
-            data.map((post) => (
-              <Grid.Col md={3} xs={6} key={post.id}>
-                <ChallengePreview post={post} />
+            data.map((ch) => (
+              <Grid.Col md={3} xs={6} key={ch.id}>
+                <ChallengePreview challenge={ch} />
               </Grid.Col>
             ))
           ) : (
