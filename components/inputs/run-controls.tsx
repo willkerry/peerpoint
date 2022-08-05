@@ -4,19 +4,18 @@ import {
   Group,
   Tooltip,
   ActionIcon,
-  Divider,
   Button,
+  Divider,
 } from "@mantine/core";
 import { Challenge } from "@prisma/client";
-import {
-  IconEdit,
-  IconHeartRateMonitor,
-  IconHistory,
-  IconTrash,
-} from "@tabler/icons";
-import Link from "next/link";
-import { AnchorHTMLAttributes, Dispatch, SetStateAction } from "react";
+import { IconHistory } from "@tabler/icons";
+import { Dispatch, SetStateAction, Suspense } from "react";
 import { deleteHandler, editHandler } from "../../utils/run/handlers";
+import dynamic from "next/dynamic";
+const AdminControls = dynamic(() => import("./admin-controls"), {
+  ssr: false,
+  suspense: true,
+});
 
 type RunControlsProps = {
   privileged: boolean;
@@ -34,7 +33,7 @@ const RunControls: React.FC<RunControlsProps> = ({
   hasOutput,
   setShowResult,
   disabled,
-}: RunControlsProps) => {
+}) => {
   const handleDelete = deleteHandler(data);
   const handleEdit = editHandler(data);
 
@@ -42,46 +41,21 @@ const RunControls: React.FC<RunControlsProps> = ({
     <Affix zIndex={1} position={{ bottom: 10, right: 10 }}>
       <Paper withBorder p={7}>
         <Group spacing={8}>
-          {privileged && (
-            <Group spacing={8}>
-              <Tooltip label="Delete challenge">
-                <ActionIcon
-                  color="red"
-                  variant="light"
-                  onClick={() => handleDelete()}
+          {/* Show admin controls if user owns this challenge. */}
+          <Suspense fallback={null}>
+            {privileged && (
+              <>
+                <AdminControls
+                  id={data.id}
                   disabled={isSubmitting}
-                >
-                  <IconTrash size={16} />
-                </ActionIcon>
-              </Tooltip>
+                  {...{ handleDelete, handleEdit }}
+                />
+                <Divider sx={{ height: "36px" }} orientation="vertical" />
+              </>
+            )}
+          </Suspense>
 
-              <Tooltip label="Edit challenge">
-                <ActionIcon
-                  variant="light"
-                  color="blue"
-                  disabled={isSubmitting}
-                  onClick={handleEdit}
-                >
-                  <IconEdit size={16} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Monitor responses">
-                <div>
-                  <Link href={`${data?.id}/monitor`}>
-                    <ActionIcon<AnchorHTMLAttributes<HTMLAnchorElement>>
-                      variant="light"
-                      color="green"
-                      component="a"
-                    >
-                      <IconHeartRateMonitor size={16} />
-                    </ActionIcon>
-                  </Link>
-                </div>
-              </Tooltip>
-              <Divider sx={{ height: "36px" }} orientation="vertical" />
-            </Group>
-          )}
-
+          {/* Enable previous output button once there is previous output.*/}
           <Tooltip label="Review output">
             <ActionIcon
               disabled={!hasOutput}
@@ -92,6 +66,7 @@ const RunControls: React.FC<RunControlsProps> = ({
             </ActionIcon>
           </Tooltip>
 
+          {/* Send execution request. */}
           <Button
             type="submit"
             form="exec"
