@@ -53,9 +53,6 @@ const Bar: React.FC<ChartProps> = ({ data }) => {
       },
     },
     scales: {
-      x: {
-        stacked: true,
-      },
       xAxes: {
         display: true,
       },
