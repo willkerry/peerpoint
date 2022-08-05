@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 module.exports = async () => {
     /**
      * @type {import('next').NextConfig}
@@ -19,5 +21,8 @@ module.exports = async () => {
             ]
         }
     }
-    return nextConfig
+    const withBundleAnalyzer = require('@next/bundle-analyzer')({
+        enabled: process.env.ANALYZE === 'true',
+    })
+    return withBundleAnalyzer(nextConfig)
 }
