@@ -54,13 +54,38 @@ export default async function handle(
   }
   // GET /api/c (return 10 latest challenge objects)
   else if (req.method === "GET") {
-    const feed = await prisma.challenge.findMany({
-      where: { published: true },
-      include: { author: { select: { name: true } } },
-      orderBy: { createdAt: "desc" },
-      take: 10,
-    });
-    res.json(feed);
+    const { own } = req.query;
+    if (own) {
+      // If `own` is set, check that the user is logged in
+      const session = await unstable_getServerSession(req, res, authOptions);
+
+      // If not logged in, return 401 unauthorized
+      if (!session) {
+        res.status(401).send("Unauthorized");
+        return;
+      }
+      /*
+       * Otherwise, return the 30 most recent challenges created by the user
+       * TODO: pagination
+       */
+      const result = await prisma.challenge.findMany({
+        orderBy: { createdAt: "desc" },
+        where: { author: { email: session.user.email } },
+        take: 30,
+      });
+      res.status(200).send(result);
+    }
+
+    // If `own` is not set, return the 10 most recent public challenges
+    else {
+      const feed = await prisma.challenge.findMany({
+        where: { published: true },
+        include: { author: { select: { name: true } } },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+      });
+      res.json(feed);
+    }
     return;
   }
 }
