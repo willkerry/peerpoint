@@ -4,9 +4,8 @@ import {
   ColorSchemeProvider,
   MantineProvider,
 } from "@mantine/core";
-// import { useColorScheme } from "@mantine/hooks";
+import { useColorScheme } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
-import { AnimatePresence } from "framer-motion";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -15,18 +14,13 @@ import { useState } from "react";
 import { theme } from "../lib/theme";
 
 const App = ({ Component, pageProps }: AppProps) => {
-  // const preferredColorScheme = useColorScheme();
+  const preferredColorScheme = useColorScheme();
 
-  const [colorScheme, setColorScheme] = useState<ColorScheme>();
+  const [colorScheme, setColorScheme] =
+    useState<ColorScheme>(preferredColorScheme);
 
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
-
-  function handleExitComplete() {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0 });
-    }
-  }
 
   const router = useRouter();
 
@@ -48,12 +42,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         >
           <ModalsProvider>
             <SessionProvider session={pageProps.session}>
-              <AnimatePresence
-                exitBeforeEnter
-                onExitComplete={handleExitComplete}
-              >
-                <Component {...pageProps} key={router.route} />
-              </AnimatePresence>
+              <Component {...pageProps} key={router.route} />
             </SessionProvider>
           </ModalsProvider>
         </MantineProvider>
