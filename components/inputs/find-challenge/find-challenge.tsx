@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useChallenge from "../../../utils/useChallenge";
+import { useChallenge } from "../../../utils/hooks";
 import FindStatus from "./find-status";
 
 export type CFStatus = "idle" | "loading" | "error" | "success";

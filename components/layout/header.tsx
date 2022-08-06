@@ -23,14 +23,13 @@ import {
   IconUser,
   IconUserPlus,
 } from "@tabler/icons";
-import { useOs } from "@mantine/hooks";
+import { useOsAwareModKey } from "../../utils/hooks";
 
 const Header: React.FC = () => {
   const { data: session, status } = useSession();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const light = colorScheme === "light";
-  const os = useOs();
-  const cmd = os === "macos" || os === "ios";
+  const modKey = useOsAwareModKey();
 
   if (status === "loading") return <Skeleton width={80} height={36} />;
 
@@ -59,7 +58,7 @@ const Header: React.FC = () => {
       icon={light ? <IconMoon size={14} /> : <IconSun size={14} />}
       rightSection={
         <Text size="xs" color="dimmed">
-          {cmd ? "⌘" : "Ctrl+"}J
+          {modKey}J
         </Text>
       }
     >

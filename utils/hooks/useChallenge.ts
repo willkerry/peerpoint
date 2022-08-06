@@ -1,6 +1,8 @@
 import useSWR from "swr";
-import fetchChallengeExists from "../lib/fetchers/fetch-challenge-exists";
 
+import fetchChallengeExists from "../../lib/fetchers/fetch-challenge-exists";
+
+/** Hook for retrieving existence confirmation and title for a given ID */
 const useChallenge = (
   id: number
 ): {
