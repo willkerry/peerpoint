@@ -1,8 +1,10 @@
+import { Language } from "../@types/Language";
 import { SubmissionResponse } from "../@types/Submission";
 
+/** Send an execute request. */
 export async function sendExecuteRequest(
   id: number,
-  language: number,
+  language: Language["id"],
   userCode: string
 ): Promise<SubmissionResponse> {
   const res = await fetch(`/api/execute/${id}`, {
