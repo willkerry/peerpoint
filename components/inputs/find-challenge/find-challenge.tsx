@@ -60,10 +60,16 @@ const FindChallenge: React.FC = () => {
         maxLength={5}
         onKeyUp={form.validate}
         size="md"
-        sx={{ input: { fontVariantNumeric: "tabular-nums slashed-zero" } }}
+        sx={{
+          input: {
+            fontVariantNumeric: "tabular-nums slashed-zero",
+            fontSize: "1.6em",
+            fontWeight: "300",
+            letterSpacing: "0.25em",
+          },
+        }}
         {...form.getInputProps("challenge")}
       />
-
       <Group position="apart" mt="md" noWrap>
         <FindStatus status={status} title={title} />
         <Button
