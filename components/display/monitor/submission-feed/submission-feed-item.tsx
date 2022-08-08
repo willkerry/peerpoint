@@ -1,8 +1,8 @@
 import { Badge, Box, Code, Group, useMantineTheme } from "@mantine/core";
 import { Attempt } from "@prisma/client";
 import { motion } from "framer-motion";
-import readableHash from "../../../utils/readable-hash";
-import PlaceholderAvatar from "./placeholder-avatar";
+import readableHash from "../../../../utils/readable-hash";
+import PlaceholderAvatar from "../placeholder-avatar";
 
 const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
   const theme = useMantineTheme();

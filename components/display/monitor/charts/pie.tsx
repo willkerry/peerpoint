@@ -1,7 +1,7 @@
 import { Center, Stack, Text, useMantineTheme } from "@mantine/core";
 import { IconBraces } from "@tabler/icons";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChartProps } from "../monitor/";
+import { ChartProps } from "../index";
 
 const Pie: React.FC<ChartProps> = ({ loading, data }) => {
   const theme = useMantineTheme();

@@ -1,8 +1,8 @@
-import { Paper, Stack, Text } from "@mantine/core";
+import { Paper, Text } from "@mantine/core";
 import { Attempt } from "@prisma/client";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useRandomInterval } from "../../../utils/hooks";
+import { useRandomInterval } from "../../../../utils/hooks";
 import SubmissionFeedItem from "./submission-feed-item";
 
 const SubmissionFeed: React.FC<{ attempts: Attempt[] }> = ({ attempts }) => {

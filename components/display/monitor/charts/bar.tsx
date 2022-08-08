@@ -9,7 +9,7 @@ import {
   BarElement,
 } from "chart.js";
 import { Bar as BarChart } from "react-chartjs-2";
-import { ChartProps } from "../monitor/";
+import { ChartProps } from "../index";
 
 Chart.register(CategoryScale, LinearScale, PointElement, BarElement);
 
