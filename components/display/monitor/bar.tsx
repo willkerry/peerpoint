@@ -1,4 +1,4 @@
-import { RangeSlider, useMantineTheme } from "@mantine/core";
+import { useMantineTheme } from "@mantine/core";
 import {
   Chart,
   ChartData,
@@ -8,7 +8,6 @@ import {
   PointElement,
   BarElement,
 } from "chart.js";
-import { useState } from "react";
 import { Bar as BarChart } from "react-chartjs-2";
 import { ChartProps } from "../monitor/";
 
