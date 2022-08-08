@@ -5,6 +5,9 @@
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "rules": {
     "sort-imports": "off",
     "camelcase": ["error", { "allow": ["^unstable_"] }],
