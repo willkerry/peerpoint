@@ -1,6 +1,6 @@
 import { UseFormReturnType } from "@mantine/form";
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
-import { SubmissionResponse } from "../../@types/Submission";
+import { SubmissionResponse } from "../../types/Submission";
 import { CreateFormValues } from "../../pages/create";
 import { sendOneOffExecuteRequest } from "../send-execute-request";
 

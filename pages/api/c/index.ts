@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import { unstable_getServerSession } from "next-auth/next";
 import { standardLimiter } from "../../../utils/server";
-import { languageMap } from "../../../@types/Language";
+import { languageMap } from "../../../types/Language";
 import { authOptions } from "../auth/[...nextauth]";
 
 // POST /api/c (create a new challenge)

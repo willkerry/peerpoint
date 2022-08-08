@@ -1,5 +1,5 @@
 import { Fetcher } from "swr";
-import { SubmissionRequest } from "../@types/Submission";
+import { SubmissionRequest } from "../types/Submission";
 
 /**
  * Pass a URL and a SubmissionRequest object to this function, and it will perform a GET request to the URL.

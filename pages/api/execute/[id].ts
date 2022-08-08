@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { SubmissionResponse } from "../../../@types/Submission";
+import { SubmissionResponse } from "../../../types/Submission";
 import prisma from "../../../lib/prisma";
 import {
   executeCode,

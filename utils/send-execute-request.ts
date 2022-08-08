@@ -1,5 +1,5 @@
-import { Language } from "../@types/Language";
-import { SubmissionResponse } from "../@types/Submission";
+import { Language } from "../types/Language";
+import { SubmissionResponse } from "../types/Submission";
 
 /** Send an execute request. */
 export async function sendExecuteRequest(

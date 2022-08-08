@@ -2,7 +2,7 @@ import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
 import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import { Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import { Language, languageMap } from "../../@types/Language";
+import { Language, languageMap } from "../../types/Language";
 import LanguageIndicator from "../display/language-indicator";
 import { createTheme } from "@uiw/codemirror-themes";
 import { tags as t } from "@lezer/highlight";

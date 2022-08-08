@@ -2,7 +2,7 @@ import { Select, Group, Text, Avatar, Badge } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { IconCode } from "@tabler/icons";
 import { forwardRef } from "react";
-import { languageMap } from "../../@types/Language";
+import { languageMap } from "../../types/Language";
 import { CreateFormValues } from "../../pages/create";
 
 const defaultProps = {

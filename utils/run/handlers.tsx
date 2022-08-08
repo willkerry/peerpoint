@@ -4,7 +4,7 @@ import { deletePost } from "../../utils";
 import { Challenge } from "@prisma/client";
 import { Var } from "../../components/display";
 import { Alert, Code, ScrollArea, Stack, Text, Title } from "@mantine/core";
-import { SubmissionResponse } from "../../@types/Submission";
+import { SubmissionResponse } from "../../types/Submission";
 import { IconAlertCircle, IconTrophy } from "@tabler/icons";
 
 export function deleteHandler(data: Challenge) {

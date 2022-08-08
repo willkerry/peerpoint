@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { SubmissionResponse } from "../../../@types/Submission";
+import { SubmissionResponse } from "../../../types/Submission";
 import { EmptyState, IdButton } from "../../../components/display";
 import { CodeEditor } from "../../../components/inputs";
 import RunControls from "../../../components/inputs/run-controls";

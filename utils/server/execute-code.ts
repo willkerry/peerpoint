@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { SubmissionRequest, SubmissionResponse } from "../../@types/Submission";
+import { SubmissionRequest, SubmissionResponse } from "../../types/Submission";
 import { encodeBase64 } from "../base64";
 import { getApiHeaders, getApiSubmissionsUrl } from "./get-api";
 import getOutput from "./get-output";

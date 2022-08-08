@@ -1,5 +1,5 @@
 import { Avatar, CSSObject, Group, Text, Tooltip } from "@mantine/core";
-import { languageMap } from "../../@types/Language";
+import { languageMap } from "../../types/Language";
 
 type LanguageIndicatorProps = {
   language: number;
