@@ -63,9 +63,9 @@ const FindChallenge: React.FC = () => {
         sx={{
           input: {
             fontVariantNumeric: "tabular-nums slashed-zero",
-            fontSize: "1.6em",
+            fontSize: "1.5em",
             fontWeight: "300",
-            letterSpacing: "0.25em",
+            letterSpacing: "0.1em",
           },
         }}
         {...form.getInputProps("challenge")}
