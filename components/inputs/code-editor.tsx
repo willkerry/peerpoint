@@ -1,18 +1,20 @@
 import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
-import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 import { Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import dynamic from "next/dynamic";
 import { Language, languageMap } from "../../@types/Language";
 import LanguageIndicator from "../display/language-indicator";
 import { createTheme } from "@uiw/codemirror-themes";
 import { tags as t } from "@lezer/highlight";
-import { Suspense } from "react";
-
-const ReactCodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
-  suspense: true,
-});
+import React, {
+  type ForwardRefExoticComponent,
+  useEffect,
+  useState,
+} from "react";
+import {
+  type StreamLanguage,
+  type LanguageSupport,
+} from "@codemirror/language";
 
 type Props = ReactCodeMirrorProps &
   InputWrapperProps & {
@@ -34,18 +36,41 @@ const CodeEditor = ({
 }: Props) => {
   const theme = useMantineTheme();
 
+  const [comp, setComp] =
+    useState<ForwardRefExoticComponent<ReactCodeMirrorProps>>();
+  const [lang, setLang] = useState<StreamLanguage<unknown> | LanguageSupport>();
+  useEffect(() => {
+    if (window) {
+      import("@uiw/react-codemirror").then((obj) => {
+        if (!comp) {
+          setComp(obj.default);
+        }
+      });
+    }
+  }, [comp, setComp]);
+  const Comps = comp;
+
+  const l = languageMap.get(language)?.cm;
+
+  useEffect(() => {
+    if (window) {
+      import("@uiw/codemirror-extensions-langs").then((module) => {
+        const { loadLanguage } = module;
+        if (!lang) {
+          setLang(loadLanguage(l));
+        }
+      });
+    }
+  }, [lang, setLang, l]);
+
   const CodeMirrorThemeExtension: Extension = EditorView.theme({
     "&": { fontSize: `${theme.fontSizes.sm}px` },
     ".cm-content": { fontFamily: theme.fontFamilyMonospace, fontWeight: 450 },
   });
 
-  const l = languageMap.get(language)?.cm;
-
-  const extensions = {
-    extensions: l
-      ? [loadLanguage(l), CodeMirrorThemeExtension]
-      : [CodeMirrorThemeExtension],
-  };
+  const extensions = lang
+    ? [lang, CodeMirrorThemeExtension]
+    : [CodeMirrorThemeExtension];
 
   const editorTheme = createTheme({
     theme: "dark",
@@ -89,12 +114,18 @@ const CodeEditor = ({
             }`,
           }}
         >
-          <Suspense fallback={<div>Loading...</div>}>
-            <ReactCodeMirror
-              {...extensions}
-              {...{ editable, basicSetup, value, onChange, theme: editorTheme }}
+          {Comps && (
+            <Comps
+              {...{
+                editable,
+                basicSetup,
+                value,
+                onChange,
+                theme: editorTheme,
+                extensions: extensions,
+              }}
             />
-          </Suspense>
+          )}
           <Box
             sx={{
               position: "absolute",
