@@ -1,6 +1,6 @@
 import { MantineThemeOverride } from "@mantine/core";
 
-export const theme: MantineThemeOverride = {
+export const peerpointTheme: MantineThemeOverride = {
   primaryColor: "orange",
   dateFormat: "DD/MM/YYYY",
   fontFamily:

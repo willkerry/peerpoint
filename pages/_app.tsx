@@ -11,7 +11,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { theme } from "../lib/theme";
+import { peerpointTheme } from "../lib/theme";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const preferredColorScheme = useColorScheme();
@@ -38,7 +38,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
       <ColorSchemeProvider {...{ colorScheme, toggleColorScheme }}>
         <MantineProvider
-          {...{ theme: { colorScheme, ...theme } }}
+          {...{ theme: { colorScheme, ...peerpointTheme } }}
           withGlobalStyles
           withNormalizeCSS
         >
