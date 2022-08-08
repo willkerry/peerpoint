@@ -1,4 +1,4 @@
-import { Badge, Code, Group, useMantineTheme } from "@mantine/core";
+import { Badge, Box, Code, Group, useMantineTheme } from "@mantine/core";
 import { Attempt } from "@prisma/client";
 import { motion } from "framer-motion";
 import readableHash from "../../../utils/readable-hash";
@@ -12,24 +12,27 @@ const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
       key={attempt.id}
       style={{
         position: "absolute",
-        top: 0,
+        bottom: 0,
         left: 0,
         padding: theme.spacing.xs,
       }}
       initial={{ y: -40 }}
       animate={{ y: 0 }}
       exit={{ y: 40 }}
-      transition={{ duration: 0.6 }}
     >
-      <Group>
-        <Badge
-          sx={{ paddingLeft: 0 }}
-          leftSection={<PlaceholderAvatar seed={attempt.cookie} />}
-          color={attempt.success ? "green" : "red"}
-        >
-          {readableHash(attempt.cookie)}
+      <Group sx={{ fontSize: theme.fontSizes.sm }} spacing="xs">
+        <Badge color={attempt.success ? "green" : "red"} size="lg">
+          {attempt.success ? "Correct output" : "Error"}
         </Badge>
-
+        from
+        <Group
+          spacing={4}
+          // color={attempt.success ? "green" : "red"}
+        >
+          <PlaceholderAvatar seed={attempt.cookie} />
+          {readableHash(attempt.cookie)}
+        </Group>
+        scored
         <Code>{attempt.output}</Code>
       </Group>
     </motion.div>

@@ -1,4 +1,4 @@
-import { Paper, Text } from "@mantine/core";
+import { Paper, Stack, Text } from "@mantine/core";
 import { Attempt } from "@prisma/client";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -17,9 +17,24 @@ const SubmissionFeed: React.FC<{ attempts: Attempt[] }> = ({ attempts }) => {
       p="xs"
       withBorder
       color="red"
-      sx={{ overflow: "hidden", position: "relative", height: 42 }}
+      sx={{ overflow: "hidden", position: "relative", height: 64 }}
     >
-      <Text size="sm">Live submissions</Text>
+      <Text
+        size="xs"
+        color="dimmed"
+        sx={(theme) => ({
+          top: 0,
+          position: "absolute",
+          left: 0,
+          paddingLeft: theme.spacing.xs,
+          paddingRight: theme.spacing.xs,
+          paddingTop: 6,
+          backdropFilter: "blur(10px)",
+          zIndex: 1,
+        })}
+      >
+        Live submissions
+      </Text>
       <AnimatePresence>
         <SubmissionFeedItem
           key={attempts[index].id}
