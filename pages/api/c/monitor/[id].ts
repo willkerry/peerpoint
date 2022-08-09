@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { rateLimit } from "../../../../utils/server";
 import prisma from "../../../../lib/prisma";
-import countStudents from "../../../../utils/monitoring/count-students";
+import countStudents from "../../../../utils/count-students";
 
 export type MonitorResponse = {
   title?: string;
