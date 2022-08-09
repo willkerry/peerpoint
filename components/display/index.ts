@@ -1,5 +1,6 @@
 import ChallengePreview from "./challenge-preview";
 import DisplayId from "./display-id";
+import Edit from "./edit";
 import EmptyState from "./empty-state";
 import IdButton from "./id-button";
 import InfoModal from "./info-modal";
@@ -11,6 +12,7 @@ export {
   Bar,
   ChallengePreview,
   DisplayId,
+  Edit,
   EmptyState,
   IdButton,
   InfoModal,
