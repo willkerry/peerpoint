@@ -19,7 +19,7 @@ const CodeEditor = dynamic(() => import("../inputs/code-editor"), {
 type ChallengeFormComponentProps = {
   form: UseFormReturnType<CreateFormValues>;
   onSubmit: (values: CreateFormValues) => Promise<void>;
-  isEditting?: boolean;
+  isEditForm?: boolean;
   executing: boolean;
   setExecuting: Dispatch<SetStateAction<boolean>>;
   submitting: boolean;
@@ -132,7 +132,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
               disabled={props.executing}
               type="submit"
             >
-              {props.isEditting ? "Update" : "Create"}
+              {props.isEditForm ? "Update" : "Create"}
             </Button>
             <Button variant="subtle" onClick={cancelModal}>
               Cancel
