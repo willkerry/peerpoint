@@ -1,7 +1,9 @@
 import { UseFormReturnType } from "@mantine/form";
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
 import { SubmissionResponse } from "../../types/Submission";
+import createChallenge from "../requests/create-challenge";
 import { silentlyExecuteChallenge } from "../requests/execute-challenge";
+import updateChallenge from "../requests/update-challenge";
 
 export interface CreateFormValues {
   title: string;
@@ -69,11 +71,17 @@ export function quickExecuteAndPopulate(
   };
 }
 
+/**
+ * Submit handler for the create form – fires the appropriate errors on the
+ * provided form object. Pass a challenge ID as the `updateChallengeId` argument
+ * to update an existing challenge (leave it as `undefined` to create a new one).
+ */
 export function submitHandler(
   form: UseFormReturnType<CreateFormValues>,
   setSubmitting: Dispatch<SetStateAction<boolean>>,
   setExecuting: Dispatch<SetStateAction<boolean>>,
-  setSuccess: Dispatch<SetStateAction<boolean>>
+  setSuccess: Dispatch<SetStateAction<boolean>>,
+  updateChallengeId?: number
 ) {
   return async (values) => {
     setSubmitting(true);
@@ -96,18 +104,8 @@ export function submitHandler(
       return;
     }
     try {
-      const ex = await fetch(`/api/c`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!ex.ok) {
-        throw new Error(
-          `The create API threw an error. ${ex.status} ${
-            ex.statusText
-          } ${await ex.text()}`
-        );
-      }
+      if (updateChallengeId) updateChallenge(updateChallengeId, values);
+      else createChallenge(values);
       setSubmitting(false);
       setSuccess(true);
       return;
