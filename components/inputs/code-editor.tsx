@@ -1,21 +1,15 @@
-import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
-import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
+import { LanguageSupport, StreamLanguage } from "@codemirror/language";
 import { Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
+import { tags as t } from "@lezer/highlight";
+import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
+import { createTheme } from "@uiw/codemirror-themes";
+import React, { ForwardRefExoticComponent, useEffect, useState } from "react";
+
 import { Language, languageMap } from "../../types/Language";
 import LanguageIndicator from "../display/language-indicator";
-import { createTheme } from "@uiw/codemirror-themes";
-import { tags as t } from "@lezer/highlight";
-import React, {
-  type ForwardRefExoticComponent,
-  useEffect,
-  useState,
-} from "react";
-import {
-  type StreamLanguage,
-  type LanguageSupport,
-} from "@codemirror/language";
 
+import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 type Props = ReactCodeMirrorProps &
   InputWrapperProps & {
     children?: React.ReactNode;
@@ -123,6 +117,8 @@ const CodeEditor = ({
                 onChange,
                 theme: editorTheme,
                 extensions: extensions,
+                autocomplete: false,
+                spellCheck: false,
               }}
             />
           )}
