@@ -3,7 +3,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { IconCode } from "@tabler/icons";
 import { forwardRef } from "react";
 import { languageMap } from "../../types/Language";
-import { CreateFormValues } from "../../utils/create/form-handlers";
+import { CreateFormValues } from "../../utils/form-handlers/create-form-handlers";
 
 const defaultProps = {
   data: Array.from(languageMap.keys(), (k) => {

@@ -11,7 +11,7 @@ import RunControls from "../../../components/inputs/run-controls";
 import { Layout, TitleGroup } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import { executeChallenge } from "../../../utils";
-import { resultModal } from "../../../utils/run/handlers";
+import { resultModal } from "../../../utils/form-handlers/run-form-handlers";
 
 const Post: React.FC = () => {
   // Get challenge ID from URL

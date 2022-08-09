@@ -10,7 +10,7 @@ import {
 import { Challenge } from "@prisma/client";
 import { IconHistory } from "@tabler/icons";
 import { Dispatch, SetStateAction, Suspense } from "react";
-import { deleteHandler, editHandler } from "../../utils/run/handlers";
+import { deleteHandler, editHandler } from "../../utils/form-handlers/run-form-handlers";
 import dynamic from "next/dynamic";
 const AdminControls = dynamic(() => import("./admin-controls"), {
   ssr: false,

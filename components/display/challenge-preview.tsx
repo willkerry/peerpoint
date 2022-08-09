@@ -12,7 +12,7 @@ import Router from "next/router";
 import type { Challenge } from "@prisma/client";
 import LanguageIndicator from "./language-indicator";
 import AdminControls from "../inputs/admin-controls";
-import { deleteHandler, editHandler } from "../../utils/run/handlers";
+import { deleteHandler, editHandler } from "../../utils/form-handlers/run-form-handlers";
 
 type ChallengePreviewProps = {
   challenge: Challenge;

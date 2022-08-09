@@ -1,7 +1,7 @@
 import { useForm } from "@mantine/form";
 import { Challenge } from "@prisma/client";
 import { useState } from "react";
-import { CreateFormValues } from "../../utils/create/form-handlers";
+import { CreateFormValues } from "../../utils/form-handlers/create-form-handlers";
 import { ChallengeForm } from "../inputs";
 
 type EditProps = {

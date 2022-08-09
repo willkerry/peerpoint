@@ -1,6 +1,6 @@
 import { openConfirmModal, openModal } from "@mantine/modals";
 import Router from "next/router";
-import { deleteChallenge } from "../../utils";
+import { deleteChallenge } from "../index";
 import { Challenge } from "@prisma/client";
 import { Var, Edit } from "../../components/display";
 import { Alert, Code, ScrollArea, Stack, Text, Title } from "@mantine/core";
