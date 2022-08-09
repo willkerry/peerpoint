@@ -1,14 +1,14 @@
-import { Grid, Group, Skeleton, Title } from "@mantine/core";
+import { Grid } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { SubmissionResponse } from "../../../types/Submission";
-import { EmptyState, IdButton } from "../../../components/display";
+import { EmptyState } from "../../../components/display";
 import { CodeEditor } from "../../../components/inputs";
 import RunControls from "../../../components/inputs/run-controls";
-import { Layout } from "../../../components/layout/";
+import { Layout, TitleGroup } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import { sendExecuteRequest } from "../../../utils";
 import { resultModal } from "../../../utils/run/handlers";
@@ -69,23 +69,11 @@ const Post: React.FC = () => {
       ) : (
         <Grid>
           <Grid.Col span={12}>
-            <Group position="apart" noWrap mb={16}>
-              {!data ? (
-                <Skeleton />
-              ) : (
-                <Title
-                  order={4}
-                  sx={{
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {data?.title}
-                </Title>
-              )}
-              <IdButton id={data?.id} />
-            </Group>
+            <TitleGroup
+              area="Challenge"
+              title={data?.title}
+              id={String(data?.id)}
+            />
           </Grid.Col>
 
           <Grid.Col span={12}>
