@@ -13,7 +13,7 @@ const TitleGroup: React.FC<TitleGroupProps> = ({ title, area, id }) => (
       {area}
     </Text>
     <Group position="apart" mb={12}>
-      <Skeleton visible={!title} width="60%" height={35}>
+      <Skeleton visible={!title} width="75%" height={35}>
         <Title order={2}>{title}</Title>
       </Skeleton>
 
