@@ -1,4 +1,3 @@
-import Router from "next/router";
 import { CreateFormValues } from "../form-handlers/create-form-handlers";
 
 /** Send an update request (*safely* – auth happens server-side). */
@@ -12,7 +11,6 @@ async function updateChallenge(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
   });
-  await Router.push("/");
 }
 
 export default updateChallenge;
