@@ -1,4 +1,5 @@
-import { Box, Text, Group, Title, Skeleton } from "@mantine/core";
+import { Box, Group, Skeleton, Text, Title } from "@mantine/core";
+
 import { IdButton } from "../display";
 
 type TitleGroupProps = {
@@ -12,9 +13,10 @@ const TitleGroup: React.FC<TitleGroupProps> = ({ title, area, id }) => (
     <Text weight={500} color="dimmed">
       {area}
     </Text>
-    <Group position="apart" mb={12}>
-      <Skeleton visible={!title} width="75%" height={35}>
-        <Title order={2}>{title}</Title>
+    <Group position="apart" mb={12} noWrap>
+      <Skeleton visible={!title} sx={{ minHeight: 35 }}>
+        {/* If title is 20+ chars and there's an ID, reduce to order 3.  */}
+        <Title order={title?.length >= 20 && id ? 3 : 2}>{title}</Title>
       </Skeleton>
 
       {id ? <IdButton {...{ id }} /> : null}
