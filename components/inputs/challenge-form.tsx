@@ -1,6 +1,6 @@
 import { Button, Grid, Group, Text, TextInput } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
-import { openConfirmModal } from "@mantine/modals";
+import { closeAllModals, openConfirmModal } from "@mantine/modals";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect } from "react";
@@ -30,30 +30,47 @@ type ChallengeFormComponentProps = {
 
 const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
   const router = useRouter();
-
-  const { form, success, setSuccess } = props;
-
+  const { form, success, setSuccess, isEditForm } = props;
   const runAndPopulate = quickExecuteAndPopulate(props.setExecuting, form);
 
+  const successModalProps = {
+    title: "Challenge created",
+    children: (
+      <Text size="sm">
+        Your challenge <Var>{form.values.title}</Var> has been created.
+      </Text>
+    ),
+    labels: { confirm: "Create more", cancel: "Exit" },
+    onCancel: () => {
+      setSuccess(false);
+      router.back();
+    },
+    onConfirm: () => {
+      form.reset();
+      setSuccess(false);
+    },
+  };
+
+  const editSuccessModalProps = {
+    title: "Challenge updated",
+    children: (
+      <Text size="sm">
+        Your challenge <Var>{form.values.title}</Var> has been updated.
+      </Text>
+    ),
+    labels: { confirm: "Done", cancel: "Edit again" },
+    onConfirm: () => {
+      setSuccess(false);
+      closeAllModals();
+    },
+    onCancel: () => {
+      setSuccess(false);
+    },
+  };
+
   useEffect(() => {
-    const successModalProps = {
-      title: "Challenge created",
-      children: (
-        <Text size="sm">
-          Your challenge <Var>{form.values.title}</Var> has been created.
-        </Text>
-      ),
-      labels: { confirm: "Create more", cancel: "Exit" },
-      onCancel: () => {
-        setSuccess(false);
-        router.back();
-      },
-      onConfirm: () => {
-        form.reset();
-        setSuccess(false);
-      },
-    };
-    if (success) openConfirmModal(successModalProps);
+    if (success && !isEditForm) openConfirmModal(successModalProps);
+    if (success && isEditForm) openConfirmModal(editSuccessModalProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success, setSuccess]);
 
@@ -132,7 +149,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
               disabled={props.executing}
               type="submit"
             >
-              {props.isEditForm ? "Update" : "Create"}
+              {isEditForm ? "Update" : "Create"}
             </Button>
             <Button variant="subtle" onClick={cancelModal}>
               Cancel
