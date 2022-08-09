@@ -29,31 +29,32 @@ type ChallengeFormComponentProps = {
 
 const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
   const router = useRouter();
-  const runAndPopulate = quickExecuteAndPopulate(
-    props.setExecuting,
-    props.form
-  );
+
+  const { form, success, setSuccess } = props;
+
+  const runAndPopulate = quickExecuteAndPopulate(props.setExecuting, form);
 
   useEffect(() => {
     const successModalProps = {
       title: "Challenge created",
       children: (
         <Text size="sm">
-          Your challenge <Var>{props.form.values.title}</Var> has been created.
+          Your challenge <Var>{form.values.title}</Var> has been created.
         </Text>
       ),
       labels: { confirm: "Create more", cancel: "Exit" },
       onCancel: () => {
-        props.setSuccess(false);
+        setSuccess(false);
         router.back();
       },
       onConfirm: () => {
-        props.form.reset();
-        props.setSuccess(false);
+        form.reset();
+        setSuccess(false);
       },
     };
-    if (props.success) openConfirmModal(successModalProps);
-  }, [props.success, props.form]);
+    if (success) openConfirmModal(successModalProps);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [success, setSuccess]);
 
   const cancelModal = () => {
     const props = {
