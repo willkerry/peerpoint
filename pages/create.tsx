@@ -2,14 +2,10 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { ChallengeForm } from "../components/inputs";
 import { Layout, TitleGroup } from "../components/layout";
-import { submitHandler } from "../utils/create/form-handlers";
-
-export interface CreateFormValues {
-  title: string;
-  language: string;
-  skeleton: string;
-  expectedOutput: string;
-}
+import {
+  type CreateFormValues,
+  submitHandler,
+} from "../utils/create/form-handlers";
 
 const Create: React.FC = () => {
   const [executing, setExecuting] = useState(false);

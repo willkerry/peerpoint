@@ -1,8 +1,14 @@
 import { UseFormReturnType } from "@mantine/form";
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
 import { SubmissionResponse } from "../../types/Submission";
-import { CreateFormValues } from "../../pages/create";
 import { sendOneOffExecuteRequest } from "../send-execute-request";
+
+export interface CreateFormValues {
+  title: string;
+  language: string;
+  skeleton: string;
+  expectedOutput: string;
+}
 
 export function quickExecute(
   setExecuting: Dispatch<SetStateAction<boolean>>,
