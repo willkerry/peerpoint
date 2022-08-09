@@ -1,7 +1,11 @@
 import { useForm } from "@mantine/form";
 import { Challenge } from "@prisma/client";
 import { useState } from "react";
-import { CreateFormValues } from "../../utils/form-handlers/create-form-handlers";
+
+import {
+  CreateFormValues,
+  submitHandler,
+} from "../../utils/form-handlers/create-form-handlers";
 import { ChallengeForm } from "../inputs";
 
 type EditProps = {
@@ -21,16 +25,20 @@ const Edit: React.FC<EditProps> = ({ challenge }) => {
     },
   });
 
-  const onSubmit = async (values: CreateFormValues) => {
-    alert(JSON.stringify(values));
-  };
+  const onSubmit = submitHandler(
+    form,
+    setSubmitting,
+    setExecuting,
+    setSuccess,
+    challenge.id
+  );
 
   return (
     <ChallengeForm
       {...{
         form,
         onSubmit,
-        isEditting: true,
+        isEditForm: true,
         executing,
         setExecuting,
         submitting,
