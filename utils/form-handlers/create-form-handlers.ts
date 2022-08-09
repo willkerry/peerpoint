@@ -1,9 +1,12 @@
 import { UseFormReturnType } from "@mantine/form";
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
+
 import { SubmissionResponse } from "../../types/Submission";
-import createChallenge from "../requests/create-challenge";
-import { silentlyExecuteChallenge } from "../requests/execute-challenge";
-import updateChallenge from "../requests/update-challenge";
+import {
+  createChallenge,
+  silentlyExecuteChallenge,
+  updateChallenge,
+} from "../requests";
 
 export interface CreateFormValues {
   title: string;
