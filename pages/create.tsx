@@ -15,7 +15,7 @@ const Create: React.FC = () => {
   const form = useForm<CreateFormValues>({
     initialValues: {
       title: "",
-      language: "",
+      language: null,
       skeleton: "",
       expectedOutput: "",
     },

@@ -5,7 +5,7 @@ import { sendOneOffExecuteRequest } from "../send-execute-request";
 
 export interface CreateFormValues {
   title: string;
-  language: string;
+  language: number;
   skeleton: string;
   expectedOutput: string;
 }
