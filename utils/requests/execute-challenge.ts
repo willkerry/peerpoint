@@ -1,8 +1,8 @@
-import { Language } from "../types/Language";
-import { SubmissionResponse } from "../types/Submission";
+import { Language } from "../../types/Language";
+import { SubmissionResponse } from "../../types/Submission";
 
 /** Send an execute request. */
-export async function sendExecuteRequest(
+export async function executeChallenge(
   id: number,
   language: Language["id"],
   userCode: string
@@ -15,7 +15,8 @@ export async function sendExecuteRequest(
   return res.json();
 }
 
-export async function sendOneOffExecuteRequest(
+/** Send an execute request without created an `Attempt` record. */
+export async function silentlyExecuteChallenge(
   language: number,
   userCode: string
 ): Promise<SubmissionResponse> {

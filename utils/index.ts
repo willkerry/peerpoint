@@ -1,20 +1,20 @@
 import { decodeBase64, encodeBase64 } from "./base64";
-import deletePost from "./delete-post";
+import deleteChallenge from "./requests/delete-challenge";
 import getQrCode from "./get-qr";
-import publishPost from "./publish-post";
+import publishChallenge from "./requests/publish-challenge";
 import {
-  sendExecuteRequest,
-  sendOneOffExecuteRequest,
-} from "./send-execute-request";
+  executeChallenge,
+  silentlyExecuteChallenge,
+} from "./requests/execute-challenge";
 import sleep from "./sleep";
 
 export {
   decodeBase64,
-  deletePost,
+  deleteChallenge,
   encodeBase64,
   getQrCode,
-  publishPost,
-  sendOneOffExecuteRequest,
-  sendExecuteRequest,
+  publishChallenge,
+  silentlyExecuteChallenge,
+  executeChallenge,
   sleep,
 };

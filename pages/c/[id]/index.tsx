@@ -10,7 +10,7 @@ import { CodeEditor } from "../../../components/inputs";
 import RunControls from "../../../components/inputs/run-controls";
 import { Layout, TitleGroup } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
-import { sendExecuteRequest } from "../../../utils";
+import { executeChallenge } from "../../../utils";
 import { resultModal } from "../../../utils/run/handlers";
 
 const Post: React.FC = () => {
@@ -52,7 +52,7 @@ const Post: React.FC = () => {
    */
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    const response = await sendExecuteRequest(
+    const response = await executeChallenge(
       data?.id,
       data?.language,
       form.values.userCode

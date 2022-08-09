@@ -1,8 +1,8 @@
 import { openConfirmModal, openModal } from "@mantine/modals";
 import Router from "next/router";
-import { deletePost } from "../../utils";
+import { deleteChallenge } from "../../utils";
 import { Challenge } from "@prisma/client";
-import { Var } from "../../components/display";
+import { Var, Edit } from "../../components/display";
 import { Alert, Code, ScrollArea, Stack, Text, Title } from "@mantine/core";
 import { SubmissionResponse } from "../../types/Submission";
 import { IconAlertCircle, IconTrophy } from "@tabler/icons";
@@ -23,7 +23,7 @@ export function deleteHandler(data: Challenge) {
       },
       confirmProps: { color: "red" },
       onConfirm: () => {
-        deletePost(data?.id);
+        deleteChallenge(data?.id);
         Router.push("/");
       },
     });
@@ -38,7 +38,7 @@ export function editHandler(data: Challenge) {
           Edit <Var>{data?.title}</Var>
         </>
       ),
-      children: <Alert>Editing is not implemented yet.</Alert>,
+      children: <Edit challenge={data} />,
       centered: true,
     });
   };

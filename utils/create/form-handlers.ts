@@ -1,7 +1,7 @@
 import { UseFormReturnType } from "@mantine/form";
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
 import { SubmissionResponse } from "../../types/Submission";
-import { sendOneOffExecuteRequest } from "../send-execute-request";
+import { silentlyExecuteChallenge } from "../requests/execute-challenge";
 
 export interface CreateFormValues {
   title: string;
@@ -18,7 +18,7 @@ export function quickExecute(
     setExecuting(true);
     let res: SubmissionResponse;
     try {
-      res = await sendOneOffExecuteRequest(
+      res = await silentlyExecuteChallenge(
         Number(form.values.language),
         form.values.skeleton
       );
