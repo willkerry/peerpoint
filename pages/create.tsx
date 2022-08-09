@@ -1,16 +1,17 @@
-import { Button, Grid, Group, Text, TextInput, Title } from "@mantine/core";
+import { Button, Grid, Group, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { openConfirmModal } from "@mantine/modals";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { Var } from "../components/display";
 import { LanguageSelect } from "../components/inputs";
-import { Layout } from "../components/layout";
+import { Layout, TitleGroup } from "../components/layout";
 import {
   quickExecuteAndPopulate,
   submitHandler,
 } from "../utils/create/form-handlers";
 import dynamic from "next/dynamic";
+import { useDebouncedValue } from "@mantine/hooks";
 
 const CodeEditor = dynamic(() => import("../components/inputs/code-editor"), {
   ssr: false,
@@ -77,9 +78,11 @@ const Create: React.FC = () => {
     return openConfirmModal(props);
   };
 
+  const [title] = useDebouncedValue(form.values.title, 500);
+
   return (
     <Layout loading={submitting || executing} title="Create new challenge">
-      <Title order={1}>New challenge</Title>
+      <TitleGroup area="Create a challenge" title={title || "New challenge"} />
       <form onSubmit={form.onSubmit((values) => submitData(values))}>
         <Grid>
           <Grid.Col sm={8}>
