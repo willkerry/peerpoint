@@ -2,10 +2,7 @@ import { useForm } from "@mantine/form";
 import { Challenge } from "@prisma/client";
 import { useState } from "react";
 
-import {
-  CreateFormValues,
-  submitHandler,
-} from "../../utils/form-handlers/create-form-handlers";
+import { CreateFormValues, submitHandler } from "../../utils/form-handlers/create-form-handlers";
 import { ChallengeForm } from "../inputs";
 
 type EditProps = {
@@ -39,6 +36,7 @@ const Edit: React.FC<EditProps> = ({ challenge }) => {
         form,
         onSubmit,
         isEditForm: true,
+        isModal: true,
         executing,
         setExecuting,
         submitting,

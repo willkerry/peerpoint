@@ -6,10 +6,7 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
 import { LanguageSelect } from ".";
-import {
-  type CreateFormValues,
-  quickExecuteAndPopulate,
-} from "../../utils/form-handlers/create-form-handlers";
+import { CreateFormValues, quickExecuteAndPopulate } from "../../utils/form-handlers/create-form-handlers";
 import { Var } from "../display";
 
 const CodeEditor = dynamic(() => import("../inputs/code-editor"), {
@@ -20,6 +17,7 @@ type ChallengeFormComponentProps = {
   form: UseFormReturnType<CreateFormValues>;
   onSubmit: (values: CreateFormValues) => Promise<void>;
   isEditForm?: boolean;
+  isModal?: boolean;
   executing: boolean;
   setExecuting: Dispatch<SetStateAction<boolean>>;
   submitting: boolean;
@@ -30,7 +28,7 @@ type ChallengeFormComponentProps = {
 
 const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
   const router = useRouter();
-  const { form, success, setSuccess, isEditForm } = props;
+  const { form, success, setSuccess, isEditForm, isModal } = props;
   const runAndPopulate = quickExecuteAndPopulate(props.setExecuting, form);
 
   const successModalProps = {
@@ -88,7 +86,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
   return (
     <form onSubmit={props.form.onSubmit((values) => props.onSubmit(values))}>
       <Grid>
-        <Grid.Col sm={8}>
+        <Grid.Col sm={isModal ? 12 : 8}>
           <TextInput
             autoFocus
             required
@@ -97,10 +95,10 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
             {...props.form.getInputProps("title")}
           />
         </Grid.Col>
-        <Grid.Col sm={4}>
+        <Grid.Col sm={isModal ? 12 : 4}>
           <LanguageSelect form={props.form} />
         </Grid.Col>
-        <Grid.Col sm={6}>
+        <Grid.Col sm={isModal ? 12 : 6}>
           <CodeEditor
             label="Skeleton"
             language={props.form.values.language}
@@ -126,7 +124,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
               : "Run and populate Expected output"}
           </Button>
         </Grid.Col>
-        <Grid.Col sm={6}>
+        <Grid.Col sm={isModal ? 12 : 6}>
           <CodeEditor
             label="Expected output"
             descriptionProps={{ sx: { minHeight: "2.5em" } }}
