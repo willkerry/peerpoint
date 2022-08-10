@@ -12,41 +12,10 @@ import { SubmissionFeed } from "../../../components/display/monitor";
 import { Layout, TitleGroup } from "../../../components/layout";
 import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 
-import type { Attempt } from "@prisma/client";
 const Pie = dynamic(
   () => import("../../../components/display/monitor/charts/pie"),
-  {
-    suspense: true,
-  }
+  { suspense: true }
 );
-
-const attempts: Attempt[] = [
-  {
-    challengeId: 17,
-    cookie: "d8a69ad4-d655-4aa6-a8fa-aa4cef249b05",
-    createdAt: new Date(),
-    id: 1,
-    output:
-      "Hello World \nAnotherone Hello World \nAnotherone Hello World \nAnotherone Hello World \nAnotherone",
-    success: true,
-  },
-  {
-    challengeId: 17,
-    cookie: "f9dc06cf-0e83-440f-8f1d-8896285ae02b",
-    createdAt: new Date(),
-    id: 2,
-    output: "Hello Glob3",
-    success: false,
-  },
-  {
-    challengeId: 17,
-    cookie: "951178db-8b4e-4b2c-8b2d-f4bce4182986",
-    createdAt: new Date(),
-    id: 3,
-    output: "Hello World",
-    success: true,
-  },
-];
 
 const Monitor = () => {
   const router = useRouter();
@@ -76,7 +45,7 @@ const Monitor = () => {
           onChange={(event) => setPeriod(Number(event.target.value))}
         />
 
-        <SubmissionFeed {...{ attempts }} />
+        <SubmissionFeed attempts={data?.attempts} />
 
         <Tabs variant="pills" defaultValue="pie">
           <Tabs.List grow>

@@ -1,18 +1,29 @@
-import { Box, Paper, Text } from "@mantine/core";
+import { Box, Center, Paper, Text } from "@mantine/core";
+import { useDebouncedValue, useInterval } from "@mantine/hooks";
 import { Attempt } from "@prisma/client";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useRandomInterval } from "../../../../utils/hooks";
 import SubmissionFeedItem from "./submission-feed-item";
 
 const SubmissionFeed: React.FC<{ attempts: Attempt[] }> = ({ attempts }) => {
   const [index, setIndex] = useState(0);
-  useRandomInterval(
-    () => setIndex((i) => (i + 1) % attempts.length),
-    2000,
-    4000
+  const [debouncedAttempts] = useDebouncedValue(attempts, 500);
+
+  const interval = useInterval(
+    () =>
+      debouncedAttempts && debouncedAttempts.length > 0
+        ? setIndex((i) => (i + 1) % debouncedAttempts.length)
+        : setIndex(0),
+    3500
   );
+
+  useEffect(() => {
+    interval.start();
+    return interval.stop;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedAttempts]);
+
   return (
     <Box>
       <Text size="sm" weight={500} mb={2}>
@@ -25,10 +36,18 @@ const SubmissionFeed: React.FC<{ attempts: Attempt[] }> = ({ attempts }) => {
         sx={{ overflow: "hidden", position: "relative", height: 72 }}
       >
         <AnimatePresence>
-          <SubmissionFeedItem
-            key={attempts[index].id}
-            attempt={attempts[index]}
-          />
+          {debouncedAttempts && debouncedAttempts.length > 0 ? (
+            <SubmissionFeedItem
+              key={debouncedAttempts[index].id}
+              attempt={debouncedAttempts[index]}
+            />
+          ) : (
+            <Center sx={{ position: "absolute", inset: 0 }}>
+              <Text size="xs" color="dimmed">
+                No submissions
+              </Text>
+            </Center>
+          )}
         </AnimatePresence>
       </Paper>
     </Box>

@@ -1,7 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { rateLimit } from "../../../../utils/server";
+import { Attempt } from "@prisma/client";
+
 import prisma from "../../../../lib/prisma";
 import countStudents from "../../../../utils/count-students";
+import { rateLimit } from "../../../../utils/server";
+
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export type MonitorResponse = {
   title?: string;
@@ -9,6 +12,7 @@ export type MonitorResponse = {
   successRate?: number;
   successfulStudents?: number;
   message?: string;
+  attempts?: Attempt[];
 };
 
 const limiter = rateLimit({
@@ -60,6 +64,7 @@ export default async function handle(
       activeStudents: cs.activeStudents,
       successRate: (cs.successfulStudents / cs.activeStudents) * 100,
       successfulStudents: cs.successfulStudents,
+      attempts: attempts,
     });
 
     return;

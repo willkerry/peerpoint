@@ -9,6 +9,7 @@ import PlaceholderAvatar from "../placeholder-avatar";
 const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
   const theme = useMantineTheme();
   const compactCode = attempt.output.replace(/\n/g, " ").trim();
+  const date = new Date(attempt.createdAt);
   return (
     <motion.div
       key={attempt.id}
@@ -43,7 +44,7 @@ const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
           <Group spacing={4} sx={(theme) => ({ fontSize: theme.fontSizes.xs })}>
             <PlaceholderAvatar seed={attempt.cookie} />
             <Text weight={500}>{readableHash(attempt.cookie)}</Text>
-            <Text color="dimmed">{ago(attempt.createdAt)}</Text>
+            <Text color="dimmed">{ago(date)}</Text>
           </Group>
 
           <Badge
