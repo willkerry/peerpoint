@@ -20,9 +20,9 @@ const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
         right: 0,
         padding: theme.spacing.xs,
       }}
-      initial={{ y: -100 }}
+      initial={{ y: -70 }}
       animate={{ y: 0 }}
-      exit={{ y: 100 }}
+      exit={{ y: 70 }}
     >
       <Stack spacing={6}>
         <Code
