@@ -2,11 +2,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
 
 import { SubmissionResponse } from "../../types/Submission";
-import {
-  createChallenge,
-  silentlyExecuteChallenge,
-  updateChallenge,
-} from "../requests";
+import { createChallenge, silentlyExecuteChallenge, updateChallenge } from "../requests";
 
 export interface CreateFormValues {
   title: string;
@@ -88,24 +84,6 @@ export function submitHandler(
 ) {
   return async (values) => {
     setSubmitting(true);
-    let res: SubmissionResponse;
-    try {
-      res = await quickExecute(setExecuting, form)();
-      if (res.status.id > 4) {
-        throw new Error(
-          `Your program failed to run. ${res.status.description}`
-        );
-      }
-      if (res.stdout !== values.expectedOutput) {
-        throw new Error(
-          "Your expected output doesn’t match the program’s output."
-        );
-      }
-    } catch (e) {
-      form.setFieldError("skeleton", e.message);
-      setSubmitting(false);
-      return;
-    }
     try {
       if (updateChallengeId) updateChallenge(updateChallengeId, values);
       else createChallenge(values);
