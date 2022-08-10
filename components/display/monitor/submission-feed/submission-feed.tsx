@@ -1,7 +1,8 @@
-import { Paper, Text } from "@mantine/core";
+import { Box, Paper, Text } from "@mantine/core";
 import { Attempt } from "@prisma/client";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
+
 import { useRandomInterval } from "../../../../utils/hooks";
 import SubmissionFeedItem from "./submission-feed-item";
 
@@ -13,35 +14,24 @@ const SubmissionFeed: React.FC<{ attempts: Attempt[] }> = ({ attempts }) => {
     4000
   );
   return (
-    <Paper
-      p="xs"
-      withBorder
-      color="red"
-      sx={{ overflow: "hidden", position: "relative", height: 64 }}
-    >
-      <Text
-        size="xs"
-        color="dimmed"
-        sx={(theme) => ({
-          top: 0,
-          position: "absolute",
-          left: 0,
-          paddingLeft: theme.spacing.xs,
-          paddingRight: theme.spacing.xs,
-          paddingTop: 6,
-          backdropFilter: "blur(10px)",
-          zIndex: 1,
-        })}
-      >
-        Live submissions
+    <Box>
+      <Text size="sm" weight={500} mb={2}>
+        Latest submissions
       </Text>
-      <AnimatePresence>
-        <SubmissionFeedItem
-          key={attempts[index].id}
-          attempt={attempts[index]}
-        />
-      </AnimatePresence>
-    </Paper>
+      <Paper
+        p="xs"
+        withBorder
+        color="red"
+        sx={{ overflow: "hidden", position: "relative", height: 72 }}
+      >
+        <AnimatePresence>
+          <SubmissionFeedItem
+            key={attempts[index].id}
+            attempt={attempts[index]}
+          />
+        </AnimatePresence>
+      </Paper>
+    </Box>
   );
 };
 

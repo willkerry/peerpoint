@@ -1,11 +1,11 @@
-import { useMantineTheme, Avatar as MantineAvatar } from "@mantine/core";
-import Avatar from "boring-avatars";
+import { Avatar as MantineAvatar, useMantineTheme } from "@mantine/core";
+import BoringAvatar from "boring-avatars";
 
 const PlaceholderAvatar: React.FC<{ seed: string }> = ({ seed }) => {
   const theme = useMantineTheme();
   return (
-    <MantineAvatar size={18}>
-      <Avatar
+    <MantineAvatar size={14}>
+      <BoringAvatar
         name={seed}
         colors={[
           theme.colors.cyan[3],
@@ -20,7 +20,7 @@ const PlaceholderAvatar: React.FC<{ seed: string }> = ({ seed }) => {
           theme.colors.violet[3],
         ]}
         variant="beam"
-        size={18}
+        size={14}
       />
     </MantineAvatar>
   );

@@ -1,30 +1,24 @@
-import {
-  Box,
-  Group,
-  NativeSelect,
-  Skeleton,
-  Stack,
-  Tabs,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { NativeSelect, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconChartBar, IconChartDonut } from "@tabler/icons";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import prettyMilliseconds from "pretty-ms";
 import { useState } from "react";
 import useSWR from "swr";
-import { DisplayId, IdButton, Var } from "../../../components/display";
+
+import { DisplayId, Var } from "../../../components/display";
+import { SubmissionFeed } from "../../../components/display/monitor";
 import { Layout, TitleGroup } from "../../../components/layout";
 import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
-import dynamic from "next/dynamic";
-import type { Attempt } from "@prisma/client";
-import { SubmissionFeed } from "../../../components/display/monitor";
 
-const Pie = dynamic(() => import("../../../components/display/monitor/charts/pie"), {
-  suspense: true,
-});
+import type { Attempt } from "@prisma/client";
+const Pie = dynamic(
+  () => import("../../../components/display/monitor/charts/pie"),
+  {
+    suspense: true,
+  }
+);
 
 const attempts: Attempt[] = [
   {
@@ -32,7 +26,8 @@ const attempts: Attempt[] = [
     cookie: "d8a69ad4-d655-4aa6-a8fa-aa4cef249b05",
     createdAt: new Date(),
     id: 1,
-    output: "Hello World",
+    output:
+      "Hello World \nAnotherone Hello World \nAnotherone Hello World \nAnotherone Hello World \nAnotherone",
     success: true,
   },
   {
@@ -73,7 +68,6 @@ const Monitor = () => {
       <TitleGroup title={data?.title} id={String(id)} area="Monitoring" />
 
       <Stack>
-        {/* <TextInput label="Challenge title" value={data?.title} disabled /> */}
         <NativeSelect
           label="Period"
           description="Include historical data from this period"
