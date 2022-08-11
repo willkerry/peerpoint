@@ -1,12 +1,17 @@
+import { Dispatch, SetStateAction, useEffect } from "react";
+
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+
 import { Button, Grid, Group, Text, TextInput } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { closeAllModals, openConfirmModal } from "@mantine/modals";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect } from "react";
 
 import { LanguageSelect } from ".";
-import { CreateFormValues, quickExecuteAndPopulate } from "../../utils/form-handlers/create-form-handlers";
+import {
+  CreateFormValues,
+  quickExecuteAndPopulate,
+} from "../../utils/form-handlers/create-form-handlers";
 import { Var } from "../display";
 
 const CodeEditor = dynamic(() => import("../inputs/code-editor"), {
