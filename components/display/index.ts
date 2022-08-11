@@ -5,7 +5,7 @@ import EmptyState from "./empty-state";
 import IdButton from "./id-button";
 import InfoModal from "./info-modal";
 import LanguageIndicator from "./language-indicator";
-import { Pie, Bar } from "./monitor";
+import { Bar, Pie } from "./monitor";
 import { Var } from "./variable";
 
 export {
