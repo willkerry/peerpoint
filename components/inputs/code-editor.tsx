@@ -1,38 +1,53 @@
+import React, { ForwardRefExoticComponent, useEffect, useState } from "react";
+
+import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
+
 import { LanguageSupport, StreamLanguage } from "@codemirror/language";
 import { Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { tags as t } from "@lezer/highlight";
-import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
 import { createTheme } from "@uiw/codemirror-themes";
-import React, { ForwardRefExoticComponent, useEffect, useState } from "react";
+import type {
+  BasicSetupOptions,
+  ReactCodeMirrorProps,
+} from "@uiw/react-codemirror";
 
 import { Language, languageMap } from "../../types/Language";
 import LanguageIndicator from "../display/language-indicator";
 
-import type { ReactCodeMirrorProps } from "@uiw/react-codemirror";
 type Props = ReactCodeMirrorProps &
   InputWrapperProps & {
     children?: React.ReactNode;
     language?: Language["id"];
+    fullWidth?: boolean;
   };
 
 const defaultProps = {
   children: null,
 };
 
-const CodeEditor = ({
+const CodeEditor: React.FC<Props> = ({
   language,
   value,
   basicSetup,
   editable,
   onChange,
+  fullWidth,
   ...props
-}: Props) => {
+}) => {
   const theme = useMantineTheme();
 
+  // Initialise an empty useState value for the CodeMirror editor
   const [comp, setComp] =
     useState<ForwardRefExoticComponent<ReactCodeMirrorProps>>();
+
+  // Initialise useState value for the language support package
   const [lang, setLang] = useState<StreamLanguage<unknown> | LanguageSupport>();
+
+  // Lookup the CodeMirror language code for the given language ID
+  const l = languageMap.get(language)?.cm;
+
+  // On mount, import React CodeMirror and assign it to the useState value
   useEffect(() => {
     if (window) {
       import("@uiw/react-codemirror").then((obj) => {
@@ -44,8 +59,7 @@ const CodeEditor = ({
   }, [comp, setComp]);
   const Comps = comp;
 
-  const l = languageMap.get(language)?.cm;
-
+  // On mount, import the language support package and assign it to the useState value
   useEffect(() => {
     if (window) {
       import("@uiw/codemirror-extensions-langs").then((module) => {
@@ -57,15 +71,30 @@ const CodeEditor = ({
     }
   }, [lang, setLang, l]);
 
-  const CodeMirrorThemeExtension: Extension = EditorView.theme({
-    "&": { fontSize: `${theme.fontSizes.sm}px` },
+  // Define a small extension for using theme typefaces
+  const codeMirrorThemeExtension: Extension = EditorView.theme({
+    "&": {
+      fontSize: `${theme.fontSizes.sm}px`,
+      padding:
+        fullWidth &&
+        `${theme.spacing.xs}px ${theme.spacing.xs}px 60px ${theme.spacing.xs}px`,
+    },
     ".cm-content": { fontFamily: theme.fontFamilyMonospace, fontWeight: 450 },
   });
 
+  // Include the theme in the extension array
   const extensions = lang
-    ? [lang, CodeMirrorThemeExtension]
-    : [CodeMirrorThemeExtension];
+    ? [lang, codeMirrorThemeExtension]
+    : [codeMirrorThemeExtension];
 
+  // Add the BasicSetup props to the default setup
+  const defaultBasicSetup: BasicSetupOptions = {
+    lineNumbers: false,
+    foldGutter: false,
+    ...{ basicSetup },
+  };
+
+  // Define the syntax highlighting theme
   const editorTheme = createTheme({
     theme: "dark",
     settings: {
@@ -95,6 +124,45 @@ const CodeEditor = ({
     ],
   });
 
+  const editor = Comps && (
+    <Comps
+      {...{
+        editable,
+        basicSetup: defaultBasicSetup,
+        value,
+        onChange,
+        theme: editorTheme,
+        extensions: extensions,
+        autoFocus: fullWidth,
+        width: "100vw",
+        minHeight: fullWidth ? "calc(100vh - 50px - 100px)" : null,
+      }}
+    />
+  );
+  const indicator = (
+    <Box
+      sx={{
+        position: "absolute",
+        right: 3,
+        top: 3,
+        zIndex: 1,
+        backdropFilter: "blur(2px)",
+        borderRadius: theme.radius.sm,
+        padding: 4,
+      }}
+    >
+      <LanguageIndicator compact {...{ language }} />
+    </Box>
+  );
+
+  if (fullWidth)
+    return (
+      <Box sx={{ position: "relative", display: "flex" }}>
+        {editor}
+        {indicator}
+      </Box>
+    );
+
   return (
     <Input.Wrapper {...props}>
       <Box sx={{ position: "relative" }}>
@@ -108,33 +176,8 @@ const CodeEditor = ({
             }`,
           }}
         >
-          {Comps && (
-            <Comps
-              {...{
-                editable,
-                basicSetup,
-                value,
-                onChange,
-                theme: editorTheme,
-                extensions: extensions,
-                autocomplete: false,
-                spellCheck: false,
-              }}
-            />
-          )}
-          <Box
-            sx={{
-              position: "absolute",
-              right: 3,
-              top: 3,
-              zIndex: 1,
-              backdropFilter: "blur(2px)",
-              borderRadius: theme.radius.sm,
-              padding: 4,
-            }}
-          >
-            <LanguageIndicator compact {...{ language }} />
-          </Box>
+          {editor}
+          {indicator}
         </Box>
       </Box>
     </Input.Wrapper>
