@@ -1,8 +1,13 @@
 import { UseFormReturnType } from "@mantine/form";
+
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
 
 import { SubmissionResponse } from "../../types/Submission";
-import { createChallenge, silentlyExecuteChallenge, updateChallenge } from "../requests";
+import {
+  createChallenge,
+  silentlyExecuteChallenge,
+  updateChallenge,
+} from "../requests";
 
 export interface CreateFormValues {
   title: string;
@@ -46,8 +51,10 @@ export function quickExecuteAndPopulate(
       form.setFieldError("skeleton", "Enter something to execute.");
       return;
     }
+
     const res = await quickExecute(setExecuting, form)();
     const displayError = res.stderr || res.compile_output;
+
     if (res.status?.id > 4) {
       form.setFieldError(
         "skeleton",

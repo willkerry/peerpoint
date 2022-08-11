@@ -1,11 +1,14 @@
+import Router from "next/router";
+
 import { Alert, Code, ScrollArea, Stack, Text, Title } from "@mantine/core";
 import { openConfirmModal, openModal } from "@mantine/modals";
+
 import { Challenge } from "@prisma/client";
 import { IconAlertCircle, IconTrophy } from "@tabler/icons";
-import Router from "next/router";
 
 import { deleteChallenge } from "..";
 import { Edit, Var } from "../../components/display";
+import { errorMessages } from "../../lib/error-messages";
 import { SubmissionResponse } from "../../types/Submission";
 
 export function deleteHandler(data: Challenge) {
@@ -57,10 +60,12 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
         {wasError ? (
           <Alert
             icon={<IconAlertCircle size={16} />}
-            title="Your program could not be executed"
+            title={errorMessages.get(output?.status?.id).description}
             color="red"
           >
-            {output?.status?.description ?? output?.message}
+            {output?.message}
+            {"\n"}
+            {output?.status?.description}
           </Alert>
         ) : wasCorrect ? (
           <Alert
