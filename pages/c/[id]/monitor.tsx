@@ -1,10 +1,13 @@
-import { NativeSelect, Skeleton, Stack, Tabs, Text } from "@mantine/core";
-import { useDebouncedValue } from "@mantine/hooks";
-import { IconChartBar, IconChartDonut } from "@tabler/icons";
+import { useState } from "react";
+
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+
+import { NativeSelect, Skeleton, Stack, Tabs, Text } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+
+import { IconChartBar, IconChartDonut } from "@tabler/icons";
 import prettyMilliseconds from "pretty-ms";
-import { useState } from "react";
 import useSWR from "swr";
 
 import { DisplayId, Var } from "../../../components/display";
@@ -14,6 +17,10 @@ import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 
 const Pie = dynamic(
   () => import("../../../components/display/monitor/charts/pie"),
+  { suspense: true }
+);
+const Bar = dynamic(
+  () => import("../../../components/display/monitor/charts/bar"),
   { suspense: true }
 );
 
@@ -58,7 +65,7 @@ const Monitor = () => {
           </Tabs.List>
 
           <Tabs.Panel value="bar" pt="md">
-            {/* <Bar {...{ loading, data }} /> */}
+            <Bar {...{ loading, data }} />
           </Tabs.Panel>
           <Tabs.Panel value="pie" pt="md">
             <Pie {...{ loading, data }} />
