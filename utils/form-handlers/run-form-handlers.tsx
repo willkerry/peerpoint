@@ -60,7 +60,7 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
         {wasError ? (
           <Alert
             icon={<IconAlertCircle size={16} />}
-            title={errorMessages.get(output?.status?.id).description}
+            title={errorMessages.get(output?.status?.id)}
             color="red"
           >
             {output?.message}
