@@ -1,7 +1,10 @@
-import { AppShell, Group, Header as MantineHeader, Box } from "@mantine/core";
+import React from "react";
+
 // import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+
+import { AppShell, Box, Group, Header as MantineHeader } from "@mantine/core";
+
 import Logo from "../icons/logo";
 import Header from "./header";
 import Meta from "./meta";
@@ -10,18 +13,21 @@ type Props = {
   children?: React.ReactNode;
   loading?: boolean;
   title?: string;
+  noPad?: boolean;
 };
 
 const defaultProps = {
   children: null,
   loading: false,
   title: "Peerpoint",
+  noPad: false,
 };
 
 const Layout: React.FC<Props> = ({
   title,
   children,
   loading,
+  noPad,
 } = defaultProps) => {
   /*
    * const theme = useMantineTheme();
@@ -59,6 +65,7 @@ const Layout: React.FC<Props> = ({
       <AppShell
         navbarOffsetBreakpoint="sm"
         fixed
+        padding={noPad ? 0 : "md"}
         // navbar={sidebar}
         header={
           <MantineHeader height={50} p="md">
