@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { Box, Stack } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { useSession } from "next-auth/react";
