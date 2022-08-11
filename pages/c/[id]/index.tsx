@@ -1,15 +1,18 @@
-import { Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
+import { useRouter } from "next/router";
+
+import { Box, Stack } from "@mantine/core";
+import { useForm } from "@mantine/form";
+
+import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import { SubmissionResponse } from "../../../types/Submission";
+
 import { EmptyState } from "../../../components/display";
-import { CodeEditor } from "../../../components/inputs";
-import RunControls from "../../../components/inputs/run-controls";
+import { CodeEditor, RunControls } from "../../../components/inputs";
 import { Layout, TitleGroup } from "../../../components/layout/";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
+import { SubmissionResponse } from "../../../types/Submission";
 import { executeChallenge } from "../../../utils";
 import { resultModal } from "../../../utils/form-handlers/run-form-handlers";
 
@@ -63,30 +66,32 @@ const Post: React.FC = () => {
   };
 
   return (
-    <Layout loading={isSubmitting} title={data?.title ?? "Peerpoint Challenge"}>
+    <Layout
+      loading={isSubmitting}
+      title={data?.title ?? "Peerpoint Challenge"}
+      noPad
+    >
       {error ? (
         <EmptyState />
       ) : (
-        <Grid>
-          <Grid.Col span={12}>
+        <Box sx={{ height: "calc(1vh - 150px)" }}>
+          <Box px="sm" py="xs" sx={{ height: 100 }}>
             <TitleGroup
+              compact
               area="Challenge"
               title={data?.title}
               id={String(data?.id)}
             />
-          </Grid.Col>
-
-          <Grid.Col span={12}>
-            <form id="exec" onSubmit={form.onSubmit(handleSubmit)}>
-              <CodeEditor
-                label="Code editor"
-                editable={!isSubmitting}
-                language={data?.language}
-                {...form.getInputProps("userCode")}
-              />
-            </form>
-          </Grid.Col>
-        </Grid>
+          </Box>
+          {/* <form id="exec" onSubmit={form.onSubmit(handleSubmit)}> */}
+          <CodeEditor
+            fullWidth
+            editable={!isSubmitting}
+            language={data?.language}
+            {...form.getInputProps("userCode")}
+          />
+          {/* </form> */}
+        </Box>
       )}
       <RunControls
         {...{
