@@ -1,17 +1,24 @@
+import { Dispatch, SetStateAction, Suspense } from "react";
+
+import dynamic from "next/dynamic";
+
 import {
-  Affix,
-  Paper,
-  Group,
-  Tooltip,
   ActionIcon,
   Button,
   Divider,
+  Group,
+  Paper,
+  Tooltip,
 } from "@mantine/core";
+
 import { Challenge } from "@prisma/client";
 import { IconHistory } from "@tabler/icons";
-import { Dispatch, SetStateAction, Suspense } from "react";
-import { deleteHandler, editHandler } from "../../utils/form-handlers/run-form-handlers";
-import dynamic from "next/dynamic";
+
+import {
+  deleteHandler,
+  editHandler,
+} from "../../utils/form-handlers/run-form-handlers";
+
 const AdminControls = dynamic(() => import("./admin-controls"), {
   ssr: false,
   suspense: true,
@@ -38,46 +45,53 @@ const RunControls: React.FC<RunControlsProps> = ({
   const handleEdit = editHandler(data);
 
   return (
-    <Affix zIndex={1} position={{ bottom: 10, right: 10 }}>
-      <Paper withBorder p={7}>
-        <Group spacing={8}>
-          {/* Show admin controls if user owns this challenge. */}
-          <Suspense fallback={null}>
-            {privileged && (
-              <>
-                <AdminControls
-                  id={data.id}
-                  disabled={isSubmitting}
-                  {...{ handleDelete, handleEdit }}
-                />
-                <Divider sx={{ height: "36px" }} orientation="vertical" />
-              </>
-            )}
-          </Suspense>
+    <Paper
+      withBorder
+      p={3}
+      sx={{
+        position: "fixed",
+        bottom: 6,
+        right: 6,
+        zIndex: 1,
+      }}
+    >
+      <Group spacing={6} ml={4}>
+        {/* Show admin controls if user owns this challenge. */}
+        <Suspense fallback={null}>
+          {privileged && (
+            <>
+              <AdminControls
+                id={data.id}
+                disabled={isSubmitting}
+                {...{ handleDelete, handleEdit }}
+              />
+              <Divider sx={{ height: "36px" }} orientation="vertical" />
+            </>
+          )}
+        </Suspense>
 
-          {/* Enable previous output button once there is previous output.*/}
-          <Tooltip label="Review output">
-            <ActionIcon
-              disabled={!hasOutput}
-              variant="default"
-              onClick={() => setShowResult(true)}
-            >
-              <IconHistory size={16} />
-            </ActionIcon>
-          </Tooltip>
-
-          {/* Send execution request. */}
-          <Button
-            type="submit"
-            form="exec"
-            loading={isSubmitting}
-            {...{ disabled }}
+        {/* Enable previous output button once there is previous output.*/}
+        <Tooltip label="Review output">
+          <ActionIcon
+            disabled={!hasOutput}
+            variant="default"
+            onClick={() => setShowResult(true)}
           >
-            Run
-          </Button>
-        </Group>
-      </Paper>
-    </Affix>
+            <IconHistory size={16} />
+          </ActionIcon>
+        </Tooltip>
+
+        {/* Send execution request. */}
+        <Button
+          type="submit"
+          form="exec"
+          loading={isSubmitting}
+          {...{ disabled }}
+        >
+          Run
+        </Button>
+      </Group>
+    </Paper>
   );
 };
 

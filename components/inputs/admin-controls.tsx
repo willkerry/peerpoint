@@ -1,7 +1,8 @@
-import { Group, Tooltip, ActionIcon } from "@mantine/core";
-import { IconTrash, IconEdit, IconHeartRateMonitor } from "@tabler/icons";
+import { ActionIcon, Group, Tooltip } from "@mantine/core";
 import { NextLink } from "@mantine/next";
+
 import { Challenge } from "@prisma/client";
+import { IconEdit, IconHeartRateMonitor, IconTrash } from "@tabler/icons";
 
 type AdminControlsProps = {
   handleDelete: () => void;
@@ -17,7 +18,7 @@ const AdminControls: React.FC<AdminControlsProps> = ({
   handleEdit,
 }) => {
   return (
-    <Group spacing={8}>
+    <Group spacing={6}>
       <Tooltip label="Delete challenge">
         <ActionIcon
           color="red"
