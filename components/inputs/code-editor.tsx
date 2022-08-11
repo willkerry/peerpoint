@@ -74,9 +74,9 @@ const CodeEditor: React.FC<Props> = ({
   const codeMirrorThemeExtension: Extension = EditorView.theme({
     "&": {
       fontSize: `${theme.fontSizes.sm}px`,
-      padding:
-        fullWidth &&
-        `${theme.spacing.xs}px ${theme.spacing.xs}px 60px ${theme.spacing.xs}px`,
+      padding: fullWidth
+        ? `${theme.spacing.xs}px ${theme.spacing.xs}px 60px ${theme.spacing.xs}px`
+        : `1px 3px`,
     },
     ".cm-content": { fontFamily: theme.fontFamilyMonospace, fontWeight: 450 },
   });
@@ -171,7 +171,7 @@ const CodeEditor: React.FC<Props> = ({
             borderRadius: 5,
             overflow: "hidden",
             border: `1px solid ${
-              props.error ? theme.colors.red[5] : theme.colors.gray[4]
+              props.error ? theme.colors.red[5] : theme.colors.dark[4]
             }`,
           }}
         >
