@@ -47,12 +47,13 @@ export function quickExecuteAndPopulate(
       return;
     }
     const res = await quickExecute(setExecuting, form)();
+    const displayError = res.stderr || res.compile_output;
     if (res.status?.id > 4) {
       form.setFieldError(
         "skeleton",
         `${res.status.description ?? "Error"} ${res.message ?? ""}`
       );
-      form.setFieldValue("expectedOutput", res.compile_output ?? "");
+      form.setFieldValue("expectedOutput", displayError ?? "");
       res.compile_output &&
         form.setFieldError(
           "expectedOutput",
@@ -61,7 +62,7 @@ export function quickExecuteAndPopulate(
       return;
     } else if (!res.stdout) {
       form.setFieldError("skeleton", "Your program didn’t output anything.");
-      form.setFieldValue("expectedOutput", res.compile_output ?? "");
+      form.setFieldValue("expectedOutput", displayError ?? "");
       return;
     } else {
       form.setFieldValue("expectedOutput", res.stdout ?? "");
