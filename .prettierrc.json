@@ -1,1 +1,13 @@
-{ "proseWrap": "always" }
+{
+  "proseWrap": "always",
+  "importOrder": [
+    "^react(.*)$",
+    "^next/(.*)$",
+    "^@mantine/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^components/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
