@@ -16,8 +16,7 @@ import { Language, languageMap } from "../../types/Language";
 import LanguageIndicator from "../display/language-indicator";
 
 type Props = ReactCodeMirrorProps &
-  InputWrapperProps & {
-    children?: React.ReactNode;
+  Omit<InputWrapperProps, "children"> & {
     language?: Language["id"];
     fullWidth?: boolean;
   };
