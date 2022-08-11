@@ -83,14 +83,14 @@ const Post: React.FC = () => {
               id={String(data?.id)}
             />
           </Box>
-          {/* <form id="exec" onSubmit={form.onSubmit(handleSubmit)}> */}
-          <CodeEditor
-            fullWidth
-            editable={!isSubmitting}
-            language={data?.language}
-            {...form.getInputProps("userCode")}
-          />
-          {/* </form> */}
+          <form id="exec" onSubmit={form.onSubmit(handleSubmit)}>
+            <CodeEditor
+              fullWidth
+              editable={!isSubmitting}
+              language={data?.language}
+              {...form.getInputProps("userCode")}
+            />
+          </form>
         </Box>
       )}
       <RunControls
