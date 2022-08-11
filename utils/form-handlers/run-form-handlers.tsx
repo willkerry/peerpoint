@@ -1,11 +1,12 @@
-import { openConfirmModal, openModal } from "@mantine/modals";
-import Router from "next/router";
-import { deleteChallenge } from "../index";
-import { Challenge } from "@prisma/client";
-import { Var, Edit } from "../../components/display";
 import { Alert, Code, ScrollArea, Stack, Text, Title } from "@mantine/core";
-import { SubmissionResponse } from "../../types/Submission";
+import { openConfirmModal, openModal } from "@mantine/modals";
+import { Challenge } from "@prisma/client";
 import { IconAlertCircle, IconTrophy } from "@tabler/icons";
+import Router from "next/router";
+
+import { deleteChallenge } from "..";
+import { Edit, Var } from "../../components/display";
+import { SubmissionResponse } from "../../types/Submission";
 
 export function deleteHandler(data: Challenge) {
   return async (): Promise<void> => {
@@ -101,10 +102,10 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
                 Your program’s <Code>stderr</Code>.
               </>
             ) : output?.compile_output ? (
-              "The compiler’s output."
+              "The compiler’s output"
             ) : (
               ""
-            )}
+            )}{" "}
           </Text>
           <Code
             mt={12}
@@ -116,7 +117,7 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
             })}
           >
             <ScrollArea sx={{ maxHeight: 150 }}>
-              {output?.stdout ?? output?.stderr ?? output?.compile_output}
+              {output?.stdout || output?.stderr || output?.compile_output}
             </ScrollArea>
           </Code>
         </Stack>
