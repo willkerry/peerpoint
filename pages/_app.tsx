@@ -1,23 +1,30 @@
-import "@ibm/plex";
+import { useState } from "react";
+
+import { AppProps } from "next/app";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
 import {
   ColorScheme,
   ColorSchemeProvider,
   MantineProvider,
 } from "@mantine/core";
-import { useColorScheme, useHotkeys } from "@mantine/hooks";
+import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
+
+import "@ibm/plex";
 import { SessionProvider } from "next-auth/react";
-import { AppProps } from "next/app";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useState } from "react";
+
 import { peerpointTheme } from "../lib/theme";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const preferredColorScheme = useColorScheme();
 
-  const [colorScheme, setColorScheme] =
-    useState<ColorScheme>(preferredColorScheme);
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "peerpoint-color-scheme",
+    defaultValue: preferredColorScheme,
+    getInitialValueInEffect: true,
+  });
 
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
