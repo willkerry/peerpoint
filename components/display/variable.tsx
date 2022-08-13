@@ -1,11 +1,8 @@
 import React, { forwardRef } from "react";
-import {
-  DefaultProps,
-  MantineColor,
-  createStyles,
-  useComponentDefaultProps,
-} from "@mantine/styles";
+
 import { Box } from "@mantine/core";
+import { createStyles, useComponentDefaultProps } from "@mantine/styles";
+import type { DefaultProps, MantineColor } from "@mantine/styles";
 
 export interface VarStylesParams {
   color: MantineColor;
