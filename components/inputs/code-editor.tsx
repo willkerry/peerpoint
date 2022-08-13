@@ -1,9 +1,10 @@
-import React, { ForwardRefExoticComponent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import type { ForwardRefExoticComponent } from "react";
 
 import { Box, Input, InputWrapperProps, useMantineTheme } from "@mantine/core";
 
-import { LanguageSupport, StreamLanguage } from "@codemirror/language";
-import { Extension } from "@codemirror/state";
+import type { LanguageSupport, StreamLanguage } from "@codemirror/language";
+import type { Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { tags as t } from "@lezer/highlight";
 import { createTheme } from "@uiw/codemirror-themes";
