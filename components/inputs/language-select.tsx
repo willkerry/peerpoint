@@ -1,23 +1,24 @@
-import { Select, Group, Text, Avatar, Badge } from "@mantine/core";
-import { UseFormReturnType } from "@mantine/form";
-import { IconCode } from "@tabler/icons";
 import { forwardRef } from "react";
+
+import { Avatar, Badge, Group, Select, Text } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
+
+import { IconCode } from "@tabler/icons";
+
 import { languageMap } from "../../types/Language";
 import { CreateFormValues } from "../../utils/form-handlers/create-form-handlers";
 
-const defaultProps = {
-  data: Array.from(languageMap.keys(), (k) => {
-    const l = languageMap.get(k);
-    return {
-      value: k,
-      label: l?.name,
-      image: l?.image,
-      color: l?.color,
-      compiler: l?.compiler,
-      cm: l?.cm,
-    };
-  }),
-};
+const languageData = Array.from(languageMap.keys(), (k) => {
+  const l = languageMap.get(k);
+  return {
+    value: k,
+    label: l?.name,
+    image: l?.image,
+    color: l?.color,
+    compiler: l?.compiler,
+    cm: l?.cm,
+  };
+});
 
 interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
   image: string;
@@ -51,28 +52,24 @@ const LanguageSelect = ({
   form,
 }: {
   form: UseFormReturnType<CreateFormValues>;
-}) => {
-  return (
-    <Select
-      {...form.getInputProps("language")}
-      {...defaultProps}
-      required
-      placeholder="Select a language"
-      itemComponent={SelectItem}
-      selectOnBlur
-      searchable
-      icon={<IconCode size={16} />}
-      label="Language"
-      dropdownPosition="bottom"
-      filter={(value, item) =>
-        item?.label?.toLowerCase().includes(value.toLowerCase()) ||
-        item?.compiler?.toLowerCase().includes(value.toLowerCase()) ||
-        item?.cm?.toLowerCase().includes(value.toLowerCase())
-      }
-    />
-  );
-};
-
-LanguageSelect.defaultProps = defaultProps;
+}) => (
+  <Select
+    {...form.getInputProps("language")}
+    data={languageData}
+    required
+    placeholder="Select a language"
+    itemComponent={SelectItem}
+    selectOnBlur
+    searchable
+    icon={<IconCode size={16} />}
+    label="Language"
+    dropdownPosition="bottom"
+    filter={(value, item) =>
+      item?.label?.toLowerCase().includes(value.toLowerCase()) ||
+      item?.compiler?.toLowerCase().includes(value.toLowerCase()) ||
+      item?.cm?.toLowerCase().includes(value.toLowerCase())
+    }
+  />
+);
 
 export default LanguageSelect;
