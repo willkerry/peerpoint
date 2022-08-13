@@ -27,7 +27,7 @@ const Create: React.FC = () => {
 
   return (
     <Layout loading={submitting || executing} title="Create new challenge">
-      <TitleGroup area="Create a challenge" title={"New challenge"} />
+      <TitleGroup area="Create a challenge" title="New challenge" />
       <ChallengeForm
         {...{
           form,
