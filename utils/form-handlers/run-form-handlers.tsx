@@ -54,11 +54,26 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
   const wasError = output?.status?.id > 4;
   const wasWrong = output?.status?.id === 4;
   const wasCorrect = output?.status?.id === 3;
+
+  let title: string;
+  let description: JSX.Element;
+  if (output?.stderr) {
+    title = "Standard error";
+    description = (
+      <>
+        Your program’s <Code>stderr</Code>.
+      </>
+    );
+  } else if (output?.compile_output) {
+    title = "Compiler output";
+    description = <>The compiler’s output</>;
+  } else title = "Standard output";
+
   openModal({
     title: <Title order={4}>Output</Title>,
     children: (
       <Stack>
-        {wasError ? (
+        {wasError && (
           <Alert
             icon={<IconAlertCircle size={16} />}
             title={errorMessages.get(output?.status?.id)}
@@ -68,7 +83,8 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
             {"\n"}
             {output?.status?.description}
           </Alert>
-        ) : wasCorrect ? (
+        )}
+        {wasCorrect && (
           <Alert
             icon={<IconTrophy size={16} />}
             title="Success"
@@ -79,39 +95,20 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
               {output?.message || "That’s the correct output."}
             </ScrollArea>
           </Alert>
-        ) : wasWrong ? (
+        )}
+        {wasWrong && (
           <Alert title="Incorrect output" color="yellow">
             <ScrollArea>
               {output?.message ||
                 "Your program ran successfully but did not produce the expected output."}
             </ScrollArea>
           </Alert>
-        ) : null}
+        )}
 
         <Stack spacing={0}>
-          <Title order={6}>
-            {output?.stdout
-              ? "Standard output"
-              : output?.stderr
-              ? "Standard error"
-              : output?.compile_output
-              ? "Compiler output"
-              : ""}
-          </Title>
+          <Title order={6}>{title}</Title>
           <Text size="sm" color="dimmed">
-            {output?.stdout ? (
-              <>
-                Your program’s <Code>stdout</Code>.
-              </>
-            ) : output?.stderr ? (
-              <>
-                Your program’s <Code>stderr</Code>.
-              </>
-            ) : output?.compile_output ? (
-              "The compiler’s output"
-            ) : (
-              ""
-            )}{" "}
+            {description}
           </Text>
           <Code
             mt={12}
