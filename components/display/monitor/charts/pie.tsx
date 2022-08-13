@@ -1,9 +1,11 @@
 import { Center, Stack, Text, useMantineTheme } from "@mantine/core";
+
 import { IconBraces } from "@tabler/icons";
 import { AnimatePresence, motion } from "framer-motion";
+
 import { ChartProps } from "../index";
 
-const Pie: React.FC<ChartProps> = ({ loading, data }) => {
+const Pie: React.FC<ChartProps> = ({ data }) => {
   const theme = useMantineTheme();
 
   const r = 140;
@@ -27,7 +29,7 @@ const Pie: React.FC<ChartProps> = ({ loading, data }) => {
         }}
       >
         <AnimatePresence>
-          {loading ? null : data?.activeStudents >= 1 ? (
+          {data?.activeStudents >= 1 ? (
             <motion.div
               key={data?.successRate}
               {...transitionProps}
