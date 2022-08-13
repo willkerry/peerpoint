@@ -1,22 +1,17 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 import { Button, Grid, Group, Text, TextInput } from "@mantine/core";
-import { UseFormReturnType } from "@mantine/form";
+import type { UseFormReturnType } from "@mantine/form";
 import { closeAllModals, openConfirmModal } from "@mantine/modals";
 
-import { LanguageSelect } from ".";
-import {
-  CreateFormValues,
-  quickExecuteAndPopulate,
-} from "../../utils/form-handlers/create-form-handlers";
-import { Var } from "../display";
-
-const CodeEditor = dynamic(() => import("./code-editor"), {
-  ssr: false,
-});
+import { quickExecuteAndPopulate } from "../../utils/form-handlers/create-form-handlers";
+import type { CreateFormValues } from "../../utils/form-handlers/create-form-handlers";
+import { Var } from "../display/variable";
+import CodeEditor from "./code-editor";
+import LanguageSelect from "./language-select";
 
 type ChallengeFormComponentProps = {
   form: UseFormReturnType<CreateFormValues>;
