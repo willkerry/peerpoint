@@ -11,6 +11,7 @@ export interface VarStylesParams {
 export interface VarProps
   extends DefaultProps,
     React.ComponentPropsWithoutRef<"mark"> {
+  // eslint-disable-next-line react/require-default-props
   color?: MantineColor;
 }
 
