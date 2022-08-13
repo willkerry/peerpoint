@@ -14,11 +14,11 @@ const TitleGroup: React.FC<TitleGroupProps> = ({
   area,
   id,
   compact,
-}) => {
+}: TitleGroupProps) => {
   let titleOrder = 2;
-  if (compact) titleOrder++;
-  if (title?.length > 20) titleOrder++;
-  if (title?.length > 30) titleOrder++;
+  if (compact) titleOrder += 1;
+  if (title?.length > 20) titleOrder += 1;
+  if (title?.length > 30) titleOrder += 1;
   return (
     <Grid gutter={0} justify="space-between">
       <Grid.Col span={12}>
@@ -36,6 +36,11 @@ const TitleGroup: React.FC<TitleGroupProps> = ({
       </Grid.Col>
     </Grid>
   );
+};
+
+TitleGroup.defaultProps = {
+  compact: false,
+  id: undefined,
 };
 
 export default TitleGroup;
