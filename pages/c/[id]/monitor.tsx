@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { NativeSelect, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 
-import { IconChartBar, IconChartDonut } from "@tabler/icons";
+import { IconChartBar, IconChartDonut, IconChartLine } from "@tabler/icons";
 import prettyMilliseconds from "pretty-ms";
 import useSWR from "swr";
 
@@ -19,8 +19,8 @@ const Pie = dynamic(
   () => import("../../../components/display/monitor/charts/pie"),
   { suspense: true }
 );
-const Bar = dynamic(
-  () => import("../../../components/display/monitor/charts/bar"),
+const Area = dynamic(
+  () => import("../../../components/display/monitor/charts/area"),
   { suspense: true }
 );
 
@@ -56,16 +56,16 @@ const Monitor = () => {
 
         <Tabs variant="pills" defaultValue="pie">
           <Tabs.List grow>
-            <Tabs.Tab value="bar" icon={<IconChartBar size={14} />}>
-              Bar chart
+            <Tabs.Tab value="area" icon={<IconChartLine size={14} />}>
+              Area chart
             </Tabs.Tab>
             <Tabs.Tab value="pie" icon={<IconChartDonut size={14} />}>
               Doughnut chart
             </Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="bar" pt="md">
-            <Bar {...{ loading, data }} />
+          <Tabs.Panel value="area" pt="md">
+            <Area {...{ loading, data }} />
           </Tabs.Panel>
           <Tabs.Panel value="pie" pt="md">
             <Pie {...{ loading, data }} />
