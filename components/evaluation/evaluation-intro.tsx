@@ -12,7 +12,7 @@ import {
 
 import { IconZoomQuestion } from "@tabler/icons";
 
-import { studentSrc, teacherSrc } from "../../pages/evaluation";
+import { studentSrc, teacherSrc } from "../../lib/evaluation";
 import { TitleGroup } from "../layout";
 
 type Props = {
