@@ -24,7 +24,6 @@ export default async function handle(
 
   if (req.method === "GET") {
     res.json(await checkChallenge(Number(id)));
-    return;
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`

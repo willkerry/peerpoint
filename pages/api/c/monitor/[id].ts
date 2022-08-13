@@ -64,11 +64,9 @@ export default async function handle(
       activeStudents: cs.activeStudents,
       successRate: (cs.successfulStudents / cs.activeStudents) * 100,
       successfulStudents: cs.successfulStudents,
-      attempts: attempts,
+      attempts,
       period: queryPeriod,
     });
-
-    return;
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`

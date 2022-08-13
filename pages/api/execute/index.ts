@@ -38,6 +38,5 @@ export default async function handle(
       return;
     }
     res.status(500).json({ error: e.message });
-    return;
   }
 }

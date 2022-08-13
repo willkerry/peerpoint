@@ -87,6 +87,5 @@ export default async function handle(
       });
       res.json(feed);
     }
-    return;
   }
 }
