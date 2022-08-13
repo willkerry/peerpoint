@@ -1,12 +1,13 @@
+import { ComponentProps, useEffect, useState } from "react";
+
+import { useRouter } from "next/router";
+
 import { Box, Button, Group, LoadingOverlay, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+
 import { useChallenge } from "../../../utils/hooks";
 import FindStatus from "./find-status";
-
-export type CFStatus = "idle" | "loading" | "error" | "success";
 
 const FindChallenge: React.FC = () => {
   // Initialise router object
@@ -25,7 +26,8 @@ const FindChallenge: React.FC = () => {
 
   // Initialise the status useStates
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [status, setStatus] = useState<CFStatus>();
+  const [status, setStatus] =
+    useState<ComponentProps<typeof FindStatus>["status"]>();
 
   useEffect(() => {
     // When input changes, LOADING
