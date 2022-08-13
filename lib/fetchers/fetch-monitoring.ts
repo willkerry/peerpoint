@@ -9,7 +9,7 @@ const fetchMonitoring: Fetcher<MonitorResponse> = ({
   id: number;
   period: number;
 }) => {
-  if (!Number(id) || !Number(period)) return;
+  if (!Number(id) || !Number(period)) return {};
 
   return fetch(
     `/api/c/monitor/${Number(id)}?${new URLSearchParams({
