@@ -1,4 +1,12 @@
-import { Badge, Code, Group, Stack, Text, useMantineTheme } from "@mantine/core";
+import {
+  Badge,
+  Code,
+  Group,
+  Stack,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
+
 import { Attempt } from "@prisma/client";
 import { motion } from "framer-motion";
 import ago from "s-ago";
@@ -27,7 +35,7 @@ const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
       <Stack spacing={6}>
         <Code
           block
-          sx={(theme) => ({
+          sx={{
             fontSize: theme.fontSizes.xs,
             fontWeight: 500,
             paddingLeft: theme.spacing.xs,
@@ -36,32 +44,19 @@ const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
             paddingBottom: 4,
             whiteSpace: "nowrap",
             overflow: "",
-          })}
+          }}
         >
-          {compactCode}
+          {compactCode || "No output"}
         </Code>
         <Group spacing="xs">
-          <Group spacing={4} sx={(theme) => ({ fontSize: theme.fontSizes.xs })}>
+          <Group spacing={4} sx={{ fontSize: theme.fontSizes.xs }}>
             <PlaceholderAvatar seed={attempt.cookie} />
             <Text weight={500}>{readableHash(attempt.cookie)}</Text>
             <Text color="dimmed">{ago(date)}</Text>
           </Group>
 
-          <Badge
-            variant="dot"
-            color={
-              attempt.success
-                ? "green"
-                : attempt.success === false
-                ? "red"
-                : "red"
-            }
-          >
-            {attempt.success
-              ? "Correct"
-              : attempt.success === false
-              ? "Incorrect"
-              : "Error"}
+          <Badge variant="dot" color={attempt.success ? "green" : "red"}>
+            {attempt.success ? "Correct" : "Incorrect"}
           </Badge>
         </Group>
       </Stack>

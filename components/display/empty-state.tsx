@@ -1,12 +1,14 @@
 import {
   Center,
-  Stack,
-  Title,
-  Text,
   Space,
+  Stack,
+  Text,
+  Title,
   useMantineTheme,
 } from "@mantine/core";
+
 import { IconTrafficCone } from "@tabler/icons";
+
 import { FindChallenge } from "../inputs";
 
 type EmptyStateProps = {
@@ -23,7 +25,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     <Stack
       my={64}
       spacing="sm"
-      sx={(theme) => ({ maxWidth: theme.breakpoints.xs })}
+      sx={{ maxWidth: theme.breakpoints.xs }}
       mx="auto"
     >
       <Center>

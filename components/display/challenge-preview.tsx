@@ -1,18 +1,25 @@
+import React from "react";
+
+import Router from "next/router";
+
 import {
   Button,
   Card,
   Code,
-  Tooltip,
   Group,
   Text,
+  Tooltip,
   useMantineTheme,
 } from "@mantine/core";
-import React from "react";
-import Router from "next/router";
+
 import type { Challenge } from "@prisma/client";
-import LanguageIndicator from "./language-indicator";
+
+import {
+  deleteHandler,
+  editHandler,
+} from "../../utils/form-handlers/run-form-handlers";
 import AdminControls from "../inputs/admin-controls";
-import { deleteHandler, editHandler } from "../../utils/form-handlers/run-form-handlers";
+import LanguageIndicator from "./language-indicator";
 
 type ChallengePreviewProps = {
   challenge: Challenge;
@@ -59,12 +66,12 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
         <Code
           block
           color="dark"
-          sx={(theme) => ({
+          sx={{
             color: theme.colors.dark[2],
             fontSize: theme.fontSizes.xs,
             userSelect: "none",
             overflow: "hidden",
-          })}
+          }}
         >
           {challenge.skeleton}
         </Code>
