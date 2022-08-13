@@ -1,5 +1,7 @@
-import { SVGProps, useState, useEffect } from "react";
+import { SVGProps, useEffect, useState } from "react";
+
 import { useInterval } from "@mantine/hooks";
+
 import { motion } from "framer-motion";
 
 type LogoProps = SVGProps<SVGSVGElement> & {
@@ -36,12 +38,12 @@ const Logo: React.FC<LogoProps> = (props) => {
       <g stroke="#FD7E14" strokeLinecap="round">
         <motion.g
           animate={{
-            opacity: !animate ? 1 : toggle ? 0.65 : 1,
-            strokeWidth: !animate ? 1 : toggle ? 1 / 0.8 : 1,
-            scale: !animate ? 1 : toggle ? 0.8 : 1,
-            translateY: !animate ? 0 : toggle ? 3 : 0,
-            translateX: !animate ? 0 : toggle ? -1 : 0,
-            rotate: !animate ? 0 : toggle ? -8 : 0,
+            opacity: toggle ? 0.65 : 1,
+            strokeWidth: toggle ? 1 / 0.8 : 1,
+            scale: toggle ? 0.8 : 1,
+            translateY: toggle ? 3 : 0,
+            translateX: toggle ? -1 : 0,
+            rotate: toggle ? -8 : 0,
           }}
           transition={{
             type: "spring",
@@ -54,12 +56,12 @@ const Logo: React.FC<LogoProps> = (props) => {
         </motion.g>
         <motion.g
           animate={{
-            opacity: !animate ? 0.65 : toggle ? 1 : 0.65,
-            scale: !animate ? 1 : toggle ? 1 : 0.8,
-            strokeWidth: !animate ? 1 : toggle ? 1 : 1 / 0.8,
-            translateY: !animate ? 0 : toggle ? 0 : 1,
-            translateX: !animate ? 0 : !toggle ? 2.5 : 0,
-            rotate: !animate ? 0 : toggle ? 0 : 3.5,
+            opacity: toggle ? 1 : 0.65,
+            scale: toggle ? 0.8 : 1,
+            strokeWidth: toggle ? 1 : 1 / 0.8,
+            translateY: toggle ? 1 : 0,
+            translateX: toggle ? 2.5 : 0,
+            rotate: toggle ? 3.5 : 0,
           }}
           transition={{ type: "spring" }}
         >
