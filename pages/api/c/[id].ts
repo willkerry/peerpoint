@@ -48,10 +48,10 @@ export default async function handle(
       const result = await prisma.challenge.update({
         where: { id: Number(postId) },
         data: {
-          title: title,
-          expectedOutput: expectedOutput,
-          skeleton: skeleton,
-          language: language,
+          title,
+          expectedOutput,
+          skeleton,
+          language,
         },
       });
       res.json(result);

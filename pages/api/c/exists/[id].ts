@@ -12,7 +12,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id = req.query.id;
+  const { id } = req.query;
 
   try {
     await limiter.check(res, 20, "CACHE_TOKEN");
