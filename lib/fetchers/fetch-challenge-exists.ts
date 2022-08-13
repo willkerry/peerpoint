@@ -10,7 +10,7 @@ const fetchChallengeExists: Fetcher<ChallengeExistsResponse> = async ({
 }: {
   id: number;
 }) => {
-  if (isNaN(id) || !id) return;
+  if (Number.isNaN(id) || !id) return { exists: false, title: "" };
   const res = await fetch(`/api/c/exists/${id}`, {
     method: "GET",
     headers: {

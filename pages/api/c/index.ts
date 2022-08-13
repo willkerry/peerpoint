@@ -28,7 +28,7 @@ export default async function handle(
       res.status(400).send("Missing required fields");
       return;
     }
-    if (languageMap.get(langInt) === undefined || isNaN(langInt)) {
+    if (languageMap.get(langInt) === undefined || Number.isNaN(langInt)) {
       res.status(400).send("Invalid language");
       return;
     }
@@ -36,9 +36,9 @@ export default async function handle(
       if (session) {
         const result = await prisma.challenge.create({
           data: {
-            title: title,
-            expectedOutput: expectedOutput,
-            skeleton: skeleton,
+            title,
+            expectedOutput,
+            skeleton,
             language: Number(language),
             published: true,
             author: { connect: { email: session?.user?.email } },

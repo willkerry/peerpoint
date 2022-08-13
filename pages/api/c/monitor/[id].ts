@@ -36,7 +36,7 @@ export default async function handle(
   const { id, period = 60 } = req.query;
 
   // Reject if ID is not a number
-  if (isNaN(Number(id))) {
+  if (Number.isNaN(Number(id))) {
     res.status(400).send({ message: "Invalid ID" });
     return;
   }
