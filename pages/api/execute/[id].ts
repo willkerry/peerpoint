@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { SubmissionResponse } from "../../../types/Submission";
+
 import prisma from "../../../lib/prisma";
+import { SubmissionResponse } from "../../../types/Submission";
 import {
-  executeCode,
   HTTPError,
+  executeCode,
   postAttempt,
   rateLimit,
 } from "../../../utils/server";
@@ -13,28 +14,32 @@ const limiter = rateLimit({
   uniqueTokenPerInterval: 500,
 });
 
-const fetchAndExecute = async (
+async function fetchAndExecute(
   id: number,
   code: string,
   language: number,
   cookie: string
-) => {
-  const challenge = await prisma.challenge.findUnique({ where: { id: id } });
-  if (!challenge) return;
+): Promise<SubmissionResponse> {
+  const challenge = await prisma.challenge.findUnique({ where: { id } });
+  if (!challenge) return {};
+
   let output: SubmissionResponse;
+
   try {
     output = await executeCode(language, code, challenge.expectedOutput);
   } catch (e) {
     throw new HTTPError(e, e.status || 500);
   }
+
   postAttempt({
     challengeId: id,
     cookie,
     success: output?.status?.id === 3,
     output: output?.stdout,
   });
+
   return output;
-};
+}
 
 // POST /api/execute/:id
 export default async function handle(
@@ -80,6 +85,5 @@ export default async function handle(
         description: e.message,
       },
     });
-    return;
   }
 }

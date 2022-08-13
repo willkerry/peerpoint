@@ -11,10 +11,16 @@ import { Attempt } from "@prisma/client";
 import { motion } from "framer-motion";
 import ago from "s-ago";
 
-import readableHash from "../../../../utils/readable-hash";
+import { readableHash } from "../../../../utils/readable-hash";
 import PlaceholderAvatar from "../placeholder-avatar";
 
-const SubmissionFeedItem: React.FC<{ attempt: Attempt }> = ({ attempt }) => {
+type SubmissionFeedItemProps = {
+  attempt: Attempt;
+};
+
+const SubmissionFeedItem: React.FC<SubmissionFeedItemProps> = ({
+  attempt,
+}: SubmissionFeedItemProps) => {
   const theme = useMantineTheme();
   const compactCode = attempt.output.replace(/\n/g, " ").trim();
   const date = new Date(attempt.createdAt);

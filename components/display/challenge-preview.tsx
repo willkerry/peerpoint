@@ -29,7 +29,7 @@ type ChallengePreviewProps = {
 const ChallengePreview: React.FC<ChallengePreviewProps> = ({
   challenge,
   userOwns,
-}) => {
+}: ChallengePreviewProps) => {
   const theme = useMantineTheme();
 
   const adminControlProps: React.ComponentProps<typeof AdminControls> = {
@@ -97,6 +97,10 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
       </Group>
     </Card>
   );
+};
+
+ChallengePreview.defaultProps = {
+  userOwns: false,
 };
 
 export default ChallengePreview;

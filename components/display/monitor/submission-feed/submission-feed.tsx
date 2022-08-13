@@ -1,12 +1,20 @@
+import { useEffect, useState } from "react";
+
 import { Box, Center, Paper, Text } from "@mantine/core";
 import { useDebouncedValue, useInterval } from "@mantine/hooks";
+
 import { Attempt } from "@prisma/client";
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
 
 import SubmissionFeedItem from "./submission-feed-item";
 
-const SubmissionFeed: React.FC<{ attempts: Attempt[] }> = ({ attempts }) => {
+type SubmissionFeedProps = {
+  attempts: Attempt[];
+};
+
+const SubmissionFeed: React.FC<SubmissionFeedProps> = ({
+  attempts,
+}: SubmissionFeedProps) => {
   const [index, setIndex] = useState(0);
   const [debouncedAttempts] = useDebouncedValue(attempts, 500);
 

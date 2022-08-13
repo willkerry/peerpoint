@@ -1,11 +1,12 @@
-import {
-  Modal,
-  Button,
-  ActionIcon,
-  ButtonProps,
-  ActionIconProps,
-} from "@mantine/core";
 import { MouseEventHandler } from "react";
+
+import {
+  ActionIcon,
+  ActionIconProps,
+  Button,
+  ButtonProps,
+  Modal,
+} from "@mantine/core";
 
 type Props = {
   isOpen: boolean;
@@ -31,7 +32,7 @@ const InfoModal: React.FC<Props> = ({
   variant,
 }: Props) => {
   const buttonProps: ButtonProps & ActionIconProps = {
-    variant: variant,
+    variant,
     sx: inline && { display: "inline" },
   };
 
@@ -51,6 +52,12 @@ const InfoModal: React.FC<Props> = ({
       )}
     </>
   );
+};
+
+InfoModal.defaultProps = {
+  inline: false,
+  actionIcon: false,
+  variant: undefined,
 };
 
 export default InfoModal;

@@ -1,13 +1,25 @@
-import { Button, Container, Group, Text, Tooltip, TypographyStylesProvider, useMantineTheme } from "@mantine/core";
+import type { Dispatch, SetStateAction } from "react";
+
+import {
+  Button,
+  Container,
+  Group,
+  Text,
+  Tooltip,
+  TypographyStylesProvider,
+  useMantineTheme,
+} from "@mantine/core";
+
 import { IconZoomQuestion } from "@tabler/icons";
-import { Dispatch, SetStateAction } from "react";
 
 import { studentSrc, teacherSrc } from "../../pages/evaluation";
 import { TitleGroup } from "../layout";
 
-const EvaluationIntro: React.FC<{
+type Props = {
   setSrc: Dispatch<SetStateAction<string>>;
-}> = ({ setSrc }) => {
+};
+
+const EvaluationIntro: React.FC<Props> = ({ setSrc }: Props) => {
   const theme = useMantineTheme();
   return (
     <Container size="sm" mt="xl">

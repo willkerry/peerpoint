@@ -5,9 +5,16 @@ interface Props {
   description?: string;
 }
 
-const Meta = ({ title = "Peerpoint" }: Props) => (
+const defaultProps: Props = {
+  title: "Peerpoint",
+  description:
+    "Peerpoint is a platform for massively running code in lectures.",
+};
+
+const Meta: React.FC<Props> = ({ title, description }: Props) => (
   <Head>
     <title>{title}</title>
+    <meta name="description" content={description} />
 
     <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon/icon.svg" type="image/svg+xml" />
@@ -20,5 +27,7 @@ const Meta = ({ title = "Peerpoint" }: Props) => (
     />
   </Head>
 );
+
+Meta.defaultProps = defaultProps;
 
 export default Meta;

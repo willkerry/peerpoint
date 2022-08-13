@@ -40,7 +40,7 @@ const RunControls: React.FC<RunControlsProps> = ({
   hasOutput,
   setShowResult,
   disabled,
-}) => {
+}: RunControlsProps) => {
   const handleDelete = deleteHandler(data);
   const handleEdit = editHandler(data);
 
@@ -70,7 +70,7 @@ const RunControls: React.FC<RunControlsProps> = ({
           )}
         </Suspense>
 
-        {/* Enable previous output button once there is previous output.*/}
+        {/* Enable previous output button once there is previous output. */}
         <Tooltip label="Review output">
           <ActionIcon
             disabled={!hasOutput}

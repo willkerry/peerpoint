@@ -8,7 +8,7 @@ type LogoProps = SVGProps<SVGSVGElement> & {
   animate?: boolean;
 };
 
-const Logo: React.FC<LogoProps> = (props) => {
+const Logo: React.FC<LogoProps> = (props: LogoProps) => {
   const [toggle, setToggle] = useState(false);
   const { animate, ...rest } = props;
   const ticker = useInterval(() => {
@@ -20,6 +20,7 @@ const Logo: React.FC<LogoProps> = (props) => {
       ticker.start();
       return ticker.stop;
     }
+    return () => {};
   }, [animate, ticker]);
 
   return (
@@ -71,6 +72,10 @@ const Logo: React.FC<LogoProps> = (props) => {
       </g>
     </svg>
   );
+};
+
+Logo.defaultProps = {
+  animate: false,
 };
 
 export default Logo;

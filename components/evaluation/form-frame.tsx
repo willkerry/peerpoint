@@ -1,13 +1,17 @@
-import { Button, Text } from "@mantine/core";
-import { openConfirmModal } from "@mantine/modals";
 import { Dispatch, SetStateAction } from "react";
 
-const FormFrame: React.FC<{
+import { Button, Text } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
+
+type Props = {
   src: string;
   setSrc: Dispatch<SetStateAction<string>>;
-}> = ({ src, setSrc }) => (
+};
+
+const FormFrame: React.FC<Props> = ({ src, setSrc }: Props) => (
   <>
     <iframe
+      title="ms-forms"
       width="100%"
       height="100ch"
       src={src}
@@ -24,7 +28,7 @@ const FormFrame: React.FC<{
         left: 0,
       }}
       allowFullScreen
-    ></iframe>
+    />
     <Button.Group
       sx={{
         position: "fixed",

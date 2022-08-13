@@ -7,7 +7,7 @@ import { Box, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 
 import { Attempt } from "@prisma/client";
 
-import { ChartProps } from "../index";
+import { ChartProps } from "./chart-props";
 
 type AttemptChunk = {
   centroid: Date;
@@ -20,9 +20,7 @@ type Series = {
 
 const Chart: ComponentType<{ options: ChartOptions<unknown> }> = dynamic(
   () => import("react-charts").then((mod) => mod.Chart),
-  {
-    ssr: false,
-  }
+  { ssr: false }
 );
 
 const placeholder: Attempt[] = [
@@ -44,7 +42,7 @@ const placeholder: Attempt[] = [
   },
 ];
 
-const Area: React.FC<ChartProps> = ({ data: propData }) => {
+const Area: React.FC<ChartProps> = ({ data: propData }: ChartProps) => {
   const { colorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
   const [attempts, setAttempts] = useState<Attempt[]>(placeholder);
@@ -91,7 +89,7 @@ const Area: React.FC<ChartProps> = ({ data: propData }) => {
     const chunkCount = Math.floor(period / chunkSize);
 
     // Create the chunks
-    for (let i = 0; i < chunkCount; i++) {
+    for (let i = 0; i < chunkCount; i += 1) {
       const start = new Date(new Date().getTime() - period + i * chunkSize);
       const centroid = new Date(start.getTime() + chunkSize / 2);
       successChunks.push({ centroid, count: 0 });
@@ -108,9 +106,9 @@ const Area: React.FC<ChartProps> = ({ data: propData }) => {
         (Math.floor(new Date(attempt.createdAt).getTime() / chunkSize) %
           chunkCount) -
         1;
-      if (!isNaN(index) && index >= 0) {
-        if (attempt.success) successChunks[index].count++;
-        else failureChunks[index].count++;
+      if (!Number.isNaN(index) && index >= 0) {
+        if (attempt.success) successChunks[index].count += 1;
+        else failureChunks[index].count += 1;
       }
     });
 

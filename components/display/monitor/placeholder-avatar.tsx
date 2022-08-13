@@ -1,10 +1,16 @@
 import { Avatar as MantineAvatar, useMantineTheme } from "@mantine/core";
+
 import BoringAvatar from "boring-avatars";
 
-const PlaceholderAvatar: React.FC<{ seed: string }> = ({ seed }) => {
+type Props = {
+  seed: string;
+  size?: number;
+};
+
+const PlaceholderAvatar: React.FC<Props> = ({ seed, size }: Props) => {
   const theme = useMantineTheme();
   return (
-    <MantineAvatar size={14}>
+    <MantineAvatar size={size}>
       <BoringAvatar
         name={seed}
         colors={[
@@ -20,10 +26,14 @@ const PlaceholderAvatar: React.FC<{ seed: string }> = ({ seed }) => {
           theme.colors.violet[3],
         ]}
         variant="beam"
-        size={14}
+        size={size}
       />
     </MantineAvatar>
   );
+};
+
+PlaceholderAvatar.defaultProps = {
+  size: 14,
 };
 
 export default PlaceholderAvatar;

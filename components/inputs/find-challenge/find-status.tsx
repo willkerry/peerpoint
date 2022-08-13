@@ -1,15 +1,20 @@
-import { DefaultMantineColor, Group, Box, ThemeIcon } from "@mantine/core";
-import { Var } from "../../display";
-import { CFStatus } from "./find-challenge";
+import { Box, DefaultMantineColor, Group, ThemeIcon } from "@mantine/core";
+
 import { IconCheck, IconLoader, IconX } from "@tabler/icons";
 import { motion } from "framer-motion";
+
+import { Var } from "../../display";
+import { CFStatus } from "./find-challenge";
 
 type CFStatusIndicatorProps = {
   status: CFStatus;
   title?: string;
 };
 
-const FindStatus: React.FC<CFStatusIndicatorProps> = ({ status, title }) => {
+const FindStatus: React.FC<CFStatusIndicatorProps> = ({
+  status,
+  title,
+}: CFStatusIndicatorProps) => {
   let color: DefaultMantineColor;
   let Icon: React.ReactNode;
   let message: React.ReactNode;
@@ -48,7 +53,7 @@ const FindStatus: React.FC<CFStatusIndicatorProps> = ({ status, title }) => {
     default:
       color = "";
       Icon = null;
-      message = <></>;
+      message = "";
   }
   return (
     <Group spacing={1}>
@@ -60,6 +65,10 @@ const FindStatus: React.FC<CFStatusIndicatorProps> = ({ status, title }) => {
       <Box ml="xs">{message}</Box>
     </Group>
   );
+};
+
+FindStatus.defaultProps = {
+  title: "",
 };
 
 export default FindStatus;

@@ -1,4 +1,5 @@
 import { Avatar, CSSObject, Group, Text, Tooltip } from "@mantine/core";
+
 import { languageMap } from "../../types/Language";
 
 type LanguageIndicatorProps = {
@@ -33,6 +34,11 @@ const LanguageIndicator: React.FC<LanguageIndicatorProps> = ({
       {l?.name}
     </Group>
   );
+};
+
+LanguageIndicator.defaultProps = {
+  compact: false,
+  sx: {},
 };
 
 export default LanguageIndicator;

@@ -1,15 +1,20 @@
-import { useForm } from "@mantine/form";
-import { Challenge } from "@prisma/client";
 import { useState } from "react";
 
-import { CreateFormValues, submitHandler } from "../../utils/form-handlers/create-form-handlers";
+import { useForm } from "@mantine/form";
+
+import { Challenge } from "@prisma/client";
+
+import {
+  CreateFormValues,
+  submitHandler,
+} from "../../utils/form-handlers/create-form-handlers";
 import { ChallengeForm } from "../inputs";
 
 type EditProps = {
   challenge: Challenge;
 };
 
-const Edit: React.FC<EditProps> = ({ challenge }) => {
+const Edit: React.FC<EditProps> = ({ challenge }: EditProps) => {
   const [executing, setExecuting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);

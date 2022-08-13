@@ -17,8 +17,8 @@ type EmptyStateProps = {
 };
 
 const EmptyState: React.FC<EmptyStateProps> = ({
-  title = "No challenges found",
-  description = "Have a look for another one.",
+  title,
+  description,
 }: EmptyStateProps) => {
   const theme = useMantineTheme();
   return (
@@ -47,6 +47,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       <FindChallenge />
     </Stack>
   );
+};
+
+EmptyState.defaultProps = {
+  title: "No challenges found",
+  description: "Have a look for another one.",
 };
 
 export default EmptyState;

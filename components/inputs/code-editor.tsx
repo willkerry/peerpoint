@@ -22,10 +22,6 @@ type Props = ReactCodeMirrorProps &
     fullWidth?: boolean;
   };
 
-const defaultProps = {
-  children: null,
-};
-
 const CodeEditor: React.FC<Props> = ({
   language,
   value,
@@ -132,7 +128,7 @@ const CodeEditor: React.FC<Props> = ({
         value,
         onChange,
         theme: editorTheme,
-        extensions: extensions,
+        extensions,
         autoFocus: fullWidth,
         width: "100vw",
         minHeight: fullWidth ? "calc(100vh - 50px - 100px)" : null,
@@ -184,5 +180,9 @@ const CodeEditor: React.FC<Props> = ({
   );
 };
 
-CodeEditor.defaultProps = defaultProps;
+CodeEditor.defaultProps = {
+  language: undefined,
+  fullWidth: false,
+};
+
 export default CodeEditor;

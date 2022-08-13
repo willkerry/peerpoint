@@ -3,10 +3,12 @@ import { Center, Stack, Text, useMantineTheme } from "@mantine/core";
 import { IconBraces } from "@tabler/icons";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { ChartProps } from "../index";
+import type { ChartProps } from "./chart-props";
 
-const Pie: React.FC<ChartProps> = ({ data }) => {
+const Pie: React.FC<ChartProps> = ({ data }: ChartProps) => {
   const theme = useMantineTheme();
+
+  const { activeStudents, successfulStudents, successRate } = data ?? {};
 
   const r = 140;
   const circumference = 2 * Math.PI * r;
@@ -44,7 +46,7 @@ const Pie: React.FC<ChartProps> = ({ data }) => {
                   fontSize: "4em",
                 }}
               >
-                {data?.successfulStudents}/{data?.activeStudents}
+                {successfulStudents}/{activeStudents}
               </Text>
             </motion.div>
           ) : (
@@ -90,12 +92,12 @@ const Pie: React.FC<ChartProps> = ({ data }) => {
           }}
           animate={{
             strokeDasharray: `${
-              ((data?.successfulStudents > 1 ? data?.successRate : 2) *
+              ((data?.successfulStudents > 1 ? successRate : 2) *
                 circumference) /
               100
             }, ${
               circumference -
-              ((data?.successfulStudents > 1 ? data?.successRate : 2) *
+              ((data?.successfulStudents > 1 ? successRate : 2) *
                 circumference) /
                 100
             }`,

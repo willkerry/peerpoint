@@ -14,7 +14,7 @@ import {
 } from "../../utils/form-handlers/create-form-handlers";
 import { Var } from "../display";
 
-const CodeEditor = dynamic(() => import("../inputs/code-editor"), {
+const CodeEditor = dynamic(() => import("./code-editor"), {
   ssr: false,
 });
 
@@ -31,10 +31,22 @@ type ChallengeFormComponentProps = {
   setSuccess: Dispatch<SetStateAction<boolean>>;
 };
 
-const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
+const ChallengeForm: React.FC<ChallengeFormComponentProps> = (
+  props: ChallengeFormComponentProps
+) => {
   const router = useRouter();
-  const { form, success, setSuccess, isEditForm, isModal } = props;
-  const runAndPopulate = quickExecuteAndPopulate(props.setExecuting, form);
+  const {
+    form,
+    onSubmit,
+    success,
+    setSuccess,
+    executing,
+    setExecuting,
+    submitting,
+    isEditForm,
+    isModal,
+  } = props;
+  const runAndPopulate = quickExecuteAndPopulate(setExecuting, form);
 
   const successModalProps = {
     title: "Challenge created",
@@ -89,7 +101,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
     return openConfirmModal(cancelModalProps);
   };
   return (
-    <form onSubmit={props.form.onSubmit((values) => props.onSubmit(values))}>
+    <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
       <Grid>
         <Grid.Col sm={isModal ? 12 : 8}>
           <TextInput
@@ -97,36 +109,34 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
             required
             label="Title"
             type="text"
-            {...props.form.getInputProps("title")}
+            {...form.getInputProps("title")}
           />
         </Grid.Col>
         <Grid.Col sm={isModal ? 12 : 4}>
-          <LanguageSelect form={props.form} />
+          <LanguageSelect {...{ form }} />
         </Grid.Col>
         <Grid.Col sm={isModal ? 12 : 6}>
           <CodeEditor
             label="Skeleton"
-            language={props.form.values.language}
+            language={form.values.language}
             descriptionProps={{ sx: { minHeight: "2.5em" } }}
             description="
               This is what appears in students’ code editors. Include
               instructions (commented out), and any necessary boilerplate or
               variables."
             required
-            {...props.form.getInputProps("skeleton")}
+            {...form.getInputProps("skeleton")}
           />
           <Button
-            disabled={!props.form.values.skeleton}
+            disabled={!form.values.skeleton}
             onClick={runAndPopulate}
-            loading={props.executing}
+            loading={executing}
             type="button"
             fullWidth
             variant="default"
             mt={12}
           >
-            {props.executing
-              ? "Running program"
-              : "Run and populate Expected output"}
+            {executing ? "Running program" : "Run and populate Expected output"}
           </Button>
         </Grid.Col>
         <Grid.Col sm={isModal ? 12 : 6}>
@@ -137,21 +147,17 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
               The stdout of student submissions is (fuzzily) checked against
               this value, and matches are considered successful."
             required
-            {...props.form.getInputProps("expectedOutput")}
+            {...form.getInputProps("expectedOutput")}
           />
         </Grid.Col>
         <Grid.Col sm={12}>
           <Text color="red" size="xs">
-            {props.form.errors.submit}
+            {form.errors.submit}
           </Text>
         </Grid.Col>
         <Grid.Col sm={12}>
           <Group>
-            <Button
-              loading={props.submitting}
-              disabled={props.executing}
-              type="submit"
-            >
+            <Button loading={submitting} disabled={executing} type="submit">
               {isEditForm ? "Update" : "Create"}
             </Button>
             <Button variant="subtle" onClick={cancelModal}>
@@ -162,6 +168,11 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
       </Grid>
     </form>
   );
+};
+
+ChallengeForm.defaultProps = {
+  isEditForm: false,
+  isModal: false,
 };
 
 export default ChallengeForm;
