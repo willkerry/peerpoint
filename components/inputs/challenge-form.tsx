@@ -78,7 +78,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
   }, [success, setSuccess]);
 
   const cancelModal = () => {
-    const props = {
+    const cancelModalProps = {
       title: "Are you sure you want to cancel?",
       labels: { confirm: "Yes", cancel: "Return" },
       onConfirm: () => {
@@ -86,7 +86,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (props) => {
       },
       confirmProps: { color: "red" },
     };
-    return openConfirmModal(props);
+    return openConfirmModal(cancelModalProps);
   };
   return (
     <form onSubmit={props.form.onSubmit((values) => props.onSubmit(values))}>
