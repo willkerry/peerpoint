@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
+
 import { Box, Text } from "@mantine/core";
-import { useState, useEffect } from "react";
 
 export type DisplayIDProps = {
   id: number | string;
@@ -8,7 +9,7 @@ export type DisplayIDProps = {
 const DisplayId: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
   const [idString, setIdString] = useState("00000");
   useEffect(() => {
-    id && setIdString(String(id).padStart(5, "0"));
+    if (id) setIdString(String(id).padStart(5, "0"));
   }, [id]);
   return (
     <Box sx={{ display: "inline-block" }}>
