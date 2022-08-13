@@ -1,6 +1,6 @@
 import { Grid, Skeleton, Text, Title, TitleOrder } from "@mantine/core";
 
-import { IdButton } from "../display";
+import IdButton from "../display/id-button";
 
 type TitleGroupProps = {
   title: string;

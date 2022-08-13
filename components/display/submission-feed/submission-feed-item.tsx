@@ -11,7 +11,7 @@ import { Attempt } from "@prisma/client";
 import { motion } from "framer-motion";
 import ago from "s-ago";
 
-import { readableHash } from "../../../../utils/readable-hash";
+import { readableHash } from "../../../utils/readable-hash";
 import PlaceholderAvatar from "../placeholder-avatar";
 
 type SubmissionFeedItemProps = {

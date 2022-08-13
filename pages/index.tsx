@@ -1,11 +1,13 @@
 import { Alert, Grid, Skeleton, Stack } from "@mantine/core";
+
 import useSWR from "swr";
+
 import ChallengePreview from "../components/display/challenge-preview";
-import { FindChallenge } from "../components/inputs";
+import FindChallenge from "../components/inputs/find-challenge";
 import { Layout } from "../components/layout";
 import fetchChallenges from "../lib/fetchers/fetch-challenges";
 
-const Blog: React.FC = () => {
+const Index: React.FC = () => {
   const { data, error } = useSWR("/", fetchChallenges);
   return (
     <Layout>
@@ -47,4 +49,4 @@ const Blog: React.FC = () => {
   );
 };
 
-export default Blog;
+export default Index;

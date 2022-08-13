@@ -1,8 +1,9 @@
 import { Group, TypographyStylesProvider } from "@mantine/core";
+
 import { shuffle } from "lodash";
 import { GetStaticProps } from "next";
 
-import { PlaceholderAvatar } from "../components/display/monitor";
+import PlaceholderAvatar from "../components/display/placeholder-avatar";
 import { Layout, TitleGroup } from "../components/layout";
 import { adjectives } from "../lib/adjectives";
 import { nouns } from "../lib/nouns";

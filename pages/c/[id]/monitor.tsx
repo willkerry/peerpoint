@@ -10,19 +10,18 @@ import { IconChartDonut, IconChartLine } from "@tabler/icons";
 import prettyMilliseconds from "pretty-ms";
 import useSWR from "swr";
 
-import { DisplayId, Var } from "../../../components/display";
-import { SubmissionFeed } from "../../../components/display/monitor";
+import DisplayId from "../../../components/display/display-id";
+import SubmissionFeed from "../../../components/display/submission-feed";
+import { Var } from "../../../components/display/variable";
 import { Layout, TitleGroup } from "../../../components/layout";
 import fetchMonitoring from "../../../lib/fetchers/fetch-monitoring";
 
-const Pie = dynamic(
-  () => import("../../../components/display/monitor/charts/pie"),
-  { suspense: true }
-);
-const Area = dynamic(
-  () => import("../../../components/display/monitor/charts/area"),
-  { suspense: true }
-);
+const Pie = dynamic(() => import("../../../components/display/charts/pie"), {
+  suspense: true,
+});
+const Area = dynamic(() => import("../../../components/display/charts/area"), {
+  suspense: true,
+});
 
 const Monitor = () => {
   const router = useRouter();

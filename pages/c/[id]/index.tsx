@@ -8,11 +8,12 @@ import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 
-import { EmptyState } from "../../../components/display";
-import { CodeEditor, RunControls } from "../../../components/inputs";
+import EmptyState from "../../../components/display/empty-state";
+import CodeEditor from "../../../components/inputs/code-editor";
+import RunControls from "../../../components/inputs/run-controls";
 import { Layout, TitleGroup } from "../../../components/layout";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
-import { SubmissionResponse } from "../../../types/Submission";
+import type { SubmissionResponse } from "../../../types/Submission";
 import { executeChallenge } from "../../../utils";
 import { resultModal } from "../../../utils/form-handlers/run-form-handlers";
 

@@ -1,18 +1,20 @@
+import { useState } from "react";
+
 import {
   Alert,
   Button,
   Container,
-  Paper,
-  TextInput,
-  Text,
-  TypographyStylesProvider,
-  Skeleton,
-  Radio,
   Group,
+  Paper,
+  Radio,
+  Skeleton,
+  Text,
+  TextInput,
+  TypographyStylesProvider,
 } from "@mantine/core";
 import { NextLink } from "@mantine/next";
-import { useState } from "react";
-import { CodeEditor } from "../components/inputs";
+
+import CodeEditor from "../components/inputs/code-editor";
 import { Layout } from "../components/layout";
 import { sleep } from "../utils";
 

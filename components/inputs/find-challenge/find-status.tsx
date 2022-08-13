@@ -3,8 +3,9 @@ import { Box, DefaultMantineColor, Group, ThemeIcon } from "@mantine/core";
 import { IconCheck, IconLoader, IconX } from "@tabler/icons";
 import { motion } from "framer-motion";
 
-import { Var } from "../../display";
-import { CFStatus } from "./find-challenge";
+import { Var } from "../../display/variable";
+
+type CFStatus = "idle" | "loading" | "error" | "success";
 
 type CFStatusIndicatorProps = {
   status: CFStatus;

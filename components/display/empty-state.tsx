@@ -9,7 +9,7 @@ import {
 
 import { IconTrafficCone } from "@tabler/icons";
 
-import { FindChallenge } from "../inputs";
+import FindChallenge from "../inputs/find-challenge";
 
 type EmptyStateProps = {
   title?: string;
