@@ -4,11 +4,9 @@ import { useForm } from "@mantine/form";
 
 import { Challenge } from "@prisma/client";
 
-import {
-  CreateFormValues,
-  submitHandler,
-} from "../../utils/form-handlers/create-form-handlers";
-import { ChallengeForm } from "../inputs";
+import { submitHandler } from "../../utils/form-handlers/create-form-handlers";
+import type { CreateFormValues } from "../../utils/form-handlers/create-form-handlers";
+import ChallengeForm from "../inputs/challenge-form";
 
 type EditProps = {
   challenge: Challenge;
