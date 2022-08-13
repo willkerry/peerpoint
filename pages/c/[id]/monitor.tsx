@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { NativeSelect, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 
-import { IconChartBar, IconChartDonut, IconChartLine } from "@tabler/icons";
+import { IconChartDonut, IconChartLine } from "@tabler/icons";
 import prettyMilliseconds from "pretty-ms";
 import useSWR from "swr";
 

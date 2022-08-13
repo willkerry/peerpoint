@@ -5,11 +5,11 @@ import EmptyState from "./empty-state";
 import IdButton from "./id-button";
 import InfoModal from "./info-modal";
 import LanguageIndicator from "./language-indicator";
-import { Bar, Pie } from "./monitor";
+import { Area, Pie } from "./monitor";
 import { Var } from "./variable";
 
 export {
-  Bar,
+  Area,
   ChallengePreview,
   DisplayId,
   Edit,
