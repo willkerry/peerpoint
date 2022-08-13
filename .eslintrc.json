@@ -1,10 +1,5 @@
 {
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "airbnb-typescript", "prettier"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
@@ -16,6 +11,7 @@
       { "max": 200, "skipBlankLines": true, "skipComments": true }
     ],
     "multiline-comment-style": ["error", "starred-block"],
-    "prefer-template": "error"
+    "prefer-template": "error",
+    "no-nested-ternary": "error"
   }
 }
