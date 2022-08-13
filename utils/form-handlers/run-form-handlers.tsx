@@ -7,7 +7,8 @@ import { Challenge } from "@prisma/client";
 import { IconAlertCircle, IconTrophy } from "@tabler/icons";
 
 import { deleteChallenge } from "..";
-import { Edit, Var } from "../../components/display";
+import Edit from "../../components/display/edit";
+import { Var } from "../../components/display/variable";
 import { errorMessages } from "../../lib/error-messages";
 import { SubmissionResponse } from "../../types/Submission";
 

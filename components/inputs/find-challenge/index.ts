@@ -1,3 +1,3 @@
-import FindChallenge from "../find-challenge/find-challenge";
+import FindChallenge from "./find-challenge";
 
 export default FindChallenge;

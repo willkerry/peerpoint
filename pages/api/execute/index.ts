@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { executeCode, HTTPError, rateLimit } from "../../../utils/server";
+
+import { HTTPError, executeCode, rateLimit } from "../../../utils/server";
 
 const limiter = rateLimit({
   interval: 60 * 1000,

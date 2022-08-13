@@ -1,4 +1,5 @@
 import { Fetcher } from "swr";
+
 import { MonitorResponse } from "../../pages/api/c/monitor/[id]";
 
 const fetchMonitoring: Fetcher<MonitorResponse> = ({

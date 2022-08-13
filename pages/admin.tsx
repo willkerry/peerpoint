@@ -1,8 +1,9 @@
 import { Grid, Select } from "@mantine/core";
+
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 
-import { ChallengePreview } from "../components/display/";
+import ChallengePreview from "../components/display/challenge-preview";
 import { Layout, TitleGroup } from "../components/layout";
 import fetchChallenges from "../lib/fetchers/fetch-challenges";
 

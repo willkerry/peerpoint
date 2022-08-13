@@ -1,10 +1,11 @@
-import { Image, Button, Box, Loader } from "@mantine/core";
-import { getQrCode } from "../../utils";
-import { URL } from "../../lib/constants";
-import DisplayId from "./display-id";
-import { IconDownload, IconQrcode } from "@tabler/icons";
+import { Box, Button, Image, Loader } from "@mantine/core";
 import { openModal } from "@mantine/modals";
-import { DisplayIDProps } from "./display-id";
+
+import { IconDownload, IconQrcode } from "@tabler/icons";
+
+import { URL } from "../../lib/constants";
+import { getQrCode } from "../../utils";
+import DisplayId, { DisplayIDProps } from "./display-id";
 
 const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
   const qrCode = getQrCode(`${URL}/c/${id}`);

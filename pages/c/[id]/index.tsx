@@ -10,7 +10,7 @@ import useSWR from "swr";
 
 import { EmptyState } from "../../../components/display";
 import { CodeEditor, RunControls } from "../../../components/inputs";
-import { Layout, TitleGroup } from "../../../components/layout/";
+import { Layout, TitleGroup } from "../../../components/layout";
 import fetchChallenge from "../../../lib/fetchers/fetch-challenge";
 import { SubmissionResponse } from "../../../types/Submission";
 import { executeChallenge } from "../../../utils";
