@@ -1,28 +1,52 @@
 {
   "extends": [
-    "next/core-web-vitals",
     "airbnb",
     "airbnb-typescript",
+    "next/core-web-vitals",
     "prettier"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "rules": {
+    // Prettier is sorting imports
     "sort-imports": "off",
-    "camelcase": ["error", { "allow": ["^unstable_"] }],
+
+    // Try to alias non-camelCase values before using them
+    "camelcase": ["warn", { "allow": ["^unstable_"] }],
+
+    // Try to avoid very long files (a JSX trap)
     "max-lines": [
       "warn",
       { "max": 200, "skipBlankLines": true, "skipComments": true }
     ],
-    "multiline-comment-style": ["error", "starred-block"],
+
+    // Discourage blocks of line comments
+    "multiline-comment-style": ["warn", "starred-block"],
+
+    // Don't allow string concat
     "prefer-template": "error",
+
+    // Nested ternary expressions aren't necessarily intuitive to read, and
+    // quickly become more complex than they look.
     "no-nested-ternary": "error",
+
+    // There's no need to import React for TSX file in Next.js
     "react/react-in-jsx-scope": "off",
+
+    // Don't know why you'd want to use this
     "import/prefer-default-export": "off",
-    "react/function-component-definition": "off",
+
+    // Prop spreading is really useful
     "react/jsx-props-no-spreading": "off",
-    "import/no-cycle": "off",
-    "no-console": "off"
+
+    // I use console.* for logging backend errors
+    "no-console": "off",
+
+    // TODO: fix and enable
+    // "import/no-cycle": "off",
+
+    // TODO: pick a function format and implement it
+    "react/function-component-definition": "off"
   }
 }
