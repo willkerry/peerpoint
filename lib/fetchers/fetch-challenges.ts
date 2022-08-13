@@ -1,5 +1,5 @@
-import { Fetcher } from "swr";
 import { Challenge } from "@prisma/client";
+import { Fetcher } from "swr";
 
 /*
  * Pass `own` argument to fetch only challenges created by the user.
@@ -15,7 +15,7 @@ const fetchChallenges: Fetcher<Challenge[]> = async (
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
-  return await res.json();
+  return res.json();
 };
 
 export default fetchChallenges;
