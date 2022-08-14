@@ -132,6 +132,7 @@ const CodeEditor: React.FC<Props> = ({
         autoFocus: fullWidth,
         width: "100vw",
         minHeight: fullWidth ? "calc(100vh - 50px - 100px)" : null,
+        "data-testid": "code-editor",
       }}
     />
   );

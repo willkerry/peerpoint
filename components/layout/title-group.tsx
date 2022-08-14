@@ -28,7 +28,9 @@ const TitleGroup: React.FC<TitleGroupProps> = ({
       </Grid.Col>
       <Grid.Col span={9}>
         <Skeleton visible={!title} sx={{ minHeight: 20 }}>
-          <Title order={titleOrder as TitleOrder}>{title}</Title>
+          <Title order={titleOrder as TitleOrder} data-testid="page-title">
+            {title}
+          </Title>
         </Skeleton>
       </Grid.Col>
       <Grid.Col span={3} sx={{ textAlign: "right" }}>
