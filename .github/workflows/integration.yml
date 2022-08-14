@@ -1,13 +1,12 @@
 name: Integration Tests
 
-on: [push, deployment_status]
+on: [deployment_status]
 
 jobs:
   e2e:
     if:
       # Only run on Preview deployments
       github.event_name == 'deployment_status' &&
-      github.event.eployment_status.environment == 'preview' &&
       github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
