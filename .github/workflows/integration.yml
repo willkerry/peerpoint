@@ -3,7 +3,7 @@ name: Integration Tests
 on: deployment_status
 
 jobs:
-  cypress:
+  e2e:
     if: deployment_status.success == 'success'
     runs-on: ubuntu-latest
     steps:
