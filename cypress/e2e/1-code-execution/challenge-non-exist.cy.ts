@@ -3,7 +3,7 @@
 describe("Navigation", () => {
   it("should try to find challenge 99999", () => {
     // Start from the index page
-    cy.visit("http://localhost:3000/");
+    cy.visit("/");
 
     // Find the auto-focussed input element and type in some text
     cy.get("input").type("99999");

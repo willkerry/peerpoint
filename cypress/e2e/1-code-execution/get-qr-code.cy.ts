@@ -3,7 +3,7 @@
 describe("Navigation", () => {
   it("should navigate to challenge 20", () => {
     // Start from the index page
-    cy.visit("http://localhost:3000/c/20");
+    cy.visit("/c/20");
 
     // click the element that contains "ID 00020"
     cy.contains("ID 00020").click();
