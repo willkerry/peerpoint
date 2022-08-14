@@ -12,8 +12,9 @@
     "lint": "next lint",
     "export": "next build && next export",
     "cypress": "cypress open",
-    "test": "cypress run",
-    "ci": "server-test start 3000 test"
+    "test": "cypress open",
+    "test:silent": "cypress run",
+    "ci": "server-test 3000 test:silent"
   },
   "dependencies": {
     "@codemirror/lang-lezer": "^6.0.0",

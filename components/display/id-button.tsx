@@ -20,6 +20,7 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
         }}
       >
         <Image
+          data-testid="qr-code"
           src={qrCode}
           height={300}
           width={300}
@@ -35,7 +36,11 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
         />
       </Box>
       <a href={qrCode} download="qr-code.png">
-        <Button rightIcon={<IconDownload size={16} />} variant="default">
+        <Button
+          data-testid="qr-download-button"
+          rightIcon={<IconDownload size={16} />}
+          variant="default"
+        >
           Download QR code
         </Button>
       </a>
@@ -44,6 +49,7 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
 
   return (
     <Button
+      data-testid="id-button"
       compact
       variant="default"
       onClick={() =>

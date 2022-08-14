@@ -55,6 +55,7 @@ const FindChallenge: React.FC = () => {
         handleSubmit(values);
       })}
       sx={{ width: `${100}%` }}
+      data-testid="find-challenge-form"
     >
       <NumberInput
         hideControls
@@ -62,6 +63,7 @@ const FindChallenge: React.FC = () => {
         maxLength={5}
         onKeyUp={form.validate}
         size="md"
+        data-testid="find-challenge-input"
         sx={{
           input: {
             fontVariantNumeric: "tabular-nums slashed-zero",

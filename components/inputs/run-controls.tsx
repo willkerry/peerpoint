@@ -87,6 +87,7 @@ const RunControls: React.FC<RunControlsProps> = ({
           form="exec"
           loading={isSubmitting}
           {...{ disabled }}
+          data-testid="run-challenge-button"
         >
           Run
         </Button>

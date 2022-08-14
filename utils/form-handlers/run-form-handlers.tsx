@@ -71,6 +71,7 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
 
   openModal({
     title: <Title order={4}>Output</Title>,
+
     children: (
       <Stack>
         {wasError && (
@@ -118,6 +119,7 @@ export function resultModal(setShowResult, output: SubmissionResponse) {
               color: !wasError ? theme.colors.gray[4] : theme.colors.red[3],
               fontSize: theme.fontSizes.sm,
             })}
+            data-testid="output"
           >
             <ScrollArea sx={{ maxHeight: 150 }}>
               {output?.stdout || output?.stderr || output?.compile_output}

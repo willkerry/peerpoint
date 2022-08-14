@@ -1,36 +1,81 @@
 /// <reference types="cypress" />
 
-describe("Navigation", () => {
+const testChallenge = {
+  id: 20,
+  title: "Hello BASIC",
+};
+
+const checkURL = () => cy.url().should("include", `/c/${testChallenge.id}`);
+
+const checkTitle = () =>
+  cy.get("[data-testid=page-title]").contains(testChallenge.title);
+
+describe("Navigate to a challenge", () => {
   it("should navigate to challenge 20", () => {
-    // Start from the index page
-    cy.visit("/");
+    cy.visit(`/c/${testChallenge.id}`);
 
-    // Find the auto-focussed input element and type in some text
-    cy.get("input").type("20");
-
-    // submit the form
-    cy.get("form").submit();
-
-    // url should be /c/20
-    cy.url().should("include", "/c/20");
-
-    // delay for the loading to finish
-    cy.wait(1000);
-
-    // get the contenteditable element and type a comment
-    cy.get("[contenteditable]")
-      .type("{enter}{upArrow}{cmd}/")
-      .type("Testing comment");
-
-    // submit the form
-    cy.get("form").submit();
-
-    // Wait for execution to finish
-    cy.wait(3000);
-
-    // assert that an code element on the page contains "Hello World"
-    cy.contains("Hello World").should("exist");
+    // check the URL and the title
+    checkURL();
+    checkTitle();
   });
-});
+}).timeout(10000);
+
+describe("Code editor", () => {
+  it("should exist", () => {
+    // get the code editor element
+    cy.get("[data-testid=code-editor]")
+      .get("[contenteditable]")
+      .should("exist");
+  }).timeout(10000);
+
+  it("should be editable", () => {
+    // type some text into the code editor
+    cy.get("[data-testid=code-editor]")
+      .get("[contenteditable]")
+      .type("{enter}{upArrow}1234")
+      .get(".cm-activeLine")
+      // check the text is there
+      .should("contain", "1234")
+      // delete the text
+      .type("{backspace}{backspace}{backspace}{backspace}");
+  }).timeout(10000);
+
+  it("should support the comment shortcut", () => {
+    cy.get("[data-testid=code-editor]")
+      .get("[contenteditable]")
+      // enter the comment shortcut on a new line
+      .type("{enter}{upArrow}{cmd}/")
+      .type("This is a comment")
+      // get the active line
+      .get(".cm-activeLine")
+      // check comment designator is there
+      .should("contain", "' This is a comment");
+  }).timeout(10000);
+}).timeout(10000);
+
+describe("Run challenge", () => {
+  it("should run the challenge", () => {
+    // click the run button
+    cy.get("[data-testid=run-challenge-button]").click();
+    // check the output is displayed
+    cy.get("[data-testid=output]").should("contain", "Hello World");
+  }).timeout(10000);
+
+  it("should dismiss modal", () => {
+    // click the modal overlay
+    cy.get(".mantine-Modal-overlay").click().should("not.exist");
+  }).timeout(10000);
+
+  it("should report errors", () => {
+    cy.get("[data-testid=code-editor]")
+      .get("[contenteditable]")
+      // type some text that will cause an error
+      .type("{enter}not a valid statement");
+    // click the run button
+    cy.get("[data-testid=run-challenge-button]").click();
+    // check the output contains some error text
+    cy.get("[data-testid=output]").should("contain", "error");
+  }).timeout(10000);
+}).timeout(10000);
 
 export {};
