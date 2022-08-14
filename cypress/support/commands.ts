@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -35,5 +36,6 @@
 //     }
 //   }
 // }
+import "@testing-library/cypress/add-commands";
 
 export {};
