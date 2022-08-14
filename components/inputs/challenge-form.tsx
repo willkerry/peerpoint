@@ -130,6 +130,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (
             fullWidth
             variant="default"
             mt={12}
+            data-testid="run-populate-button"
           >
             {executing ? "Running program" : "Run and populate Expected output"}
           </Button>
