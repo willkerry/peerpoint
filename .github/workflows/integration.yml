@@ -1,0 +1,14 @@
+name: Integration Tests
+
+on: deployment_status
+
+jobs:
+  cypress:
+    if: deployment_status.success == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        env:
+          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
