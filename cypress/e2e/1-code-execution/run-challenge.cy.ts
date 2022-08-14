@@ -39,18 +39,6 @@ describe("Code editor", () => {
       // delete the text
       .type("{backspace}{backspace}{backspace}{backspace}");
   }).timeout(10000);
-
-  it("should support the comment shortcut", () => {
-    cy.get("[data-testid=code-editor]")
-      .get("[contenteditable]")
-      // enter the comment shortcut on a new line
-      .type("{enter}{upArrow}{cmd}/")
-      .type("This is a comment")
-      // get the active line
-      .get(".cm-activeLine")
-      // check comment designator is there
-      .should("contain", "' This is a comment");
-  }).timeout(10000);
 }).timeout(10000);
 
 describe("Run challenge", () => {
