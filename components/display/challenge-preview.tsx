@@ -5,10 +5,13 @@ import {
   Card,
   Code,
   Group,
+  Image,
   Text,
   Tooltip,
+  UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
+import { useHover } from "@mantine/hooks";
 
 import type { Challenge } from "@prisma/client";
 
@@ -18,6 +21,7 @@ import {
 } from "../../utils/form-handlers/run-form-handlers";
 import AdminControls from "../inputs/admin-controls";
 import LanguageIndicator from "./language-indicator";
+import { getChallengeQrCode, openQRModal } from "./qr-share";
 
 type ChallengePreviewProps = {
   challenge: Challenge;
@@ -29,6 +33,8 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
   userOwns,
 }: ChallengePreviewProps) => {
   const theme = useMantineTheme();
+
+  const { hovered, ref } = useHover();
 
   const adminControlProps: React.ComponentProps<typeof AdminControls> = {
     id: challenge.id,
@@ -52,15 +58,35 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
     controls.unshift(<AdminControls key="admin" {...adminControlProps} />);
 
   return (
-    <Card shadow="sm" p="lg">
+    <Card shadow="sm" p="lg" withBorder>
       {/* Code Preview */}
-      <Card.Section
-        style={{
-          backgroundColor: theme.colors.dark[8],
-          height: "100px",
-          overflow: "hidden",
-        }}
-      >
+      <Card.Section ref={ref} sx={{ height: "100px", overflow: "hidden" }}>
+        {userOwns && hovered && (
+          <UnstyledButton
+            sx={{
+              width: "100%",
+              height: 100,
+              backgroundColor: "#000",
+            }}
+            title="Download QR Code"
+            onClick={() => openQRModal(challenge.id)}
+          >
+            <Image
+              height={80}
+              width="100%"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                filter: "invert(100%)",
+              }}
+              alt="QR code"
+              src={getChallengeQrCode(challenge.id)}
+              withPlaceholder
+              placeholder="Loading..."
+            />
+          </UnstyledButton>
+        )}
         <Code
           block
           color="dark"
@@ -69,6 +95,9 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
             fontSize: theme.fontSizes.xs,
             userSelect: "none",
             overflow: "hidden",
+            height: "100%",
+            borderRadius: 0,
+            opacity: userOwns && hovered ? 0 : 1,
           }}
         >
           {challenge.skeleton}
@@ -90,7 +119,7 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
       </Group>
 
       {/* Actions */}
-      <Group mt="lg" position="apart">
+      <Group mt="lg" position="apart" spacing={4} noWrap>
         {controls}
       </Group>
     </Card>

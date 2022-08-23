@@ -1,4 +1,4 @@
-import { Grid, Select } from "@mantine/core";
+import { Grid, Select, Skeleton } from "@mantine/core";
 
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
@@ -47,11 +47,18 @@ const Admin: React.FC = () => {
             ]}
           />
         </Grid.Col>
-        {data?.map((ch) => (
-          <Grid.Col span={12} xs={6} sm={4} md={3} xl={2} key={ch.id}>
-            <ChallengePreview challenge={ch} userOwns />
-          </Grid.Col>
-        ))}
+        {!data
+          ? // When data is loading, display 6 skeletons
+            Array.from({ length: 6 }, (_, i) => (
+              <Grid.Col key={Number(i)} span={12} xs={6} sm={4} md={3} xl={2}>
+                <Skeleton visible height={200} />
+              </Grid.Col>
+            ))
+          : data?.map((ch) => (
+              <Grid.Col span={12} xs={6} sm={4} md={3} xl={2} key={ch.id}>
+                <ChallengePreview challenge={ch} userOwns />
+              </Grid.Col>
+            ))}
       </Grid>
     </Layout>
   );
