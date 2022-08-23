@@ -1,4 +1,4 @@
-import { Box, Button, Image, Loader } from "@mantine/core";
+import { Box, Button, Image, Paper } from "@mantine/core";
 import { openModal } from "@mantine/modals";
 
 import { IconDownload, IconQrcode } from "@tabler/icons";
@@ -13,28 +13,31 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
 
   const children = (
     <>
-      <Box
+      <Paper
         sx={{
-          width: 300,
-          height: 300,
+          width: "100%",
+          height: 320,
+          display: "flex",
+          alignItems: "center",
         }}
+        withBorder
+        mb={12}
       >
         <Image
           data-testid="qr-code"
           src={qrCode}
           height={300}
-          width={300}
+          width="100%"
+          fit="contain"
           alt="QR code for this ID"
-          mb={12}
           withPlaceholder
           placeholder={
             <Box sx={{ position: "relative" }}>
               <IconQrcode size={32} style={{ position: "absolute" }} />
-              <Loader size="lg" sx={{ position: "absolute" }} />
             </Box>
           }
         />
-      </Box>
+      </Paper>
       <a href={qrCode} download="qr-code.png">
         <Button
           data-testid="qr-download-button"
@@ -58,6 +61,11 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
           children,
         })
       }
+      leftIcon={<IconQrcode size={14} />}
+      styles={(theme) => ({
+        root: { paddingLeft: 5 },
+        leftIcon: { marginRight: 3, color: theme.colors.orange[7] },
+      })}
     >
       <DisplayId id={id} />
     </Button>
