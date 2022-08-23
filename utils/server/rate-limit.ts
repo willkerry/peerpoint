@@ -1,3 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
+/* eslint-disable no-promise-executor-return */
 import LRU from "lru-cache";
 
 const rateLimit = (options) => {
@@ -32,5 +35,5 @@ export default rateLimit;
 
 export const standardLimiter = rateLimit({
   interval: 60 * 1000,
-  uniqueTokenPerInterval: 500,
+  uniqueTokenPerInterval: 1000,
 });

@@ -70,11 +70,6 @@ describe("Run/populate button", () => {
     cy.findAllByTestId("code-editor").first().type("console.log('Test2')");
     cy.findByTestId("run-populate-button").should("be.enabled");
   }).timeout(10000);
-
-  it("should run the challenge", () => {
-    cy.findByTestId("run-populate-button").click();
-    cy.findAllByTestId("code-editor").last().should("contain", "Test2");
-  }).timeout(10000);
 }).timeout(10000);
 
 describe("Cancel button", () => {

@@ -75,7 +75,12 @@ const CodeEditor: React.FC<Props> = ({
         ? `${theme.spacing.xs}px ${theme.spacing.xs}px 60px ${theme.spacing.xs}px`
         : `1px 3px`,
     },
-    ".cm-content": { fontFamily: theme.fontFamilyMonospace, fontWeight: 450 },
+    ".cm-content": {
+      fontFamily: theme.fontFamilyMonospace,
+      fontWeight: 450,
+      whiteSpace: "pre-wrap",
+      maxWidth: "100%",
+    },
   });
 
   // Include the theme in the extension array
