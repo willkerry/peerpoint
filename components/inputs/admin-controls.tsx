@@ -2,7 +2,14 @@ import { ActionIcon, Group, Tooltip } from "@mantine/core";
 import { NextLink } from "@mantine/next";
 
 import { Challenge } from "@prisma/client";
-import { IconEdit, IconHeartRateMonitor, IconTrash } from "@tabler/icons";
+import {
+  IconEdit,
+  IconHeartRateMonitor,
+  IconQrcode,
+  IconTrash,
+} from "@tabler/icons";
+
+import { openQRModal } from "components/display/qr-share";
 
 type AdminControlsProps = {
   handleDelete: () => void;
@@ -17,8 +24,8 @@ const AdminControls: React.FC<AdminControlsProps> = ({
   handleDelete,
   handleEdit,
 }: AdminControlsProps) => (
-  <Group spacing={6}>
-    <Tooltip label="Delete challenge">
+  <Group spacing={4}>
+    <Tooltip label="Delete...">
       <ActionIcon
         color="red"
         variant="light"
@@ -29,7 +36,7 @@ const AdminControls: React.FC<AdminControlsProps> = ({
       </ActionIcon>
     </Tooltip>
 
-    <Tooltip label="Edit challenge">
+    <Tooltip label="Edit...">
       <ActionIcon
         variant="light"
         color="blue"
@@ -39,7 +46,7 @@ const AdminControls: React.FC<AdminControlsProps> = ({
         <IconEdit size={16} />
       </ActionIcon>
     </Tooltip>
-    <Tooltip label="Monitor responses">
+    <Tooltip label="Monitor">
       <div>
         <ActionIcon
           component={NextLink}
@@ -48,6 +55,17 @@ const AdminControls: React.FC<AdminControlsProps> = ({
           color="green"
         >
           <IconHeartRateMonitor size={16} />
+        </ActionIcon>
+      </div>
+    </Tooltip>
+    <Tooltip label="Share">
+      <div>
+        <ActionIcon
+          onClick={() => openQRModal(id)}
+          variant="light"
+          color="gray"
+        >
+          <IconQrcode size={16} />
         </ActionIcon>
       </div>
     </Tooltip>
