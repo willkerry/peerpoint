@@ -10,7 +10,7 @@ import {
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 
-import "@ibm/plex";
+import "@ibm/plex/css/ibm-plex.css";
 import { SessionProvider } from "next-auth/react";
 
 import { peerpointTheme } from "../lib/theme";
