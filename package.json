@@ -38,7 +38,7 @@
     "@tabler/icons": "^1.86.0",
     "@uiw/codemirror-extensions-langs": "^4.11.5",
     "@uiw/codemirror-themes": "^4.11.5",
-    "@uiw/react-codemirror": "^4.11.5",
+    "@uiw/react-codemirror": "^4.11.6",
     "boring-avatars": "^1.7.0",
     "framer-motion": "^7.2.1",
     "lodash": "^4.17.21",
