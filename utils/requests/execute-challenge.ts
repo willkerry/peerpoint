@@ -20,15 +20,10 @@ export async function silentlyExecuteChallenge(
   language: number,
   userCode: string
 ): Promise<SubmissionResponse> {
-  try {
-    const res = await fetch("/api/execute/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ language, userCode }),
-    });
-    return res.json();
-  } catch (e) {
-    console.error(e);
-    return;
-  }
+  const res = await fetch("/api/execute/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ language, userCode }),
+  });
+  return res.json();
 }

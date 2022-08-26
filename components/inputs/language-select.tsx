@@ -69,6 +69,7 @@ const LanguageSelect = ({
       item?.compiler?.toLowerCase().includes(value.toLowerCase()) ||
       item?.cm?.toLowerCase().includes(value.toLowerCase())
     }
+    sx={{ width: "100%" }}
   />
 );
 

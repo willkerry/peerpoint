@@ -1,6 +1,6 @@
-import { UseFormReturnType } from "@mantine/form";
-
 import { Dispatch, SetStateAction, SyntheticEvent } from "react";
+
+import { UseFormReturnType } from "@mantine/form";
 
 import { SubmissionResponse } from "../../types/Submission";
 import {
@@ -13,6 +13,7 @@ export interface CreateFormValues {
   title: string;
   language: number;
   skeleton: string;
+  instructions?: string;
   expectedOutput: string;
 }
 
@@ -30,7 +31,6 @@ export function quickExecute(
       );
     } catch (e) {
       setExecuting(false);
-      return;
     }
     setExecuting(false);
     return res;
@@ -53,6 +53,7 @@ export function quickExecuteAndPopulate(
     }
 
     const res = await quickExecute(setExecuting, form)();
+
     const displayError = res.stderr || res.compile_output;
 
     if (res.status?.id > 4) {
@@ -61,25 +62,17 @@ export function quickExecuteAndPopulate(
         `${res.status.description ?? "Error"} ${res.message ?? ""}`
       );
       form.setFieldValue("expectedOutput", displayError ?? "");
-      res.compile_output &&
-        form.setFieldError(
-          "expectedOutput",
-          "Compiler output is provided for debugging."
-        );
-      return;
     } else if (!res.stdout) {
       form.setFieldError("skeleton", "Your program didn’t output anything.");
       form.setFieldValue("expectedOutput", displayError ?? "");
-      return;
     } else {
       form.setFieldValue("expectedOutput", res.stdout ?? "");
-      return;
     }
   };
 }
 
 /**
- * Submit handler for the create form – fires the appropriate errors on the
+ * Submit handler for the create form – fires the appropriate errors on the
  * provided form object. Pass a challenge ID as the `updateChallengeId` argument
  * to update an existing challenge (leave it as `undefined` to create a new one).
  */
@@ -101,7 +94,6 @@ export function submitHandler(
     } catch (error) {
       form.setFieldError("submit", error.message);
       setSubmitting(false);
-      return;
     }
   };
 }

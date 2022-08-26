@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { Box } from "@mantine/core";
+import { Box, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { useSession } from "next-auth/react";
@@ -84,6 +84,21 @@ const Post: React.FC = () => {
               id={data?.id}
             />
           </Box>
+          {data?.instructions && (
+            <Box px="sm" pb="sm">
+              <Text
+                size="xs"
+                weight={600}
+                transform="uppercase"
+                sx={{ letterSpacing: "0.05em" }}
+              >
+                Instructions
+              </Text>
+              <Text size="sm" sx={{ maxWidth: 640 }} color="dimmed">
+                {data.instructions}
+              </Text>
+            </Box>
+          )}
           <form id="exec" onSubmit={form.onSubmit(handleSubmit)}>
             <CodeEditor
               fullWidth
