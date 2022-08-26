@@ -8,6 +8,7 @@ import {
   Image,
   Text,
   Tooltip,
+  Transition,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core";
@@ -60,33 +61,51 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
   return (
     <Card shadow="sm" p="lg" withBorder>
       {/* Code Preview */}
-      <Card.Section ref={ref} sx={{ height: "100px", overflow: "hidden" }}>
-        {userOwns && hovered && (
-          <UnstyledButton
-            sx={{
-              width: "100%",
-              height: 100,
-              backgroundColor: "#000",
-            }}
-            title="Download QR Code"
-            onClick={() => openQRModal(challenge.id)}
-          >
-            <Image
-              height={80}
-              width="100%"
+      <Card.Section
+        ref={ref}
+        sx={{ height: "100px", overflow: "hidden", position: "relative" }}
+      >
+        <Transition
+          mounted={userOwns && hovered}
+          transition="fade"
+          duration={300}
+          timingFunction="ease-in-out"
+        >
+          {(styles) => (
+            <UnstyledButton
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                filter: "invert(100%)",
+                width: "100%",
+                height: 100,
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1,
               }}
-              alt="QR code"
-              src={getChallengeQrCode(challenge.id)}
-              withPlaceholder
-              placeholder="Loading..."
-            />
-          </UnstyledButton>
-        )}
+              title="Download QR Code"
+              onClick={() => openQRModal(challenge.id)}
+              style={styles}
+            >
+              <Image
+                height={80}
+                width="100%"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  filter: "invert(100%)",
+                  opacity: 0.95,
+                }}
+                alt="QR code"
+                src={getChallengeQrCode(challenge.id, 160)}
+                withPlaceholder
+                placeholder="Loading..."
+              />
+            </UnstyledButton>
+          )}
+        </Transition>
         <Code
           block
           color="dark"
@@ -97,7 +116,6 @@ const ChallengePreview: React.FC<ChallengePreviewProps> = ({
             overflow: "hidden",
             height: "100%",
             borderRadius: 0,
-            opacity: userOwns && hovered ? 0 : 1,
           }}
         >
           {challenge.skeleton}
