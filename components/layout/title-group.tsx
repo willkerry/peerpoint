@@ -1,10 +1,10 @@
-import { Grid, Skeleton, Text, Title, TitleOrder } from "@mantine/core";
+import { Group, Skeleton, Stack, Text, Title, TitleOrder } from "@mantine/core";
 
 import IdButton from "../display/id-button";
 
 type TitleGroupProps = {
   title: string;
-  id?: string;
+  id?: number;
   area: string;
   compact?: boolean;
 };
@@ -20,23 +20,27 @@ const TitleGroup: React.FC<TitleGroupProps> = ({
   if (title?.length > 20) titleOrder += 1;
   if (title?.length > 30) titleOrder += 1;
   return (
-    <Grid gutter={0} justify="space-between">
-      <Grid.Col span={12}>
-        <Text weight={500} color="dimmed">
-          {area}
-        </Text>
-      </Grid.Col>
-      <Grid.Col span={9}>
-        <Skeleton visible={!title} sx={{ minHeight: 20 }}>
+    <Stack spacing={2}>
+      <Text weight={500} color="dimmed">
+        {area}
+      </Text>
+
+      <Group noWrap position="apart">
+        <Skeleton visible={!title} sx={{ minHeight: 27 }}>
           <Title order={titleOrder as TitleOrder} data-testid="page-title">
             {title}
           </Title>
         </Skeleton>
-      </Grid.Col>
-      <Grid.Col span={3} sx={{ textAlign: "right" }}>
-        {id ? <IdButton {...{ id }} /> : null}
-      </Grid.Col>
-    </Grid>
+
+        <Skeleton
+          visible={!id}
+          sx={{ minHeight: 27, textAlign: "right" }}
+          width={120}
+        >
+          <IdButton {...{ id }} />
+        </Skeleton>
+      </Group>
+    </Stack>
   );
 };
 

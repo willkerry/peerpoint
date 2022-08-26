@@ -1,32 +1,22 @@
-import { useEffect, useState } from "react";
-
 import { Box, Text } from "@mantine/core";
 
-export type DisplayIDProps = {
-  id: number | string;
-};
+export type Props = { id: number };
 
-const DisplayId: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => {
-  const [idString, setIdString] = useState("00000");
-  useEffect(() => {
-    if (id) setIdString(String(id).padStart(5, "0"));
-  }, [id]);
-  return (
-    <Box sx={{ display: "inline-block" }}>
-      <Text sx={{ display: "inline" }} weight={500} color="dimmed">
-        ID{" "}
-      </Text>
-      <Text
-        sx={{
-          display: "inline",
-          fontVariant: "tabular-nums slashed-zero",
-        }}
-        weight={500}
-      >
-        {idString}
-      </Text>
-    </Box>
-  );
-};
+const DisplayId: React.FC<Props> = ({ id }: Props) => (
+  <Box sx={{ display: "inline-block" }}>
+    <Text sx={{ display: "inline" }} weight={500} color="dimmed">
+      ID{" "}
+    </Text>
+    <Text
+      sx={{
+        display: "inline",
+        fontVariant: "tabular-nums slashed-zero",
+      }}
+      weight={500}
+    >
+      {id?.toString().padStart(5, "0")}
+    </Text>
+  </Box>
+);
 
 export default DisplayId;
