@@ -2,10 +2,10 @@ import { Button } from "@mantine/core";
 
 import { IconQrcode } from "@tabler/icons";
 
-import DisplayId, { DisplayIDProps } from "./display-id";
+import DisplayId, { Props } from "./display-id";
 import { openQRModal } from "./qr-share";
 
-const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => (
+const IdButton: React.FC<Props> = ({ id }: Props) => (
   <Button
     data-testid="id-button"
     compact
@@ -17,7 +17,7 @@ const IdButton: React.FC<DisplayIDProps> = ({ id }: DisplayIDProps) => (
       leftIcon: { marginRight: 3, color: theme.colors.orange[7] },
     })}
   >
-    <DisplayId id={id} />
+    <DisplayId {...{ id }} />
   </Button>
 );
 

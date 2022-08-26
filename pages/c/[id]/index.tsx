@@ -81,7 +81,7 @@ const Post: React.FC = () => {
               compact
               area="Challenge"
               title={data?.title}
-              id={String(data?.id)}
+              id={data?.id}
             />
           </Box>
           <form id="exec" onSubmit={form.onSubmit(handleSubmit)}>

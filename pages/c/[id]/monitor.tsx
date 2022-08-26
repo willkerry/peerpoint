@@ -40,7 +40,7 @@ const Monitor = () => {
 
   return (
     <Layout loading={loading} title="Monitor">
-      <TitleGroup title={data?.title} id={String(id)} area="Monitoring" />
+      <TitleGroup title={data?.title} id={Number(id)} area="Monitoring" />
 
       <Stack>
         <NativeSelect
