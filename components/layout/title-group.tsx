@@ -32,13 +32,15 @@ const TitleGroup: React.FC<TitleGroupProps> = ({
           </Title>
         </Skeleton>
 
-        <Skeleton
-          visible={!id}
-          sx={{ minHeight: 27, textAlign: "right" }}
-          width={120}
-        >
-          <IdButton {...{ id }} />
-        </Skeleton>
+        {id && (
+          <Skeleton
+            visible={!id}
+            sx={{ minHeight: 27, textAlign: "right" }}
+            width={120}
+          >
+            <IdButton {...{ id }} />
+          </Skeleton>
+        )}
       </Group>
     </Stack>
   );

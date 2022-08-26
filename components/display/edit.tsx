@@ -21,6 +21,7 @@ const Edit: React.FC<EditProps> = ({ challenge }: EditProps) => {
       title: challenge.title,
       language: challenge.language,
       skeleton: challenge.skeleton,
+      instructions: challenge.instructions,
       expectedOutput: challenge.expectedOutput,
     },
   });

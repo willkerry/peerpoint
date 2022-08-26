@@ -3,6 +3,7 @@ import { unstable_getServerSession } from "next-auth/next";
 
 import prisma from "../../../lib/prisma";
 import { languageMap } from "../../../types/Language";
+import type { CreateFormValues } from "../../../utils/form-handlers/create-form-handlers";
 import { standardLimiter } from "../../../utils/server";
 import { authOptions } from "../auth/[...nextauth]";
 
@@ -21,11 +22,18 @@ export default async function handle(
 
   if (req.method === "POST") {
     const session = await unstable_getServerSession(req, res, authOptions);
-    const { title, expectedOutput, skeleton, language } = req.body;
+    const { body }: { body: CreateFormValues } = req;
+    const {
+      title,
+      expectedOutput,
+      instructions = "",
+      skeleton,
+      language,
+    } = body;
     const langInt = Number(language);
 
-    if (!title || !expectedOutput || !skeleton || !language) {
-      res.status(400).send("Missing required fields");
+    if (!title || !skeleton || !language) {
+      res.status(404).send("Missing required field");
       return;
     }
     if (languageMap.get(langInt) === undefined || Number.isNaN(langInt)) {
@@ -40,6 +48,7 @@ export default async function handle(
             expectedOutput,
             skeleton,
             language: Number(language),
+            instructions,
             published: true,
             author: { connect: { email: session?.user?.email } },
           },
@@ -61,10 +70,8 @@ export default async function handle(
       const session = await unstable_getServerSession(req, res, authOptions);
 
       // If not logged in, return 401 unauthorized
-      if (!session) {
-        res.status(401).send("Unauthorized");
-        return;
-      }
+      if (!session) res.status(401).send("Unauthorized");
+
       /*
        * Otherwise, return the 30 most recent challenges created by the user
        * TODO: pagination

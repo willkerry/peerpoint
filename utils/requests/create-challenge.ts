@@ -1,4 +1,4 @@
-import { CreateFormValues } from "../form-handlers/create-form-handlers";
+import type { CreateFormValues } from "../form-handlers/create-form-handlers";
 
 /** Send an update request (*safely* – auth happens server-side). */
 async function createChallenge(values: CreateFormValues): Promise<void> {

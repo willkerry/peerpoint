@@ -44,13 +44,20 @@ export default async function handle(
   // PATCH /api/c/:id
   else if (req.method === "PATCH") {
     if (session) {
-      const { title, expectedOutput, skeleton, language } = req.body;
+      const {
+        title,
+        expectedOutput,
+        skeleton,
+        instructions = "",
+        language,
+      } = req.body;
       const result = await prisma.challenge.update({
         where: { id: Number(postId) },
         data: {
           title,
           expectedOutput,
           skeleton,
+          instructions,
           language,
         },
       });

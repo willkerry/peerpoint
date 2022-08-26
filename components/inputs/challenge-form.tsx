@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 
 import { useRouter } from "next/router";
 
-import { Button, Grid, Group, Text, TextInput } from "@mantine/core";
+import { Button, Grid, Group, Text, TextInput, Textarea } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
 import { closeAllModals, openConfirmModal } from "@mantine/modals";
 
@@ -95,10 +95,13 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (
     };
     return openConfirmModal(cancelModalProps);
   };
+
+  const colMult = isModal ? 2 : 1;
+
   return (
     <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
       <Grid>
-        <Grid.Col sm={isModal ? 12 : 8}>
+        <Grid.Col sm={colMult * 6}>
           <TextInput
             autoFocus
             required
@@ -107,10 +110,26 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (
             {...form.getInputProps("title")}
           />
         </Grid.Col>
-        <Grid.Col sm={isModal ? 12 : 4}>
-          <LanguageSelect {...{ form }} />
+        <Grid.Col sm={colMult * 6}>
+          <Group align="end" noWrap>
+            <LanguageSelect {...{ form }} />
+            {/* Switch for WIP auto-boilerplate feature */}
+            {/* <Switch
+              sx={{ whiteSpace: "nowrap" }}
+              label="Auto-boilerplate"
+              my="xs"
+            /> */}
+          </Group>
         </Grid.Col>
-        <Grid.Col sm={isModal ? 12 : 6}>
+        <Grid.Col sm={colMult * 6}>
+          <Textarea
+            required
+            label="Instructions"
+            {...form.getInputProps("instructions")}
+          />
+        </Grid.Col>
+        <Grid.Col sm={colMult * 6} />
+        <Grid.Col sm={colMult * 6}>
           <CodeEditor
             label="Skeleton"
             language={form.values.language}
@@ -135,7 +154,7 @@ const ChallengeForm: React.FC<ChallengeFormComponentProps> = (
             {executing ? "Running program" : "Run and populate Expected output"}
           </Button>
         </Grid.Col>
-        <Grid.Col sm={isModal ? 12 : 6}>
+        <Grid.Col sm={colMult * 6}>
           <CodeEditor
             label="Expected output"
             descriptionProps={{ sx: { minHeight: "2.5em" } }}
