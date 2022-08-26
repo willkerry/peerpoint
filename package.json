@@ -36,7 +36,7 @@
     "@next/bundle-analyzer": "^12.2.5",
     "@prisma/client": "^4.2.0",
     "@tabler/icons": "^1.86.0",
-    "@uiw/codemirror-extensions-langs": "^4.11.5",
+    "@uiw/codemirror-extensions-langs": "^4.11.6",
     "@uiw/codemirror-themes": "^4.11.5",
     "@uiw/react-codemirror": "^4.11.5",
     "boring-avatars": "^1.7.0",
