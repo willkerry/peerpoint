@@ -31,6 +31,8 @@ const placeholder: Attempt[] = [
     id: 1,
     success: false,
     output: "",
+    input: "",
+    status: 5,
   },
   {
     challengeId: 2,
@@ -39,6 +41,8 @@ const placeholder: Attempt[] = [
     id: 1,
     success: true,
     output: "",
+    input: "",
+    status: 3,
   },
 ];
 
