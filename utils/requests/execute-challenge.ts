@@ -1,3 +1,5 @@
+import { getCookie } from "cookies-next";
+
 import { Language } from "../../types/Language";
 import { SubmissionResponse } from "../../types/Submission";
 
@@ -9,7 +11,10 @@ export async function executeChallenge(
 ): Promise<SubmissionResponse> {
   const res = await fetch(`/api/execute/${id}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "pp-client-cookie": String(getCookie("pp-client-cookie")),
+    },
     body: JSON.stringify({ language, userCode }),
   });
   return res.json();
