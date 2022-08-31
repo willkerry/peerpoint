@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -11,25 +13,30 @@ import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 
 import "@ibm/plex/css/ibm-plex.css";
+import { hasCookie, setCookie } from "cookies-next";
+import { nanoid } from "nanoid";
 import { SessionProvider } from "next-auth/react";
 
 import { peerpointTheme } from "../lib/theme";
 
 const App = ({ Component, pageProps }: AppProps) => {
+  // Dark mode
   const preferredColorScheme = useColorScheme();
-
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "peerpoint-color-scheme",
     defaultValue: preferredColorScheme,
     getInitialValueInEffect: true,
   });
-
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   const router = useRouter();
 
-  useHotkeys([["mod+J", () => toggleColorScheme()]]);
+  useEffect(() => {
+    if (!hasCookie("pp-client-cookie")) setCookie("pp-client-cookie", nanoid());
+    console.warn("Top level useEffect called");
+  }, []);
 
   return (
     <>
