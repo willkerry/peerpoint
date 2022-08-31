@@ -74,7 +74,7 @@ export default async function handle(
       Number(req.query.id),
       req.body.userCode,
       req.body.language,
-      req.cookies["next-auth.csrf-token"]
+      String(req.headers["pp-client-cookie"])
     ).then((result) => {
       res.status(200).json(result);
     });

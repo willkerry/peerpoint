@@ -13,7 +13,7 @@ describe("Navigation", () => {
       .should(
         "have.attr",
         "src",
-        "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=https%3A%2F%2Fpeerpoint.wk.fyi%2Fc%2F20&choe=UTF-8&chld=H%7C0"
+        "https://chart.googleapis.com/chart?cht=qr&chs=480x480&chl=https%3A%2F%2Fpeerpoint.wk.fyi%2Fc%2F20&choe=UTF-8&chld=H%7C0"
       );
   }).timeout(10000);
 
