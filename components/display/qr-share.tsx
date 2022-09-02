@@ -25,11 +25,11 @@ type Props = {
   id: Challenge["id"];
 };
 
-export const getChallengeQrCode = (id: Challenge["id"]) =>
-  getQrCode(`${URL}/c/${id}`);
+export const getChallengeQrCode = (id: Challenge["id"], size?: number) =>
+  getQrCode(`${URL}/c/${id}`, size);
 
 const QRShare: React.FC<Props> = ({ id }) => {
-  const qrCode = getChallengeQrCode(id);
+  const qrCode = getChallengeQrCode(id, 480);
   const challengeUrl = `${URL}/c/${id}`;
   return (
     <>

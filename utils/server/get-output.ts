@@ -1,26 +1,36 @@
+/* eslint-disable no-await-in-loop */
+
 /* eslint-disable camelcase */
 import { SubmissionResponse } from "../../types/Submission";
 import { decodeBase64 } from "../base64";
 import sleep from "../sleep";
-import HTTPError from "./http-error";
 import { getApiHeaders, getApiSubmissionsUrl } from "./get-api";
+import HTTPError from "./http-error";
 
 /**
  * Change: previously a recursive function, now a loop that polls the API a
  * finite number of times for a result.
  */
 const getOutput = async (token: string): Promise<SubmissionResponse> => {
-  await sleep(3000);
-
   let output: SubmissionResponse;
-  let iterate = 5;
-  if (iterate === 0) throw new HTTPError("getOutput polling timed out.", 408);
+  let iterate = 10;
 
   const url = getApiSubmissionsUrl(token);
   const headers = getApiHeaders();
 
   while (iterate > 0) {
-    iterate--;
+    await sleep(1000);
+    iterate -= 1;
+    if (iterate === 0)
+      return {
+        status: {
+          id: 15,
+          description:
+            "Request timed out before the execution API had finished running.",
+        },
+      };
+
+    console.log({ iterate });
 
     const res = await fetch(url, headers);
     if (!res.ok)
