@@ -7,7 +7,22 @@ MSc Project, working title: Peerpoint
 - [x] Implement client requests
 - [x] Build frontend views/forms
 - [x] End-to-end tests
-- [ ] Unit tests
+
+## To run locally
+
+1. Clone the repo
+2. Install dependencies with `npm i`
+3. Create a `.env` file in the root directory (see `.env.template` for
+   reference). For full functionality, you will need to set up a local database
+   and connect to an mock SMTP server.
+4. Run `npx prisma generate` to generate the Prisma client
+5. Run `npx prisma migrate dev` to create the database
+6. Launch the development server with `npm run dev`
+7. The application should be available at `localhost:3000`
+
+To generate a production build, run `npm run build`. To start the production
+server, run `npm start`.
+
 ## Relevant documentation
 
 - [Next.js](https://nextjs.org/)
