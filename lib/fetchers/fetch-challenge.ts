@@ -1,5 +1,5 @@
-import { Fetcher } from "swr";
 import { Challenge } from "@prisma/client";
+import { Fetcher } from "swr";
 
 type ChallengeResponse = Challenge & {
   author: { name: string; email: string };

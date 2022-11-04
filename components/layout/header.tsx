@@ -1,6 +1,5 @@
 import React from "react";
-import { NextLink } from "@mantine/next";
-import { signOut, useSession } from "next-auth/react";
+
 import {
   ActionIcon,
   Group,
@@ -10,6 +9,8 @@ import {
   Tooltip,
   useMantineColorScheme,
 } from "@mantine/core";
+import { NextLink } from "@mantine/next";
+
 import {
   IconInfoCircle,
   IconLogin,
@@ -23,6 +24,8 @@ import {
   IconUser,
   IconUserPlus,
 } from "@tabler/icons";
+import { signOut, useSession } from "next-auth/react";
+
 import { useOsAwareModKey } from "../../utils/hooks";
 
 const Header: React.FC = () => {
@@ -110,8 +113,8 @@ const Header: React.FC = () => {
   }
 
   const headerLinks = (
-    <Group>
-      {session ? (
+    <Group position="right">
+      {session && (
         <Tooltip label="Create a challenge">
           <ActionIcon
             component={NextLink}
@@ -123,10 +126,7 @@ const Header: React.FC = () => {
             <IconPlus size={16} stroke={3} />
           </ActionIcon>
         </Tooltip>
-      ) : (
-        ""
       )}
-
       <Menu
         shadow="md"
         width={200}

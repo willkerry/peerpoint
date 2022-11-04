@@ -27,7 +27,8 @@ server, run `npm start`.
 
 - [Next.js](https://nextjs.org/)
 - [React](https://reactjs.org/)
-- [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (ORM)
+- [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client)
+  (ORM)
 - [Mantine](https://mantine.dev) (UI framework)
 - [NextAuth.js](https://next-auth.js.org/) (authentication)
 - [`node-lru-cache`](https://github.com/isaacs/node-lru-cache) (rate limiting)
@@ -39,5 +40,7 @@ server, run `npm start`.
 
 ## External services
 
-- **Transactional mail:** I’m using a commercial mail delivery service for transactional email. This project accesses it with [Nodemailer](https://nodemailer.com), so any SMTP server could be swapped in.
+- **Transactional mail:** I’m using a commercial mail delivery service for
+  transactional email. This project accesses it with
+  [Nodemailer](https://nodemailer.com), so any SMTP server could be swapped in.
 - A dedicated instance of **Judge0** is running in the cloud separately.
