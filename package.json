@@ -34,7 +34,7 @@
     "@mantine/prism": "^5.2.3",
     "@mantine/styles": "^5.2.3",
     "@next-auth/prisma-adapter": "1.0.4",
-    "@next/bundle-analyzer": "^12.2.5",
+    "@next/bundle-analyzer": "^13.1.2",
     "@prisma/client": "^4.2.0",
     "@tabler/icons": "^1.91",
     "@uiw/codemirror-extensions-langs": "^4.11.6",
