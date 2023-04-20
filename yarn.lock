@@ -3785,10 +3785,10 @@ just-group-by@^2.1.1:
   resolved "https://registry.yarnpkg.com/just-group-by/-/just-group-by-2.1.2.tgz#256aeb3812a04e1318d9ce2dee336a5420e88e09"
   integrity sha512-pl5PjWr/WAQx0XL7igWUMwQoiyhYt+tc/8STlNgjENqZjRch4V9dExBF1vd9SRob75vGXrUKyL2Dp4kRVeadPQ==
 
-just-sort-by@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/just-sort-by/-/just-sort-by-3.1.1.tgz#d69032c2c185a45f778a4224e8f6af525373e3ea"
-  integrity sha512-MZg7K4K9GDvQxXHjN3pmeIsGEKkGQHqVHKyzLye7IbE59byCLyeBtaSIZhmjYQBaGSqNGS/lWUN8y06uxIKclw==
+just-sort-by@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/just-sort-by/-/just-sort-by-3.2.0.tgz#a70845d1b85f08477db39edc7e2ffb14713b88bc"
+  integrity sha512-kfKNELhpDd0/aC/dBeT1uS+pUmFgHIcU6sDnUKZRuGoGYx8mKgZLCNlL6QfNYFzUkqPUEVOsiN9uaZs4z2X9Vw==
 
 klona@^2.0.5:
   version "2.0.5"
