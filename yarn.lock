@@ -1580,10 +1580,10 @@
     "@codemirror/language-data" ">=6.0.0"
     "@codemirror/legacy-modes" ">=6.0.0"
 
-"@uiw/codemirror-themes@^4.11.6":
-  version "4.12.4"
-  resolved "https://registry.yarnpkg.com/@uiw/codemirror-themes/-/codemirror-themes-4.12.4.tgz#d8d06a26045104bb6a666f2eb5646d6830f1663e"
-  integrity sha512-ekySMFlXaJ4u0TCz/caHG8HqJPT0+viUA2ZQ4yZ+F1z2Lk9HgMS/1YfRj8vHuEUPNXc9Fsy5qxwTp7I1hEanEg==
+"@uiw/codemirror-themes@^4.21.5":
+  version "4.21.5"
+  resolved "https://registry.yarnpkg.com/@uiw/codemirror-themes/-/codemirror-themes-4.21.5.tgz#4f4c7483bd16e1a5d6adef386d51970fac20d07d"
+  integrity sha512-+B8f2cniWDNISaS3s0zvJK2oTaJDytAH1c0DzvOjAmKqf1P558g+oj1TMfBVrQCqM6DOv1DwfQujlINDNLhO1g==
   dependencies:
     "@codemirror/language" "^6.0.0"
     "@codemirror/state" "^6.0.0"
